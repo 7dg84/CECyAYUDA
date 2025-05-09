@@ -19,7 +19,7 @@ function renderInput($type, $name, $placeholder, $value) {
       <!-- $placeholder -->
       <label for=\"$name\">$placeholder</label>
       <input type=\"$type\" name=\"$name\" id=\"$name\" value=\"" . htmlspecialchars($value) . "\">
-      <span class=\"error\"></span>
+      <span class=\"error\" id=\"Error".ucfirst($name)."\"></span>
   ";
 }
 
@@ -49,6 +49,8 @@ function renderTipo($type) {
     <option value=\"Patrimonial\" $selected[$type]>Violencia Patrimonial</option>
     <option value=\"Cibernetica\" $selected[$type]>Violencia Cibernetica</option>
   </select>
+  <br>
+  <span id=\"ErrorTipo\" class=\"error\"></span>
   ";
 }
 
@@ -69,7 +71,6 @@ function renderButton($type, $name, $value, $function,) {
   return "
             <!-- $type -->
             <button class=\"primary-button\" type=\"submit\" name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>
-            <span id=\"ErrorEnviar\" class=\"error\"></span>
             </form>
             ";
 }
@@ -111,10 +112,11 @@ function search($folio) {
             echo renderButton("delete", "eliminar", "Eliminar", "deleteDenuncia();");
             echo "</div>";
         }
-        database->close();
     } else {
         error("No se encontraron resultados para el folio proporcionado.");
     }
+    // Cerrar la conexión a la base de datos
+    $database->closeConnection();
 } catch (Exception $e) {
     error("Error al buscar el reporte: " . htmlspecialchars($e->getMessage()));
 }
@@ -140,7 +142,6 @@ function search($folio) {
 
     <script src="scripts/mobile.js"></script>
     <script src="scripts/search.js"></script>
-    <script src="scripts/form.js"></script>
   </head>
 
   <body>
