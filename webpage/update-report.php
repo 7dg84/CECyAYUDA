@@ -66,7 +66,23 @@
         if (!(empty($hechos) || empty($fecha) || empty($hora) || empty($ubicacion) || empty($nombre) || empty($curp) || empty($correo) || empty($telefono) || empty($tipo))) {
         if (preg_match("/^[a-zA-Z0-9\s]+$/", $hechos) && preg_match("/^[a-zA-Z0-9\s]+$/", $ubicacion) && preg_match("/^[a-zA-Z\s]+$/", $nombre) && preg_match("/^[a-zA-Z0-9]{18}$/", $curp) && filter_var($correo, FILTER_VALIDATE_EMAIL) && preg_match("/^\d{10}$/", $telefono)) {
             // Actualizar el reporte en la base de datos
-            updateReport(
+            echo updateReport(
+                $folio,
+                $hechos,
+                $fecha,
+                $hora,
+                $ubicacion,
+                $nombre,
+                $curp,
+                $correo,
+                $telefono,
+                $tipo
+            );
+            // Redirigir a la página de búsqueda de reportes después de 5 segundos
+            echo "<p>Redirigiendo a la página de búsqueda de reportes...</p>";
+            echo "<script>setTimeout(function() { window.location.href = 'search-report.php?folio=$folio'; }, 5000);</script>";
+            // echo "<script>window.location.href = 'search-report.php?folio=$folio';</script>";
+            echo renderReport(
                 $folio,
                 $hechos,
                 $fecha,
@@ -90,7 +106,4 @@
     } else {
         error("Por favor, proporciona un folio para buscar el reporte.");
     }
-
-    // Redirigir a la página de búsqueda de reportes después de
-    echo "<script>window.location.href = 'search-report.php?folio=$folio';</script>";
 ?>

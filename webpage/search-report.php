@@ -23,6 +23,18 @@ function renderInput($type, $name, $placeholder, $value) {
   ";
 }
 
+// Renderizar los hechos
+function renderHechos($hechos) {
+  return "
+  <!-- Hechos  -->
+  <label for=\"hechos\">Hechos</label>
+  <textarea name=\"hechos\" id=\"hechos\" cols=\"30\" rows=\"10\" >".
+  $hechos.
+  "</textarea><br>
+  <span id=\"ErrorHechos\" class=\"error\"></span>
+  ";
+}
+
 // Renderizar el tipo de violencia
 function renderTipo($type) {
   $selected = [
@@ -36,33 +48,20 @@ function renderTipo($type) {
   ];
   $selected[$type] = "selected";
 
-
   return "
   <!-- Tipo de violencia -->
   <label for=\"tipo\">Tipo de violencia</label>
   <select id=\"tipo\" name=\"tipo\">
-    <option value=\"Genero\" $selected[$type]>Violencia de Genero</option>
-    <option value=\"Familiar\" $selected[$type]>Violencia Familiar</option>
-    <option value=\"Psicologica\" $selected[$type]>Violencia Psicologica</option>
-    <option value=\"Sexual\" $selected[$type]>Violencia Sexual</option>
-    <option value=\"Economica\" $selected[$type]>Violencia Economica</option>
-    <option value=\"Patrimonial\" $selected[$type]>Violencia Patrimonial</option>
-    <option value=\"Cibernetica\" $selected[$type]>Violencia Cibernetica</option>
+    <option value=\"Genero\" {$selected['Genero']}>Violencia de Genero</option>
+    <option value=\"Familiar\" {$selected['Familiar']}>Violencia Familiar</option>
+    <option value=\"Psicologica\" {$selected['Psicologica']}>Violencia Psicologica</option>
+    <option value=\"Sexual\" {$selected['Sexual']}>Violencia Sexual</option>
+    <option value=\"Economica\" {$selected['Economica']}>Violencia Economica</option>
+    <option value=\"Patrimonial\" {$selected['Patrimonial']}>Violencia Patrimonial</option>
+    <option value=\"Cibernetica\" {$selected['Cibernetica']}>Violencia Cibernetica</option>
   </select>
   <br>
   <span id=\"ErrorTipo\" class=\"error\"></span>
-  ";
-}
-
-// Renderizar los hechos
-function renderHechos($hechos) {
-  return "
-  <!-- Hechos  -->
-  <label for=\"hechos\">Hechos</label>
-  <textarea name=\"hechos\" id=\"hechos\" cols=\"30\" rows=\"10\" >".
-  $hechos.
-  "</textarea><br>
-  <span id=\"ErrorHechos\" class=\"error\"></span>
   ";
 }
 
@@ -70,7 +69,7 @@ function renderHechos($hechos) {
 function renderButton($type, $name, $value, $function,) {
   return "
             <!-- $type -->
-            <button class=\"primary-button\" type=\"submit\" name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>
+            <button class=\"primary-button\"  name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>
             </form>
             ";
 }
@@ -106,10 +105,10 @@ function search($folio) {
             echo renderInput("email", "correo", "Correo", $row['Correo']);
             echo renderInput("tel", "telefono", "Número de teléfono", $row['Numtelefono']);
             echo renderTipo($row['Tipo']);
-            
+
             echo "<div class=\"buttons\">";
             echo renderButton("modify", "modificar", "Modificar", "updateDenuncia();");
-            echo renderButton("delete", "eliminar", "Eliminar", "deleteDenuncia();");
+            echo renderButton("delete", "eliminar", "Eliminar", "window.modal.showModal();");
             echo "</div>";
         }
     } else {
@@ -185,6 +184,13 @@ function search($folio) {
                   error("Por favor, proporciona un folio para buscar el reporte.");
               }
             ?>
+
+            <dialog id="modal">
+              <h2>¿Desea eliminar esta denuncia?</h2>
+              <p>Este es un texto de ejemplo dentro de una ventana modal</p>
+              <button onclick="window.modal.close();">Calcelar</button>
+              <button onclick="deleteDenuncia();">Eliminar</button>
+            </dialog>
         </div>
       </main>
       <!-- Pie de página -->
