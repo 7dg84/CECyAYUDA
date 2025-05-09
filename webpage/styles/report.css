@@ -1,0 +1,109 @@
+/* Icono*/
+.icon {
+    background-color: white;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+}
+  
+.icon i {
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+/* Formulario */
+.report-section {
+    padding: 3rem 2rem;
+}
+
+.report-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.report-container, .report-content form {
+    margin: 40px 40px;
+    padding: 40px 40px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.288);;
+}
+
+.report-details {
+    display: block;
+    text-align: left;
+    padding: 10px;
+}
+
+.report-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.report-content input[type="text"], input[type="email"], input[type="tel"], select, button, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.report-content .date-time-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.report-content input[type="date"], input[type="time"] {
+    display: block;
+    padding: 10px;
+    margin-bottom: 2px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 800px;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .report-content .date-time-container {
+        flex-wrap: nowrap;
+    }
+}
+
+.report-content .radio-container {
+    display: flex;
+    gap: 5px;
+}
+
+.report-content input[type="radio"] {
+    display: inline;
+    size: 20px;
+    padding: 10px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+
+/* Mensajes de error */
+.error {
+    display: block;
+    margin-top: 5px;
+    text-align: left;
+    color: red;
+    font-size: 0.9em;
+}
+
+/* Seccion Botones */
+.buttons .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    animation: fadeIn 0.5s ease-out 0.4s both;
+  }

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CECyAYUDA - Contra la Violencia de Género</title>
+    <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta name="author" content="DragonFly Coders" />
+
+    <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
+    <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta property="og:type" content="website" />
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/report.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script src="scripts/mobile.js"></script>
+    <script src="scripts/form.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Barra de navegación -->
+        <header class="navbar">
+          <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+              <strong>CECyAYUDA</strong>
+            </a>
+            <nav class="navbar-links">
+              <a href="index.html">Inicio</a>
+              <a href="reportar.html" class="active">Reportar</a>
+              <a href="consultar.html">Consultar Reportes</a>
+              <a href="recursos.html">Recursos</a>
+              <a href="sobre-nosotros.html">Sobre Nosotros</a>
+            </nav>
+            <!-- Boton para dispositivos Moviles -->
+            <button class="mobile-menu-btn" title="Abrir menú móvil">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+        </header>
+
+        <main>
+        <!-- Mensaje -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+            <h1 class="hero-title">Reporta un Incidente</h1>
+            <p class="hero-text">
+                Todos los reportes son confidenciales y ayudan a construir comunidades más seguras.
+            </p>
+            </div>
+        </section>
+            
+        <!-- Seccion de reportar -->
+        <section class="report-section">
+            <div class="report-content">
+                <form id="report" method="post" action="save-report.php" onsubmit="return validateForm(this);" >
+                    <!-- Formulario de denuncia de violencia de género -->
+                    <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
+                    <!-- Hechos  -->
+                    <label for="hechos">Hechos</label>
+                    <textarea name="hechos" id="hechos" cols="30" rows="10" placeholder="Describa lo sucedido."></textarea><br>
+                    <span id="ErrorHechos" class="error"></span>
+                    <div class="date-time-container">
+                        <!-- Fecha -->
+                        <label for="fecha">Fecha</label><br>
+                        <input type="date" name="fecha" id="fecha"><br>
+                        <!-- Hora -->
+                        <label for="hora">Hora</label><br>
+                        <input type="time" name="hora" id="hora"><br>
+                        <br>
+                    </div>
+                    <span id="ErrorFecha" class="error"></span><br>
+                    <span id="ErrorHora" class="error"></span>
+                    <!-- Ubicacion -->
+                    <label for="ubicacion">Ubicacion</label>
+                    <input type="text" name="ubicacion" id="ubicacion" placeholder="La ubicacion de los hechos."><br>
+                    <span id="ErrorUbicacion" class="error"></span>
+                    <!-- Datos del denunciante -->
+                    <label for="nombre">Nombre del denunciante</label>
+                    <input name="nombre" id="nombre" type="text" minlength="3" placeholder="Nombre completo del denunciante." oninput="soloLetras(this);"><br>
+                    <span id="ErrorNombre" class="error"></span>
+                    <!-- Curp  -->
+                    <label for="curp">CURP</label>
+                    <input type="text" name="curp" id="curp" minlength="18" maxlength="18" placeholder="XXXX000000XXXXXX00" onkeydown="mayusculas(this);"><br>
+                    <span id="ErrorCurp" class="error"></span>
+                    <!-- Correo -->
+                    <label for="correo">Correo</label>
+                    <input type="email" name="correo" placeholder="tu@ejemplo.com" id="correo">
+                    <span id="ErrorCorreo" class="error"></span>
+                    <!-- Telefono -->
+                    <label for="telefono">Numero de telefono</label>
+                    <input type="tel" name="telefono" id="telefono" minlength="10" maxlength="10" placeholder="Numero telefonico." oninput="soloNumeros(this);"><br>
+                    <span id="ErrorTelefono" class="error"></span>
+                    <!-- Tipo de violencia -->
+                    <label for="tipo">Tipo de violencia</label>
+                    <select id="tipo" name="tipo">
+                        <option value="" disabled selected>Selecciona un tipo de violencia</option>
+                        <option value="Genero">Violencia de Genero</option>
+                        <option value="Familiar">Violencia Familiar</option>
+                        <option value="Psicologica">Violencia Psicologica</option>
+                        <option value="Sexual">Violencia Sexual</option>
+                        <option value="Economica">Violencia Economica</option>
+                        <option value="Patrimonial">Violencia Patrimonial</option>
+                        <option value="Cibernetica">Violencia Cibernetica</option>
+                    </select>
+                    <br>
+                    <span id="ErrorTipo" class="error"></span>
+                    <!-- Terminos de privacidad -->
+                    <div class="radio-container">
+                        <input type="checkbox" name="terminos" id="terminos"><br>
+                        <label for="terminos">Acepto los términos y políticas de privacidad.</label><br>
+                    </div>
+                    <span id="ErrorTerminos" class="error"></span>
+                    <!-- Enviar -->
+                    <!-- <label for="enviar">Enviar</label><br>  -->
+                    <button class="primary-button" type="submit" name="enviar" id="enviar">Enviar</button><br>
+                    <span id="ErrorEnviar" class="error"></span>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-section">
+            <h3>CECyAYUDA</h3>
+            <p>Trabajando juntos contra la violencia de género</p>
+          </div>
+          <div class="footer-section">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="reportar.html">Reportar</a></li>
+              <li><a href="consultar.html">Consultar Reportes</a></li>
+              <li><a href="recursos.html">Recursos</a></li>
+              <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contacto</h3>
+            <p>contacto@cecyayuda.org</p>
+            <p>Línea de ayuda: 0800-999-1234</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 CECyAYUDA. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+</body>
+</html>

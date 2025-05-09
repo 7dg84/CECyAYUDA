@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CECyAYUDA - Contra la Violencia de Género</title>
+    <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta name="author" content="DragonFly Coders" />
+
+    <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
+    <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta property="og:type" content="website" />
+    
+    <link rel="stylesheet" href="index-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <script src="script.js"></script>
+</head>
+<body>
+    <form method="post" action="#" onsubmit="validateForm()">
+        <!-- Formulario de denuncia de violencia de género -->
+        <h1>Formulario de denuncia de violencia de Genero </h1>
+        <!-- Hechos  -->
+        <label for="hechos">Hechos:</label><br>
+        <textarea name="hechos" id="hechos" cols="30" rows="10" required></textarea><br>
+        <span id="ErrorHechos" class="error"></span><br><br>
+        <!-- Fecha -->
+        <label for="fecha">Fecha</label><br>
+        <input type="date" name="fecha" id="fecha" required><br>
+        <span id="ErrorFecha" class="error"></span><br><br>
+        <!-- Hora -->
+        <label for="hora">Hora</label><br>
+        <input type="time" name="hora" id="hora" required><br>
+        <span id="ErrorHora" class="error"></span><br><br>
+        <!-- Ubicacion -->
+        <label for="ubicacion">Ubicacion</label><br>
+        <input type="text" name="ubicacion" id="ubicacion" required><br>
+        <span id="ErrorUbicacion" class="error"></span><br><br>
+        <!-- Datos del denunciante -->
+        <label for="nombre">Nombre del denunciante</label><br>
+        <input name="nombre" id="nombre" type="text" required minlength="3"><br>
+        <span id="ErrorNombre" class="error"></span><br><br>
+        <!-- Curp  -->
+        <label for="curp">CURP</label><br>
+        <input type="text" name="curp" id="curp" required minlength="18" maxlength="18"><br>
+        <span id="ErrorCurp" class="error"></span><br><br>
+        <!-- Correo -->
+        <label for="correo">Correo</label><br>
+        <input type="email" name="correo" id="correo" required><br>
+        <span id="ErrorCorreo" class="error"></span><br><br>
+        <!-- Telefono -->
+        <label for="telefono">Numero de telefono</label><br>
+        <input type="tel" name="telefono" id="telefono" required minlength="10" maxlength="10"><br>
+        <span id="ErrorTelefono" class="error"></span><br><br>
+        <!-- Tipo de violencia -->
+        <label for="tipo">Tipo de violencia</label><br>
+        <select id="tipo" name="tipo" required>
+            <option value="" disabled selected>Selecciona un tipo de violencia</option>
+            <option value="Genero">Violencia de Genero</option>
+            <option value="Familiar">Violencia Familiar</option>
+            <option value="Psicologica">Violencia Psicologica</option>
+            <option value="Sexual">Violencia Sexual</option>
+            <option value="Economica">Violencia Economica</option>
+            <option value="Patrimonial">Violencia Patrimonial</option>
+            <option value="Cibernetica">Violencia Cibernetica</option>
+        </select>
+        <br>
+        <span id="ErrorTipo" class="error"></span><br><br>
+        <!-- Enviar -->
+        <label for="enviar">Enviar</label><br>
+        <button type="submit" name="enviar" id="enviar">Enviar</button><br>
+        <span id="ErrorEnviar" class="error"></span><br><br>
+    </form>
+</body>
+</html>

@@ -1,0 +1,61 @@
+/* Estilos básicos para el formulario */
+/* Margen de 20 pixeles y color blanco de fondo */
+body {
+    margin: 20px;
+    background-color: #f4f4f9;
+}
+
+/* Estilo del formulario */
+/* Margen automático para centrar el formulario, padding de 20 pixeles y color blanco de fondo */
+form {
+    margin: 40px 40px;
+    padding: 40px 40px;
+    background: #fff;
+    border-radius: 12px;
+}
+
+/* Estilo del título del formulario */
+/* Display blok para que se comporte como un bloque, margen por debajo de 5px y fuente en negritas */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo de los campos de entrada */
+/* Ancho del 99%, padding de 10px, margen por debajo de 15px, borde de 1px sólido gris y borde redondeado de 5px */
+input, select, button, textarea {
+    width: 99%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Estilo del botón de envío */
+/* Color de fondo azul, color de texto blanco, sin borde y cursor en puntero */
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Estilo del botón de envío al pasar el ratón por encima */
+/* Color de fondo azul oscuro */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo del botón de envío al hacer clic */
+/* Color de fondo azul claro */
+button:active {
+    background-color: #004085;
+}
+
+/* Clase de error para los mensajes de error */
+/* Color rojo, tamaño de fuente de 0.9em */
+.error {
+    color: red;
+    font-size: 0.9em;
+}

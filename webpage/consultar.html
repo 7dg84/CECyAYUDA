@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CECyAYUDA - Contra la Violencia de Género</title>
+    <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta name="author" content="DragonFly Coders" />
+
+    <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
+    <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta property="og:type" content="website" />
+    
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/consult.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script src="scripts/mobile.js"></script>
+    <script src="scripts/consult.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- Barra de navegación -->
+      <header class="navbar">
+        <div class="navbar-container">
+          <a href="index.html" class="navbar-logo">
+            <strong>CECyAYUDA</strong>
+          </a>
+          <nav class="navbar-links">
+            <a href="index.html">Inicio</a>
+            <a href="reportar.html">Reportar</a>
+            <a href="consultar.html" class="active">Consultar Reportes</a>
+            <a href="recursos.html">Recursos</a>
+            <a href="sobre-nosotros.html">Sobre Nosotros</a>
+          </nav>
+          <!-- Boton para dispositivos Moviles -->
+          <button class="mobile-menu-btn" title="Abrir menú de navegación">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <!-- Mensaje -->
+        <section class="hero-section">
+          <div class="hero-content">
+            <div class="search-icon">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h1 class="hero-title">Consultar Reportes</h1>
+            <p class="hero-text">
+              Busca informacion y actualizaciones sobre reportes previos.
+            </p>
+            <!-- <div class="hero-buttons">
+              <a href="reportar.html" class="primary-button">Reportar Incidente</a>
+              <a href="recursos.html" class="secondary-button">Acceder a Recursos</a>
+            </div> -->
+          </div>
+        </section>
+
+        <!-- Seccion para buscar -->
+        <section class="search-section">
+          <div class="search-content">
+            <h2 class="section-title">Buscar Reportes</h2>
+            <form method="get" action="search-report.php" onsubmit="return validateSearch(this);">
+              <input type="text" name="folio" id="folio" placeholder="Ingrese el Folio del reporte" maxlength="64" minlength="64"/>
+              <button type="submit" class="primary-button">Buscar</button>
+              <span class="error" id="ErrorFolio"></span>
+            </form>
+          </div>
+        
+      </main>
+
+      <!-- Pie de página -->
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-section">
+            <h3>CECyAYUDA</h3>
+            <p>Trabajando juntos contra la violencia de género</p>
+          </div>
+          <div class="footer-section">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="reportar.html">Reportar</a></li>
+              <li><a href="consultar.html">Consultar Reportes</a></li>
+              <li><a href="recursos.html">Recursos</a></li>
+              <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contacto</h3>
+            <p>contacto@cecyayuda.org</p>
+            <p>Línea de ayuda: 0800-999-1234</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 CECyAYUDA. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
