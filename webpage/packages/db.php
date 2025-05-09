@@ -21,10 +21,10 @@ class Database {
             $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
             // Verificar la conexión
             if ($this->conn->connect_error) {
-                die("Conexión fallida: " . $this->conn->connect_error);
+                throw new Exception('Conexion a base de datos fallida.'.$this->conn->connect_error);
             }
-        } catch(PDOException $exception) {
-            echo "Error de conexión: " . $exception->getMessage();
+        } catch(Exception $exception) {
+            throw new Exception('Error al conectar con la base de datos.'.$exception->getMessage());
         }
 
         return $this->conn;
@@ -64,6 +64,20 @@ class Database {
         }
         $result = $stmt->get_result();
         return $result;
+    }
+
+    // Metodo para actualizar una denuncia
+    function updateDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Ubicacion = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ? WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("ssssssssss", $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo, $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $stmt->close();
     }
 }
 ?>

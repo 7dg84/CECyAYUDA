@@ -128,10 +128,3 @@ function soloLetras(e) {
 function soloNumeros(e) {
     e.value = e.value.replace(/[^0-9]/g, '');
 }
-
-
-function deleteDenuncia(){
-    form = document.getElementById("report")
-    // Modificar el action del formulario
-    form.setAttribute('action','index.html')
-}

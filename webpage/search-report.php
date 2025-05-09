@@ -1,15 +1,16 @@
 <?php
 // Incluir la clase de conexión a la base de datos
-include_once 'db.php';
-
-$folio = $_GET['folio'];
+include_once 'packages/db.php';
 
 // Mostrar errror en caso de que el folio no sea valido
 function error($message) {
-  echo "<div class=\"report-container\">";
-  echo "<h2 class=\"section-title\">Consulta de Reporte</h2>";
-  echo "<h2>$message</h2>";
-  echo "</div>";
+  echo "
+  <div class=\"report-container\">
+  <div class=\"icon\">\n<i class=\"fa-solid fa-triangle-exclamation\"></i>\n</div>
+  <h2 class=\"section-title\">Error</h2>
+  <h2>$message</h2>
+  </div>
+  ";
 }
 
 // Renderizar el formulario de entrada
@@ -37,6 +38,8 @@ function renderTipo($type) {
 
 
   return "
+  <!-- Tipo de violencia -->
+  <label for=\"tipo\">Tipo de violencia</label>
   <select id=\"tipo\" name=\"tipo\">
     <option value=\"Genero\" $selected[$type]>Violencia de Genero</option>
     <option value=\"Familiar\" $selected[$type]>Violencia Familiar</option>
@@ -88,9 +91,8 @@ function search($folio) {
             <form id=\"report\" method=\"post\" onsubmit=\"return validateForm(this);\" >
             <!-- Formulario de denuncia de violencia de género -->
             <h1 class=\"section-title\">Formulario de denuncia de violencia de Genero </h1>"
-            . "<p><strong>Folio:</strong> " . htmlspecialchars($row['Folio']) . "</p>"."
-              <p><strong>Status:</strong> " . htmlspecialchars($row['Status']) . "</p>"."
-            ";
+            . renderInput("hidden", "folio", "Folio", $row['Folio']) . htmlspecialchars($row['Folio']) . "</p>"
+            . renderInput("hidden", "status", "Status", $row['Status']) . htmlspecialchars($row['Status']) . "</p>";
         
             echo renderHechos($row['Descripcion']);
             echo "<div class=\"date-time-container\">";
@@ -105,10 +107,11 @@ function search($folio) {
             echo renderTipo($row['Tipo']);
             
             echo "<div class=\"buttons\">";
-            echo renderButton("modify", "modificar", "Modificar", "deleteDenuncia();");
-            echo renderButton("delete", "eliminar", "Eliminar", "");
+            echo renderButton("modify", "modificar", "Modificar", "updateDenuncia();");
+            echo renderButton("delete", "eliminar", "Eliminar", "deleteDenuncia();");
             echo "</div>";
         }
+        database->close();
     } else {
         error("No se encontraron resultados para el folio proporcionado.");
     }
@@ -136,6 +139,7 @@ function search($folio) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <script src="scripts/mobile.js"></script>
+    <script src="scripts/search.js"></script>
     <script src="scripts/form.js"></script>
   </head>
 
@@ -166,6 +170,8 @@ function search($folio) {
        <section class="report-section">
         <div class="report-content">
           <?php
+            // Obtener el folio del formulario
+            $folio = isset($_GET['folio']) ? $_GET['folio'] : '';
               // Validar el folio
               if (!empty($folio)) {
                 $regex = "/^[a-f0-9]{64}$/";
