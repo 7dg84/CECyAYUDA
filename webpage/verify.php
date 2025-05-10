@@ -1,7 +1,5 @@
 <?php
-// Incluir la clase de conexión a la base de datos
 include_once 'admin/db.php';
-// Incluir la clase de verificación de token
 include_once 'packages/verify.php';
 
 // Mostrar errror en caso de que el folio no sea valido
@@ -11,41 +9,6 @@ function error($message) {
   <h2 class=\"section-title\">Error</h2>
   <h2>$message</h2>
   ";
-}
-
-
-// Guardar el reporte en la base de datos
-function saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
-  try {
-      // Crear una instancia de la clase Database
-      $database = new Denuncia();
-      // Insertar la denuncia en la base de datos
-      $database->insertDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo);
-      echo "<div class=\"icon\">\n<i class=\"fa-solid fa-circle-check\"></i>\n</div>";
-      echo "<h2 class=\"section-title\">Reporte Guardado</h2>
-      <p>Su reporte ha sido guardado exitosamente. A continuación se muestran los detalles de su reporte:</p>";
-      echo "
-      <div class=\"report-details\">
-      <p><strong>Folio:</strong> <p>". htmlspecialchars($folio) ."</p>
-      <p><strong>Fecha:</strong> <p>". htmlspecialchars($fecha) ."</p>
-      <p><strong>Hora:</strong> <p>". htmlspecialchars($hora) ."</p>
-      <p><strong>Ubicación:</strong> <p>". htmlspecialchars($ubicacion) ."</p>
-      <p><strong>Nombre:</strong> <p>". htmlspecialchars($nombre) ."</p>
-      <p><strong>CURP:</strong> <p>". htmlspecialchars($curp) ."</p>
-      <p><strong>Correo:</strong> <p>". htmlspecialchars($correo) ."</p>
-      <p><strong>Teléfono:</strong> <p>". htmlspecialchars($telefono) ."</p>
-      <p><strong>Tipo de Reporte:</strong> <p>". htmlspecialchars($tipo) ."</p>
-      </div>
-      ";
-      echo "<p>Recibirá un correo electrónico con un enlace para verificar su reporte.</p>";
-      echo "<p>Por favor, revise su bandeja de entrada y carpeta de spam.</p>";
-      // Cerrar la conexión a la base de datos
-      $database->closeConnection();
-      // Enviar el correo de verificacion
-      sendEmail($nombre, $folio, $curp, $correo);
-  } catch (Exception $e) {  
-      error(htmlspecialchars($e->getMessage()));
-  }
 }
 ?>
 
@@ -95,36 +58,42 @@ function saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, 
         <div class="report-content">
           <div class="report-container">
             <?php
-              // Obtener los datos del formulario
-              $hechos = $_POST['hechos'];
-              $fecha = $_POST['fecha'];
-              $hora = $_POST['hora'];
-              $ubicacion = $_POST['ubicacion'];
-              $nombre = $_POST['nombre'];
-              $curp = $_POST['curp'];
-              $correo = $_POST['correo'];
-              $telefono = $_POST['telefono'];
-              $tipo = $_POST['tipo'];
-              
-              // Validar los datos
-              if (!(empty($hechos) || empty($fecha) || empty($hora) || empty($ubicacion) || empty($nombre) || empty($curp) || empty($correo) || empty($telefono) || empty($tipo))) {
-                if (!(preg_match("/^[a-zA-Z0-9\s]+$/", $hechos) && preg_match("/^[a-zA-Z0-9\s]+$/", $ubicacion) && preg_match("/^[a-zA-Z\s]+$/", $nombre) && preg_match("/^[a-zA-Z0-9]{18}$/", $curp) && filter_var($correo, FILTER_VALIDATE_EMAIL) && preg_match("/^\d{10}$/", $telefono))) {
-                  // Generar un folio único
-                  $folio = hash('sha256', $curp . $correo . $nombre . time() . rand(0, 1000));
-    
-                  // Guardar el reporte en la base de datos
-                  saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo);
-                } else {
-                  error("Por favor, completa todos los campos del formulario correctamente.");
-                }
-              } else {
-                error("Por favor, completa todos los campos del formulario.");
-              }
+            // Verificar método de envío
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                // Obtener el token de la URL
+                $token = $_GET['token'] ?? '';
 
+                // Verificar si el token no está vacío
+                if (!empty($token)) {
+                    // Validar el formato del token (Base64)
+                    if (preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $token)) {
+                        // Verificar el token
+                        $valid = verifyToken($token);
+                        if ($valid) {
+                            // Mostrar mensaje de éxito
+                            echo "<h2>¡Gracias por reportar!</h2>";
+                            echo "<p>Tu reporte ha sido verificado exitosamente.</p>";
+                        } else {
+                            // Mostrar mensaje de error
+                            error("Error al verificar el token.");
+                        }
+                    } else {
+                        // Mostrar mensaje de error si el formato del token no es válido
+                        error("El formato del token es inválido.");
+                    }
+                } else {
+                    // Mostrar mensaje de error si el token está vacío
+                    error("No se ha enviado el token.");
+                }
+            } else {
+                // Redirigir si no se envió el token
+                header("Location: index.html");
+                exit();
+            }
             ?>
             <div class="buttons">
               <a class="primary-button" href="index.html">Regresar a Inicio</a>
-              <a class="primary-button" href="consultar.html">Consultar Reportes</a>
+              <a class="primary-button" href="reportar.html">Realizar Otro reporte</a>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 <?php
-    include_once 'packages/db.php';
+    include_once 'admin/db.php';
 
     // Mostrar errror en caso de que el folio no sea valido
     function error($message) {
@@ -35,7 +35,7 @@
     function updateReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
         try {
             // Crear una instancia de la clase Database
-            $database = new Database();
+            $database = new Denuncia();
             // Actualizar la denuncia en la base de datos
             $database->updateDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo);
             // Cerrar la conexión a la base de datos
@@ -78,7 +78,8 @@
                 $telefono,
                 $tipo
             );
-            echo "<script>window.location.href = 'search-report.php?folio=$folio';</script>";
+            // Redirigir a la página de búsqueda de reportes
+            header("Location: search-report.php?folio=$folio");
             // echo renderReport(
             //     $folio,
             //     $hechos,

@@ -1,6 +1,6 @@
 <?php
 // Incluir la clase de conexión a la base de datos
-include_once 'packages/db.php';
+include_once 'admin/db.php';
 
 // Mostrar errror en caso de que el folio no sea valido
 function error($message) {
@@ -88,7 +88,7 @@ function statusValue($value) {
 function search($folio) {
   try {
     // Crear una instancia de la clase de conexión
-    $database = new Database();
+    $database = new Denuncia();
 
     // Buscar la denuncia por folio
     $stmt = $database->searchDenuncia($folio);

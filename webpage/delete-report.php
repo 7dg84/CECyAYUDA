@@ -1,6 +1,6 @@
 <?php
 // Incluir la clase de conexión a la base de datos
-include_once 'packages/db.php';
+include_once 'admin/db.php';
 
 // Mostrar errror en caso de que el folio no sea valido
 function error($message) {
@@ -14,7 +14,7 @@ function error($message) {
 function deleteReport($folio) {
     try {
         // Crear una instancia de la clase Database
-        $database = new Database();
+        $database = new Denuncia();
         // Eliminar la denuncia en la base de datos
         $database->deleteDenuncia($folio);
         // Cerrar la conexión a la base de datos

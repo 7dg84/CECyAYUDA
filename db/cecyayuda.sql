@@ -64,9 +64,19 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   PRIMARY KEY (`CURP`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcar la base de datos para la tabla `usuarios`
+-- Estructura de tabla para la tabla `admins`
 --
+
+CREATE TABLE IF NOT EXISTS `admins` (
+  `User` varchar(20) NOT NULL,
+  `Password` varchar(20) NOT NULL,
+  `Rol` varchar(20) NOT NULL,
+  PRIMARY KEY (`User`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
