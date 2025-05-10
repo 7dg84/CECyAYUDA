@@ -58,7 +58,7 @@ class Database {
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
-        $stmt->bind_param("i", $folio);
+        $stmt->bind_param("s", $folio);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
@@ -74,6 +74,20 @@ class Database {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
         $stmt->bind_param("ssssssssss", $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo, $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $stmt->close();
+    }
+
+    // Metodo para eliminar una denuncia
+    function deleteDenuncia($folio) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("DELETE FROM denuncias WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("s", $folio);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }

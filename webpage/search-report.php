@@ -68,10 +68,20 @@ function renderTipo($type) {
 // Renderizar los botones
 function renderButton($type, $name, $value, $function,) {
   return "
-            <!-- $type -->
-            <button class=\"primary-button\"  name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>
-            </form>
-            ";
+  <!-- $type -->
+  <button type=\"button\" class=\"primary-button\"  name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>
+  </form>
+  ";
+}
+
+// obtener valor el Status
+function statusValue($value) {
+  $values = [
+    0 => "En Proceso",
+    1 => "Resuelto",
+    2 => "No Resuelto"
+  ];
+  return $values[$value] ?? "Desconocido";
 }
 
 // Buscar el reporte por folio
@@ -84,33 +94,32 @@ function search($folio) {
     $stmt = $database->searchDenuncia($folio);
     
     if ($stmt->num_rows > 0) {
-        // Mostrar los resultados
-        while ($row = $stmt->fetch_assoc()) {
+        // Mostrar solo el primer resultado
+        $row = $stmt->fetch_assoc();
+        echo "
+        <form id=\"report\" method=\"post\" onsubmit=\"return validateForm(this);\" >
+        <!-- Formulario de denuncia de violencia de género -->
+        <h1 class=\"section-title\">Formulario de denuncia de violencia de Genero </h1>"
+        . renderInput("hidden", "folio", "Folio", $folio) . "<p>".htmlspecialchars($folio) . "</p>"
+        . renderInput("hidden", "status", "Status", $row['Status']) . "<p>" .statusValue(($row['Status'])) . "</p>";
+    
+        echo renderHechos($row['Descripcion']);
+        echo "<div class=\"date-time-container\">";
+        echo renderInput("date", "fecha", "Fecha", $row['Fecha']);
+        echo renderInput("time", "hora", "Hora", $row['Hora']);
+        echo "</div>";
+        echo renderInput("text", "ubicacion", "Ubicación", $row['Ubicacion']);
+        echo renderInput("text", "nombre", "Nombre del denunciante", $row['Nombre']);
+        echo renderInput("text", "curp", "CURP", $row['CURP']);
+        echo renderInput("email", "correo", "Correo", $row['Correo']);
+        echo renderInput("tel", "telefono", "Número de teléfono", $row['Numtelefono']);
+        echo renderTipo($row['Tipo']);
 
-            echo "
-            <form id=\"report\" method=\"post\" onsubmit=\"return validateForm(this);\" >
-            <!-- Formulario de denuncia de violencia de género -->
-            <h1 class=\"section-title\">Formulario de denuncia de violencia de Genero </h1>"
-            . renderInput("hidden", "folio", "Folio", $row['Folio']) . htmlspecialchars($row['Folio']) . "</p>"
-            . renderInput("hidden", "status", "Status", $row['Status']) . htmlspecialchars($row['Status']) . "</p>";
-        
-            echo renderHechos($row['Descripcion']);
-            echo "<div class=\"date-time-container\">";
-            echo renderInput("date", "fecha", "Fecha", $row['Fecha']);
-            echo renderInput("time", "hora", "Hora", $row['Hora']);
-            echo "</div>";
-            echo renderInput("text", "ubicacion", "Ubicación", $row['Ubicacion']);
-            echo renderInput("text", "nombre", "Nombre del denunciante", $row['Nombre']);
-            echo renderInput("text", "curp", "CURP", $row['CURP']);
-            echo renderInput("email", "correo", "Correo", $row['Correo']);
-            echo renderInput("tel", "telefono", "Número de teléfono", $row['Numtelefono']);
-            echo renderTipo($row['Tipo']);
-
-            echo "<div class=\"buttons\">";
-            echo renderButton("modify", "modificar", "Modificar", "updateDenuncia();");
-            echo renderButton("delete", "eliminar", "Eliminar", "window.modal.showModal();");
-            echo "</div>";
-        }
+        echo "<div class=\"buttons\">";
+        echo renderButton("modify", "modificar", "Modificar", "updateDenuncia();");
+        echo renderButton("delete", "eliminar", "Eliminar", "window.modal.showModal();");
+        echo "</div>";
+    
     } else {
         error("No se encontraron resultados para el folio proporcionado.");
     }
@@ -184,13 +193,6 @@ function search($folio) {
                   error("Por favor, proporciona un folio para buscar el reporte.");
               }
             ?>
-
-            <dialog id="modal">
-              <h2>¿Desea eliminar esta denuncia?</h2>
-              <p>Este es un texto de ejemplo dentro de una ventana modal</p>
-              <button onclick="window.modal.close();">Calcelar</button>
-              <button onclick="deleteDenuncia();">Eliminar</button>
-            </dialog>
         </div>
       </main>
       <!-- Pie de página -->
@@ -223,3 +225,12 @@ function search($folio) {
           </div>
   </body>
 </html>
+
+<dialog id="modal">
+  <h2>¿Desea eliminar esta denuncia?</h2>
+  <p>Esta seguro de que desea eliminar esta denuncia</p>
+  <div class="buttons">
+    <button type="button" class="primary-button" onclick="window.modal.close();">Cancelar</button>
+    <button type="button" class="delete-button" onclick="deleteDenuncia();">Eliminar</button>
+  </div>
+</dialog>
