@@ -66,7 +66,7 @@ function renderTipo($type) {
 }
 
 // Renderizar los botones
-function renderButton($type, $name, $value, $function,) {
+function renderButton($type, $name, $value, $function) {
   return "
   <!-- $type -->
   <button type=\"button\" class=\"primary-button\"  name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>

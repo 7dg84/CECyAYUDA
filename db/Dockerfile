@@ -8,7 +8,7 @@ ENV MYSQL_USER=denuncia
 ENV MYSQL_PASSWORD=123
 
 # Copia el archivo SQL al directorio de inicialización de MySQL
-COPY cecyayuda.sql /docker-entrypoint-initdb.d/
+COPY ./cecyayuda.sql /docker-entrypoint-initdb.d/
 
 # Exponer el puerto 3306 para conexiones externas
 EXPOSE 3306

@@ -1,0 +1,29 @@
+services:
+   nginx:
+     build: ./nginx/
+     ports:
+       - 80:80
+  
+     volumes:
+         - ./webpage/:/var/www/html/
+
+   php:
+     build: ./webpage/
+     expose:
+       - 9000
+     volumes:
+        - ./webpage/:/var/www/html/
+
+
+   db:
+    build: 
+      context: ./db/
+    ports:
+      - "3306:3306"
+      MYSQL_PASSWORD: 123
+    volumes:
+      - db_data:/var/lib/mysql
+
+
+volumes:
+    db_data:

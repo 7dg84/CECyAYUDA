@@ -1,7 +1,7 @@
 <?php
 // Clase para manejar la conexión a la base de datos de la tabla de denuncias
 class Denuncia {
-    private $host = "localhost";
+    private $host = "mysql_db";
     private $db_name = "cecyayuda";
     private $username = "denuncia";
     private $password = "123";
