@@ -118,7 +118,7 @@ function sendEmail($nombre, $folio, $curp, $correo) {
         <body>
             <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
             <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
-            <p><a href="http://localhost:80/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
+            <p><a href="https://combines-never-ethics-journalism.trycloudflare.com/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
             <p>Si no solicitaste esta verificación, puedes ignorar este mensaje.</p>
             <p>Este enlace expirará en 1 hora.</p>
             <br>

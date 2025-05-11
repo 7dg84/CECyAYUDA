@@ -108,7 +108,7 @@ function saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, 
               
               // Validar los datos
               if (!(empty($hechos) || empty($fecha) || empty($hora) || empty($ubicacion) || empty($nombre) || empty($curp) || empty($correo) || empty($telefono) || empty($tipo))) {
-                if ((preg_match("/^[a-zA-Z0-9\s]+$/", $hechos) && preg_match("/^[a-zA-Z0-9\s,.\-]+$/", $ubicacion) && preg_match("/^[a-zA-Z\s]+$/", $nombre) && preg_match("/^[a-zA-Z0-9]{18}$/", $curp) && filter_var($correo, FILTER_VALIDATE_EMAIL) && preg_match("/^\d{10}$/", $telefono))) {
+                if ((preg_match("/^[a-zA-Z0-9\s]+$/", $hechos) || preg_match("/^[a-zA-Z0-9\s,.\-]+$/", $ubicacion) && preg_match("/^[a-zA-Z\s]+$/", $nombre) && preg_match("/^[a-zA-Z0-9]{18}$/", $curp) && filter_var($correo, FILTER_VALIDATE_EMAIL) && preg_match("/^\d{10}$/", $telefono))) {
                   // Generar un folio único
                   $folio = hash('sha256', $curp . $correo . $nombre . time() . bin2hex(random_bytes(16)));
     

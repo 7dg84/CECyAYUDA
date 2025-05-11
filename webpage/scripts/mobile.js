@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
           const links = [
             { href: 'index.html', text: 'Inicio', active: true },
             { href: 'reportar.html', text: 'Reportar' },
+            { href: 'consultar.html', text: 'Consultar reportes' },
             { href: 'recursos.html', text: 'Recursos' },
             { href: 'sobre-nosotros.html', text: 'Sobre Nosotros' },
-            { href: 'emergencia.html', text: 'Emergencia', className: 'emergency-btn' }
           ];
           
           mobileMenu.appendChild(closeBtn);
