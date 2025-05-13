@@ -1,5 +1,5 @@
 <?php
-include_once 'db.php';
+include_once 'config.php';
 
 // File: /e:/CECyTEM/ZTU 405/Programacion/PEC/admin/login.php
 session_start();
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    if ($username === $validUsername && password_hash($password, PASSWORD_DEFAULT) === $validPassword) {
+    if ($username === $config['admin']['user'] && password_hash($password, PASSWORD_DEFAULT) === $config['admin']['password']) {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 

@@ -1,15 +1,21 @@
 <?php
+include_once 'config.php';
 // Clase para manejar la conexión a la base de datos de la tabla de denuncias
 class Denuncia {
-    private $host = "cecyayuda-db-1";
-    private $db_name = "cecyayuda";
-    private $username = "denuncia";
-    private $password = "123";
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
 
     public $conn = null;
 
     // Constructor de la clase
     public function __construct() {
+        global $config;
+        $this->host = $config['db']['host'];
+        $this->db_name = $config['db']['database'];
+        $this->username = $config['db']['user'];
+        $this->password = $config['db']['password'];
         $this->conn = $this->getConnection();
     }
 
