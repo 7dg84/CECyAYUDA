@@ -6,12 +6,14 @@ class Denuncia {
     private $db_name;
     private $username;
     private $password;
+    private $config;
 
     public $conn = null;
 
     // Constructor de la clase
     public function __construct() {
         global $config;
+        $config = new Config();
         $this->host = $config['db']['host'];
         $this->db_name = $config['db']['database'];
         $this->username = $config['db']['user'];
@@ -34,6 +36,11 @@ class Denuncia {
         }
 
         return $this->conn;
+    }
+
+    // Sanitizar los datos de entrada
+    public static function sanitize($data) {
+        return htmlspecialchars(strip_tags(trim($data)));
     }
 
     // Método para cerrar la conexión a la base de datos
@@ -72,6 +79,38 @@ class Denuncia {
         return $result;
     }
 
+    // Metodo para buscar una denuncia por folio
+    public function searchDenunciaBy($field, $operator, $value) {
+        // Validar el campo y el operador
+        $valid_fields = ['Folio', 'Descripcion', 'Fecha', 'Hora', 'Ubicacion', 'Nombre', 'CURP', 'Correo', 'Numtelefono', 'Tipo', 'Verified', 'Status'];
+        $valid_operators = ['=', '!=', '>', '<', '>=', '<=', 'LIKE'];
+
+        if (!in_array($field, $valid_fields)) {
+            die("Campo inválido: " . htmlspecialchars($field));
+        }
+        if (!in_array($operator, $valid_operators)) {
+            die("Operador inválido: " . htmlspecialchars($operator));
+        }
+
+        $sql = "SELECT * FROM denuncias WHERE `$field` $operator ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+
+        // Si es LIKE, agrega los comodines al valor
+        if ($operator == 'LIKE') {
+            $value = "%$value%";
+        }
+
+        $stmt->bind_param("s", $value);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        return $result;
+    }
+
     // Metodo para actualizar una denuncia
     function updateDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
         // Preparar y bind
@@ -80,6 +119,20 @@ class Denuncia {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
         $stmt->bind_param("ssssssssss", $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo, $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $stmt->close();
+    }
+
+    // Metodo para actualizar una denuncia desde el admin
+    function updateDenunciaBy($folio, $status, $verify) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("UPDATE denuncias SET `Status`=?, `Verified`=? WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("sss", $status, $verify, $folio);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }

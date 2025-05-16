@@ -2,3 +2,4 @@
 .db/mysql
 *.sock
 ./webpage/admin/config.php
+./webpage/admin/config.json

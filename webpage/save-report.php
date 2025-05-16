@@ -2,7 +2,7 @@
 // Incluir la clase de conexión a la base de datos
 include_once 'admin/db.php';
 // Incluir la clase de verificación de token
-include_once 'packages/verify.php';
+include_once 'admin/verify.php';
 
 // Mostrar errror en caso de que el folio no sea valido
 function error($message) {

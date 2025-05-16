@@ -1,0 +1,21 @@
+{
+    "db": {
+        "host": "cecyayuda-db-1",
+        "database": "cecyayuda",
+        "user": "denuncia",
+        "password": "123"
+    },
+    "admin": {
+        "user": "admin",
+        "passwordhash": "$2y$10$T5WdrfepfD9Wk8X7XJB9ceZ2NtxZkwWSw2TCb5dLc7aN2Mh/1xzP6",
+        "email": "admin"
+    },
+    "mail": {
+        "key": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",  
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "user": "dragonflycodes5@gmail.com",
+        "password": "wnyq kyyx canj gmfz",
+        "from": ["dragonflycodes5@gmail.com", "DragonFly Codes"]
+    }
+}

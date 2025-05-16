@@ -1,6 +1,6 @@
 <?php
 include_once 'admin/db.php';
-include_once 'packages/verify.php';
+include_once 'admin/verify.php';
 
 // Mostrar errror en caso de que el folio no sea valido
 function error($message) {

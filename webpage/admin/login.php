@@ -1,8 +1,8 @@
 <?php
 include_once 'config.php';
 
-// File: /e:/CECyTEM/ZTU 405/Programacion/PEC/admin/login.php
 session_start();
+$config = new Config();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -10,19 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     
 
-    if ($_SESSION['loggedin'] === true) {
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         header("Location: main.php");
         exit();
     }
 
-    if ($username === $config['admin']['user'] && password_hash($password, PASSWORD_DEFAULT) === $config['admin']['password']) {
+
+    if (
+    $username === $config['admin']['user'] &&
+    password_verify($password, $config['admin']['passwordhash'])
+) {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 
         header("Location: main.php");
         exit();
     } else {
-        $error = "Invalid username or password." . password_hash($password, PASSWORD_DEFAULT)."\n";
+        $error = "Invalid username or password." . password_verify($password, $config['admin']['passwordhash'])."\n";
     }
 }
 ?>

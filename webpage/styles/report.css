@@ -18,6 +18,10 @@
 /* Formulario */
 .report-section {
     padding: 3rem 2rem;
+    @media screen and (min-width: 768px) {
+        padding: 0;
+        
+    }
 }
 
 .report-content {
@@ -46,7 +50,7 @@
     text-align: left;
 }
 
-.report-content input[type="text"], input[type="email"], input[type="tel"], select, button, textarea {
+.report-content input[type="text"], input[type="email"], input[type="tel"], select, .report-content button, textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
