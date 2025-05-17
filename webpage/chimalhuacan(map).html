@@ -6,9 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa</title>
     <style>
-        h1 {
-            font-size: 70px;
+        #titulo {
+            font-size: 20px;
             font-family: 'Times New Roman', Times, serif;
+            border: transparent;
+            border-bottom: solid;
+            border-radius: 30px;
+        }
+
+        #Referencia {
+            font-size: 30px;
+            width: 40%;
+            height: 40%;
+            margin: auto;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        body {
+            background-color: #e6f0f8;
         }
 
         map {
@@ -18,12 +34,14 @@
 </head>
 
 <body>
-    <center>
-        <h1>CASOS REGISTRADOS 2024</h1>
-    </center>
-    <img src="images/Mapa_Chimalhuacan.png" alt="Mapa_Chimalhuacan.png" usemap="#image-map">
+    <div id="titulo">
+        <center>
+            <h1>CASOS DE VIOLENCIA DE GÉNERO (2024)</h1>
+        </center>
+    </div>
+    <img src="Mapa_Chimalhuacan.png" alt="Mapa Chimalhuacan" usemap="#image-map">
 
-    <map name="image-map" >
+    <map name="image-map">
         <area target="contenido" alt="vidrieros" title="vidrieros" href="/Colonias/vidrieros.html"
             coords="666,717,489,828,633,1046,638,1046,784,955" shape="poly">
 
@@ -72,8 +90,145 @@
             coords="225,1026,485,832,639,1046,469,1163,424,1216" shape="poly">
         <area target="contenido" alt="Tejedores" title="Tejedores" href="/Colonias/tejedores.html"
             coords="644,1046,684,1020,780,956,873,1150,764,1213,713,1142,655,1070" shape="poly">
-
+        <area target="contenido" alt="Tlatel Xochitenco" title="Tlatel Xochitenco" href="no_encontrada.html"
+            coords="535,382,919,195,1186,249,1184,378,998,466,965,466,950,492" shape="poly">
+        <area target="contenido" alt="Transportistas" title="Transportistas" href="no_encontrada.html"
+            coords="535,391,797,459,642,726,580,758,456,726" shape="poly">
+        <area target="contenido" alt="Niños Heroes" title="Niños Heroes" href="no_encontrada.html"
+            coords="449,730,572,767,484,828,436,778" shape="poly">
+        <area target="contenido" alt="Nueva Santa Cruz" title="Nueva Santa Cruz" href="no_encontrada.html"
+            coords="110,970,432,780,484,837,373,916,200,1036" shape="poly">
+        <area target="contenido" alt="Talabateros" title="Talabateros" href="no_encontrada.html"
+            coords="425,1228,473,1167,644,1056,766,1226,718,1241,605,1377" shape="poly">
+        <area target="contenido" alt="Canteros" title="Canteros" href="no_encontrada.html"
+            coords="325,1296,386,1185,596,1390,530,1458,410,1386" shape="poly">
+        <area target="contenido" alt="Orfebres" title="Orfebres" href="no_encontrada.html"
+            coords="143,1429,145,1204,215,1029,375,1187,231,1458" shape="poly">
+        <area target="contenido" alt="Saraperos" title="Saraperos" href="no_encontrada.html"
+            coords="228,1464,318,1294,526,1458,491,1506,471,1543" shape="poly">
+        <area target="contenido" alt="Tlatelco" title="Tlatelco" href="no_encontrada.html"
+            coords="222,1469,471,1547,430,1676,139,1600" shape="poly">
+        <area target="contenido" alt="Xaltipac" title="Xaltipac" href="no_encontrada.html"
+            coords="113,1596,462,1692,456,1827,423,1823,427,1799,392,1799,159,1751,117,1676" shape="poly">
+        <area target="contenido" alt="Progreso de Oriente" title="Progreso de Oriente" href="no_encontrada.html"
+            coords="163,1755,419,1801,417,1827,432,1834,430,1884,211,1856,172,1764,183,1749" shape="poly">
+        <area target="" alt="Filiberto Gomez" title="Filiberto Gomez" href="no_encontrada.html"
+            coords="222,1864,436,1893,445,1993,305,1971,288,1980" shape="poly">
+        <area target="contenido" alt="Los Olivos" title="Los Olivos" href="no_encontrada.html"
+            coords="451,2279,521,2285,530,2298,600,2292,696,2379,661,2482,602,2452,565,2514" shape="poly">
+        <area target="contenido" alt="Villa los Colorines" title="Villa los Colorines" href="no_encontrada.html"
+            coords="575,2510,595,2457,654,2488,700,2381,859,2468,837,2527,805,2512,730,2715,689,2737,666,2693,707,2577"
+            shape="poly">
+        <area target="contenido" alt="Israel" title="Israel" href="no_encontrada.html"
+            coords="574,2520,701,2581,666,2688" shape="poly">
+        <area target="contenido" alt="Miramar" title="Miramar" href="no_encontrada.html"
+            coords="1022,2677,1094,2721,1035,2870,943,2822" shape="poly">
+        <area target="contenido" alt="Comunal San Agustin" title="Comunal San Agustin" href="no_encontrada.html"
+            coords="751,2782,915,2876,943,2826,1031,2874,1013,2929,1064,2962,976,3119,904,3132,731,2817" shape="poly">
+        <area target="contenido" alt="Taquexcuinahuac" title="Taquexcuinahuac" href="no_encontrada.html"
+            coords="1018,2931,1092,2750,1125,2767,1118,2787,1153,2798,1064,2953" shape="poly">
+        <area target="contenido" alt="Buenos Aires" title="Buenos Aires" href="no_encontrada.html"
+            coords="1239,2503,1220,2511,1168,2613,1196,2624,1214,2615,1240,2611,1257,2596,1270,2583,1294,2480,1251,2500"
+            shape="poly">
+        <area target="contenido" alt="Marzo" title="Marzo" href="no_encontrada.html"
+            coords="1121,2481,1140,2452,1219,2507,1197,2548" shape="poly">
+        <area target="contenido" alt="Sataur Oriente" title="Sataur Oriente" href="no_encontrada.html"
+            coords="845,2227,893,2247,948,2275,952,2262,1018,2282,996,2310,1031,2330,1083,2312,1057,2264,1035,2271,1044,2247,970,2208,952,2223,891,2205"
+            shape="poly">
+        <area target="contenido" alt="Cerro las Palomas" title="Cerro las Palomas" href="no_encontrada.html"
+            coords="801,2063,930,2061,981,2009,992,2127,915,2170,891,2177,900,2199,832,2232,812,2175" shape="poly">
+        <area target="contenido" alt="Ebanistas" title="Ebanistas" href="no_encontrada.html"
+            coords="670,715,845,608,924,890,782,949,725,822" shape="poly">
+        <area target="contenido" alt="Labadrores" title="Labadrores" href="no_encontrada.html"
+            coords="666,688,675,710,976,522,967,468,950,490,801,455" shape="poly">
+        <area target="contenido" alt="Curtidores" title="Curtidores" href="no_encontrada.html"
+            coords="852,605,976,527,970,470,1051,452,1072,704,889,737" shape="poly">
+        <area target="contenido" alt="Cesteros" title="Cesteros" href="no_encontrada.html"
+            coords="1051,448,1182,385,1180,695,1075,704" shape="poly">
+        <area target="contenido" alt="Talladores" title="Talladores" href="no_encontrada.html"
+            coords="1075,704,1180,699,1169,927,1105,946" shape="poly">
+        <area target="contenido" alt="Pescadores" title="Pescadores" href="no_encontrada.html"
+            coords="1186,382,1223,372,1225,407,1241,404,1252,299,1274,295,1271,367,1298,361,1381,426,1374,704,1184,695"
+            shape="poly">
+        <area target="contenido" alt="Mineros" title="Mineros" href="no_encontrada.html"
+            coords="1186,697,1376,706,1368,935,1175,929" shape="poly">
+        <area target="contenido" alt="Carpinteros" title="Carpinteros" href="no_encontrada.html"
+            coords="1383,431,1573,579,1567,713,1379,704" shape="poly">
+        <area target="contenido" alt="Herreros" title="Herreros" href="no_encontrada.html"
+            coords="1573,723,1665,756,1766,780,1829,785,1809,990,1564,931,1567,835" shape="poly">
+        <area target="contenido" alt="San pedro" title="San pedro" href="no_encontrada.html"
+            coords="1368,1458,1403,1373,1398,1320,1418,1272,1444,1276,1564,942,1811,990,1774,1408,1689,1401,1674,1410,1658,1440,1602,1423,1593,1451,1514,1451,1492,1491,1470,1478,1444,1478,1433,1486,1416,1482"
+            shape="poly">
+        <area target="contenido" alt="Apapasco" title="Apapasco" href="no_encontrada.html"
+            coords="1814,1095,1938,1097,1938,1172,1936,1255,1932,1325,1781,1347" shape="poly">
+        <area target="contenido" alt="San miguel" title="San miguel" href="no_encontrada.html"
+            coords="1944,1297,2034,1284,2139,1293,2137,1341,2104,1487,1940,1509,1947,1458,1763,1460,1768,1416,1785,1408,1792,1353"
+            shape="poly">
+        <area target="contenido" alt="Cabecera Municipal" title="Cabecera Municipal" href="no_encontrada.html"
+            coords="1543,1451,1549,1515,1538,1530,1536,1571,1564,1576,1560,1637,1619,1631,1643,1617,1645,1659,1715,1670,1755,1665,1757,1569,1855,1596,1855,1519,1936,1512,1943,1469,1770,1456,1768,1416,1689,1401,1667,1436,1606,1421,1595,1462"
+            shape="poly">
+        <area target="contenido" alt="Olmedo II" title="Olmedo II" href="no_encontrada.html"
+            coords="1147,1447,1179,1445,1190,1429,1271,1440,1256,1475,1300,1484,1289,1545,1276,1539,1260,1563,1256,1593,1232,1587,1225,1617,1214,1578,1127,1565"
+            shape="poly">
+        <area target="contenido" alt="Tlaixco" title="Tlaixco" href="no_encontrada.html"
+            coords="1064,1554,1118,1563,1208,1578,1199,1602,1195,1694,1166,1685,1110,1672,1118,1641,1053,1624"
+            shape="poly">
+        <area target="contenido" alt="San Isidro" title="San Isidro" href="no_encontrada.html"
+            coords="1204,1703,1258,1764,1258,1788,1298,1773,1300,1751,1282,1722,1306,1709,1319,1696,1368,1714,1368,1685,1385,1683,1385,1698,1427,1698,1427,1685,1361,1650,1357,1633,1335,1585,1363,1469,1295,1425,1258,1467,1306,1482,1293,1539,1274,1543,1260,1567,1258,1582,1223,1613,1241,1593,1208,1624"
+            shape="poly">
+        <area target="contenido" alt="San Andres" title="San Andres" href="no_encontrada.html"
+            coords="1372,1469,1328,1574,1357,1591,1361,1635,1365,1652,1392,1659,1433,1676,1453,1672,1538,1696,1569,1681,1569,1644,1549,1641,1562,1582,1534,1578,1532,1530,1543,1519,1536,1460,1512,1460,1503,1493,1473,1488,1448,1480,1442,1499"
+            shape="poly">
+        <area target="contenido" alt="Tepalcates" title="Tepalcates" href="no_encontrada.html"
+            coords="1783,306,1989,299,1971,568,1761,570" shape="poly">
+        <area target="contenido" alt="4 de Febrero" title="4 de Febrero" href="no_encontrada.html"
+            coords="2028,225,2102,201,2321,525,2323,588,2098,570,2017,568,2021,498,2045,503,2061,297,2030,293"
+            shape="poly">
+        <area target="contenido" alt="Luis Cordoba reyes" title="Luis Cordoba reyes" href="no_encontrada.html"
+            coords="1661,343,1671,201,1864,197,1862,229,1831,229,1820,275,1785,267,1779,304,1700,306,1698,348"
+            shape="poly">
+        <area target="contenido" alt="Marco Antonio" title="Marco Antonio" href="no_encontrada.html"
+            coords="1866,201,1993,225,1995,289,1785,299,1829,275,1831,234,1864,232" shape="poly">
+        <area target="contenido" alt="Luis Donaldo Colosio" title="Luis Donaldo Colosio" href="no_encontrada.html"
+            coords="1999,227,1971,570,2015,568,2019,496,2041,492,2052,302,2034,297,2032,227" shape="poly">
+        <area target="contenido" alt="Guadalupe" title="Guadalupe" href="no_encontrada.html"
+            coords="2159,1906,2435,1617,2247,1941" shape="poly">
+        <area target="contenido" alt="Rancho Las Nieves" title="Rancho Las Nieves" href="no_encontrada.html"
+            coords="1949,1873,1978,1886,2017,1899,2021,1834,2150,1904,1984,2079,1991,2011,1932,1998,1938,1954,1916,1947"
+            shape="poly">
+        <area target="contenido" alt="Arenitas" title="Arenitas" href="no_encontrada.html"
+            coords="1741,2135,1892,2183,1831,2258,1722,2229" shape="poly">
+        <area target="contenido" alt="Copalera" title="Copalera" href="no_encontrada.html"
+            coords="1628,2225,1831,2267,1746,2465,1733,2586,1540,2498,1604,2376" shape="poly">
+        <area target="contenido" alt="Tepenepantla" title="Tepenepantla" href="no_encontrada.html"
+            coords="1560,2428,1608,2299,1623,2130,1525,2144,1433,2189,1426,2176,1417,2165,1413,2266,1352,2364,1404,2373,1442,2374,1467,2327"
+            shape="poly">
+        <area target="contenido" alt="Capullin totolco" title="Capullin totolco" href="no_encontrada.html"
+            coords="1506,2100,1556,2076,1586,2052,1597,2033,1608,2017,1637,1976,1635,1906,1737,1939,1650,2044,1626,2131,1506,2144"
+            shape="poly">
+        <area target="contenido" alt="La ladera" title="La ladera" href="no_encontrada.html"
+            coords="1361,2046,1418,1936,1529,1825,1540,1779,1595,1801,1634,1797,1663,1899,1632,1899,1634,1956,1621,1989,1593,2024,1582,2048,1543,2076,1416,2109"
+            shape="poly">
+        <area target="contenido" alt="La MIna" title="La MIna" href="no_encontrada.html"
+            coords="1190,1864,1212,1873,1319,1877,1328,1867,1453,1895,1411,1941,1361,2033,1311,1989,1339,1965,1217,1954,1162,1963"
+            shape="poly">
+        <area target="contenido" alt="Preciosa Sangre" title="Preciosa Sangre" href="no_encontrada.html"
+            coords="1436,1766,1438,1704,1449,1685,1486,1696,1541,1702,1567,1694,1567,1645,1639,1637,1635,1794,1599,1790,1481,1748"
+            shape="poly">
+        <area target="contenido" alt="Lomas de Chimalhuacan" title="Lomas de Chimalhuacan" href="no_encontrada.html"
+            coords="1285,1871,1293,1832,1309,1834,1317,1818,1411,1812,1411,1773,1486,1753,1540,1770,1532,1810,1453,1897,1374,1864"
+            shape="poly">
+        <area target="contenido" alt="Santo Domingo" title="Santo Domingo" href="no_encontrada.html"
+            coords="1645,1668,1717,1674,1761,1670,1766,1851,1739,1936,1665,1906,1641,1801" shape="poly">
+        <area target="contenido" alt="San Juan Zapotla" title="San Juan Zapotla" href="no_encontrada.html"
+            coords="1236,1742,1212,1744,1230,1864,1282,1867,1278,1834,1311,1827,1311,1812,1403,1803,1403,1766,1433,1757,1433,1700,1389,1700,1376,1687,1376,1711,1319,1700,1298,1716,1309,1749,1298,1773,1267,1784"
+            shape="poly">
     </map>
+    <div id="Referencia">
+        <p>Información obtenida en base a estadisticas del Gobierno Del Estado De México 2024</p>
+        <a href="https://alertadegenero.edomex.gob.mx/zonas_riesgo"
+            target="_blank" rel="noopener">https://alertadegenero.edomex.gob.mx/zonas_riesgo</a>
+    </div>
 </body>
 
 </html>

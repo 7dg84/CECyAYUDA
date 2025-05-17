@@ -90,7 +90,7 @@ function renderDeleteButton($folio) {
             <option value="Correo">Correo</option>
             <option value="Telefono">Teléfono</option>
             <option value="Tipo">Tipo</option>
-            <option value="verified">Verificado</option>
+            <option value="Verified">Verificado</option>
             <option value="Status">Status</option>
     </select>
 
@@ -121,6 +121,7 @@ function renderDeleteButton($folio) {
             <th>Eliminar</th>
         </tr>
         <?php
+        $max = isset($_POST['num_records']) ? (int)$_POST['num_records'] : 20;
         // Buscar denuncias
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['field'], $_GET['operator'], $_GET['value'])) {
             $field = $_GET['field'];
@@ -136,15 +137,13 @@ function renderDeleteButton($folio) {
             $row = $database->searchDenunciaBy($field, $operator, $value);
         } else {
             // Obtener todas las denuncias si no se busca nada
-            $row = $database->getAllDenuncias();
+            $row = $database->getDenuncias($max);
         }
 
         // Mostrar los registros en la tabla
         if ($row->num_rows > 0) {
-            $count = 0;
-            $max = isset($_POST['num_records']) ? (int)$_POST['num_records'] : 20;
-            while (($record = $row->fetch_assoc()) && $count < $max) {
-                $count++;
+            
+            while (($record = $row->fetch_assoc()) ) {
             // Mostrar los datos de la fila
             echo "<tr>";
             echo "<td>" . htmlspecialchars($record['Folio']) . "</td>";

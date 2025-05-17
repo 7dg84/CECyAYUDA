@@ -17,6 +17,7 @@ class Config implements ArrayAccess {
     public function save($file = 'config.json') {
         $path = __DIR__ . DIRECTORY_SEPARATOR . $file;
         file_put_contents($path, json_encode($this->data, JSON_PRETTY_PRINT));
+        return file_exists($path);
     }
 
     // Implement ArrayAccess methods

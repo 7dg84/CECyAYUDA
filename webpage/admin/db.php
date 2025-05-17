@@ -197,6 +197,21 @@ class Denuncia {
         $result = $stmt->get_result();
         return $result;
     }
+
+    // Metodo para obtener algunas las denuncias
+    function getDenuncias($n) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("SELECT * FROM denuncias LIMIT ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("i", $n);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        return $result;
+    }
 }
 
 

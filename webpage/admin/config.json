@@ -7,15 +7,19 @@
     },
     "admin": {
         "user": "admin",
-        "passwordhash": "$2y$10$T5WdrfepfD9Wk8X7XJB9ceZ2NtxZkwWSw2TCb5dLc7aN2Mh/1xzP6",
-        "email": "admin"
+        "passworhash": "$2y$10$E5zy8J2O3ERo.upSVumAk.\/.rwuonrG\/x8FIV0cB1s.fYCpXLN0Se",
+        "email": "urielzuniga139@gmail.com"
     },
     "mail": {
-        "key": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",  
+        "key": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",
         "host": "smtp.gmail.com",
         "port": 587,
         "user": "dragonflycodes5@gmail.com",
         "password": "wnyq kyyx canj gmfz",
-        "from": ["dragonflycodes5@gmail.com", "DragonFly Codes"]
+        "from": [
+            "dragonflycodes5@gmail.com",
+            "DragonFly Codes"
+        ],
+        "url": "http:\/\/192.168.0.0.100"
     }
 }

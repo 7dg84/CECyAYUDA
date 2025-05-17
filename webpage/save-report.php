@@ -42,7 +42,12 @@ function saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, 
       // Cerrar la conexión a la base de datos
       $database->closeConnection();
       // Enviar el correo de verificacion
-      sendEmail($nombre, $folio, $curp, $correo);
+      try {
+          // Enviar el correo de verificación
+          sendEmail($nombre, $folio, $curp, $correo);
+      } catch (Exception $e) {
+          error("Error al enviar el correo de verificación: " . htmlspecialchars($e->getMessage()));
+      }
   } catch (Exception $e) {  
       error(htmlspecialchars($e->getMessage()));
   }
