@@ -27,6 +27,14 @@ function saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, 
       echo "
       <div class=\"report-details\">
       <p><strong>Folio:</strong> <p>". htmlspecialchars($folio) ."</p>
+      <button type='button' class=\"secondary-button\" onclick=\"
+        navigator.clipboard.writeText('".htmlspecialchars($folio)."').then(function() {
+          event.target.textContent = '¡Copiado!';
+          setTimeout(function() {
+            event.target.textContent = 'Copiar';
+          }, 1500);
+        });
+      ;\">Copiar</button>
       <p><strong>Fecha:</strong> <p>". htmlspecialchars($fecha) ."</p>
       <p><strong>Hora:</strong> <p>". htmlspecialchars($hora) ."</p>
       <p><strong>Ubicación:</strong> <p>". htmlspecialchars($ubicacion) ."</p>
@@ -101,15 +109,15 @@ function saveReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, 
           <div class="report-container">
             <?php
               // Obtener los datos del formulario
-              $hechos = $_POST['hechos'];
-              $fecha = $_POST['fecha'];
-              $hora = $_POST['hora'];
-              $ubicacion = $_POST['ubicacion'];
-              $nombre = $_POST['nombre'];
-              $curp = $_POST['curp'];
-              $correo = $_POST['correo'];
-              $telefono = $_POST['telefono'];
-              $tipo = $_POST['tipo'];
+              $hechos = $_POST['hechos'] ?? '';
+              $fecha = $_POST['fecha'] ?? '';
+              $hora = $_POST['hora'] ?? '';
+              $ubicacion = $_POST['ubicacion'] ?? '';
+              $nombre = $_POST['nombre'] ?? '';
+              $curp = $_POST['curp'] ?? '';
+              $correo = $_POST['correo'] ?? '';
+              $telefono = $_POST['telefono'] ?? '';
+              $tipo = $_POST['tipo'] ?? '';
               
               // Validar los datos
               if (!(empty($hechos) || empty($fecha) || empty($hora) || empty($ubicacion) || empty($nombre) || empty($curp) || empty($correo) || empty($telefono) || empty($tipo))) {

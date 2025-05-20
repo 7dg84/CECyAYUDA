@@ -7,7 +7,7 @@
     },
     "admin": {
         "user": "admin",
-        "passworhash": "$2y$10$E5zy8J2O3ERo.upSVumAk.\/.rwuonrG\/x8FIV0cB1s.fYCpXLN0Se",
+        "passwordhash": "$2y$10$nUJHzwlR98IDhwt8T.QDtOkCYZxj6S5VoxyhKHbBWzy\/3dK67psLK",
         "email": "urielzuniga139@gmail.com"
     },
     "mail": {
@@ -20,6 +20,6 @@
             "dragonflycodes5@gmail.com",
             "DragonFly Codes"
         ],
-        "url": "http:\/\/192.168.0.0.100"
+        "url": "https:\/\/psychiatry-million-colleagues-snake.trycloudflare.com"
     }
 }

@@ -142,11 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_credentials'])
 }
 
 // Step 3: Verify code
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) && $config['admin']['email'] !== 'admin') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) && is_numeric($_POST['verification_code']) && $config['admin']['email'] !== 'admin') {
     if (isset($_SESSION['verification_code']) && time() < ($_SESSION['code_expiry'] ?? 0)) {
-        if ($_SESSION['verification_code'] == $_POST['verification_code']) {
+        if ((int)$_SESSION['verification_code'] == (int)$_POST['verification_code']) {
             $_SESSION['is_auth'] = true;
-            $msg = "Código de verificación correcto. Puedes cambiar las credenciales.";
         } else {
             $msg = "Código de verificación incorrecto.";
         }
@@ -160,14 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
 <head>
     <meta charset="UTF-8">
     <title>Cambiar Credenciales de Administrador</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 2em; }
-        form { max-width: 400px; margin: auto; }
-        input[type=text], input[type=password], input[type=number] { width: 100%; padding: 8px; margin: 6px 0; }
-        button { padding: 8px 16px; }
-        .msg { color: #006600; margin-bottom: 1em; }
-        .error { color: #cc0000; }
-    </style>
 </head>
 <body>
     <h2>Cambiar Credenciales de Administrador</h2>
@@ -178,8 +169,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
     <?php if ((!isset($_SESSION['verification_code']) && !isset($_SESSION['is_auth'])) || time() > ($_SESSION['code_expiry'] ?? 0)): ?>
         <form method="post">
             <p>Se enviará un código de verificación al correo del administrador (<b><?= htmlspecialchars($adminEmail) ?></b>).</p>
-            <label for="verification_code">Código de Verificación:</label>
-            <input type="text" id="verification_code" name="verification_code">
             <button type="submit" name="request_code">Solicitar Código</button>
         </form>
     <?php elseif (isset($_SESSION['is_auth']) && $_SESSION['is_auth']===true): ?>
@@ -228,16 +217,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
                 <input type="text" id="verification_code" name="verification_code" required>
             <?php endif; ?>
 
-            <button type="submit" name="change_credentials">Cambiar Credenciales</button>
+            <button type="submit" name="change_credentials">Guardar cambios</button>
         </form>
         <form method="post" style="margin-top:1em;">
             <button type="submit" name="request_code">Reenviar Código</button>
         </form>
     <?php else: ?>
         <form method="post">
+            <p><?php echo $_SESSION['verification_code']?></p>
             <label for="verification_code">Código de Verificación:</label>
             <input type="text" id="verification_code" name="verification_code" required>
-            <button type="submit" name="verification_code">Verificar Código</button>
+            <button type="submit">Verificar Código</button>
         </form>
     <?php endif; ?>
 </body>

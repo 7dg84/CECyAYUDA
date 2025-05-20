@@ -116,7 +116,11 @@ function search($folio) {
         echo renderTipo($row['Tipo']);
 
         echo "<div class=\"buttons\">";
-        echo renderButton("modify", "modificar", "Modificar", "updateDenuncia();");
+        // Mostrar el botón de modificar solo si el estado es 0 (En Proceso) y el email se ha verificado
+        if ($row['Status'] == 0 && $row['Verified'] == 1) {
+            echo renderButton("update", "modificar", "Modificar", "updateDenuncia();");
+        }
+
         echo renderButton("delete", "eliminar", "Eliminar", "window.modal.showModal();");
         echo "</div>";
     
