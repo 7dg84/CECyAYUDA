@@ -10,6 +10,10 @@
     <h2>$message</h2>
     </div>
     ";
+    // alert
+    echo "<script>alert('$message');</script>";
+    // redirigir al inicio
+    header("Location: index.html");
     }
 
     function renderReport($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
@@ -36,6 +40,12 @@
         try {
             // Crear una instancia de la clase Database
             $database = new Denuncia();
+            // Verificar si el email de la denuncia esta verificado
+            if (!$database->isEmailVerified($folio)) {
+                // Si el email no se ha verificado, no se puede actualizar la denuncia
+                error("El correo electrónico no ha sido verificado. No se puede actualizar la denuncia.");
+                return;
+            }
             // Actualizar la denuncia en la base de datos
             $database->updateDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo);
             // Cerrar la conexión a la base de datos

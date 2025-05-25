@@ -29,14 +29,19 @@ CREATE TABLE IF NOT EXISTS `denuncias` (
   `Descripcion` varchar(2000) NOT NULL,
   `Fecha` date NOT NULL,
   `Hora` time NOT NULL,
-  `Ubicacion` varchar(200) NOT NULL,
+  `Estado` varchar(20) NOT NULL,
+  `Municipio` varchar(20) NOT NULL,
+  `Colonia` varchar(20) NOT NULL,
+  `Calle` varchar(20) NOT NULL,
   `Nombre` varchar(50) NOT NULL,
   `CURP` varchar(18) NOT NULL,
   `Correo` varchar(50) NOT NULL,
   `Numtelefono` varchar(10) NOT NULL,
   `Tipo` varchar(15) NOT NULL,
+  `Evidencia` mediumblob,
   `Verified` BOOLEAN NOT NULL DEFAULT FALSE,
   `Status` int(1) NOT NULL DEFAULT 0,
+  `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Folio`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

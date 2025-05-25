@@ -53,3 +53,15 @@
     color: red;
     font-size: 0.9em;
 }
+
+/* Imagenes de evidencia */
+.evidencia {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 20px 0;
+    object-fit: contain; /* O usa 'cover' si prefieres recorte */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}   

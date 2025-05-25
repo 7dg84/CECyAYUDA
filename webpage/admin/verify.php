@@ -96,46 +96,42 @@ function sendEmail($nombre, $folio, $curp, $correo) {
     global $config;
     $mail = new PHPMailer(true);
 
-    try {
-        // Configuración del servidor SMTP
-        $mail->isSMTP();
-        $mail->Host = $config['mail']['host']; // Servidor SMTP de Gmail
-        $mail->SMTPAuth = true;
-        $mail->Username = $config['mail']['user']; // Tu correo de Gmail
-        $mail->Password = $config['mail']['password']; // Tu contraseña de Gmail (usa un App Password si es posible)
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = $config['mail']['port']; // Puerto SMTP (587 para TLS)
+    // Configuración del servidor SMTP
+    $mail->isSMTP();
+    $mail->Host = $config['mail']['host']; // Servidor SMTP de Gmail
+    $mail->SMTPAuth = true;
+    $mail->Username = $config['mail']['user']; // Tu correo de Gmail
+    $mail->Password = $config['mail']['password']; // Tu contraseña de Gmail (usa un App Password si es posible)
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = $config['mail']['port']; // Puerto SMTP (587 para TLS)
 
-        // Remitente y destinatario
-        $mail->setFrom($config['mail']['from'][0], $config['mail']['from'][0]); // Tu nombre
-        $mail->addAddress($correo, $nombre);
+    // Remitente y destinatario
+    $mail->setFrom($config['mail']['from'][0], $config['mail']['from'][0]); // Tu nombre
+    $mail->addAddress($correo, $nombre);
 
-        // Contenido del correo
-        $mail->isHTML(true);
-        $mail->Subject = 'Verifica tu cuenta de correo';
-        $token = genToken($folio, $curp, $correo);
-        $mail->Body = '
-        <html>
-        <head>
-            <title>Verificación de Correo Electrónico</title>
-        </head>
-        <body>
-            <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
-            <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
-            <p><a href=\"'.$config['mail']['url'].'/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
-            <p>Si no solicitaste esta verificación, puedes ignorar este mensaje.</p>
-            <p>Este enlace expirará en 1 hora.</p>
-            <br>
-            <p>Atentamente,</p>
-            <p>El equipo de DragonFly Codes</p>
-        </body>
-        </html>
-        ';
-        $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:80/verify.php?token=' . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes';
+    // Contenido del correo
+    $mail->isHTML(true);
+    $mail->Subject = 'Verifica tu cuenta de correo';
+    $token = genToken($folio, $curp, $correo);
+    $mail->Body = '
+    <html>
+    <head>
+        <title>Verificación de Correo Electrónico</title>
+    </head>
+    <body>
+        <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
+        <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
+        <p><a href=\"'.$config['mail']['url'].'/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
+        <p>Si no solicitaste esta verificación, puedes ignorar este mensaje.</p>
+        <p>Este enlace expirará en 1 hora.</p>
+        <br>
+        <p>Atentamente,</p>
+        <p>El equipo de DragonFly Codes</p>
+    </body>
+    </html>
+    ';
+    $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:80/verify.php?token=' . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes';
 
-        $mail->send();
-    } catch (Exception $e) {
-        error_log("El mensaje no pudo ser enviado. Mailer Error: {$mail->ErrorInfo}");
-    }
+    $mail->send();
 }
 ?>

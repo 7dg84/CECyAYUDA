@@ -6,13 +6,11 @@ class Denuncia {
     private $db_name;
     private $username;
     private $password;
-    private $config;
 
     public $conn = null;
 
     // Constructor de la clase
     public function __construct() {
-        global $config;
         $config = new Config();
         $this->host = $config['db']['host'];
         $this->db_name = $config['db']['database'];
@@ -31,6 +29,8 @@ class Denuncia {
             if ($this->conn->connect_error) {
                 throw new Exception('Conexion a base de datos fallida.'.$this->conn->connect_error);
             }
+            $this->conn->set_charset("utf8");
+            date_default_timezone_set('America/Mexico_City');
         } catch(Exception $exception) {
             throw new Exception('Error al conectar con la base de datos.'.$exception->getMessage());
         }
@@ -51,13 +51,14 @@ class Denuncia {
     }
 
     // Metodo para insertar una denuncia
-    public function insertDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
+    public function insertDenuncia($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
         // Preparar y bind
-        $stmt = $this->conn->prepare("INSERT INTO denuncias (Folio, Descripcion, Fecha, Hora, Ubicacion, Nombre, CURP, Correo, Numtelefono, Tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO denuncias (Folio, Descripcion, Fecha, Hora, Estado, Municipio, Colonia, Calle, Nombre, CURP, Correo, Numtelefono, Tipo, Evidencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
-        $stmt->bind_param("ssssssssss", $folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo);
+        $stmt->bind_param("ssssssssssssss", $folio, $hechos, $fecha, $hora, $estado , $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file);
+        // Verificar si se ejecutó correctamente
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
@@ -153,6 +154,26 @@ class Denuncia {
         $stmt->close();
     }
 
+    // Metodo para verificar si el email de la denuncia esta verificado
+    function isEmailVerified($folio) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("SELECT Verified FROM denuncias WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("s", $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['Verified'] == 1; // Retorna true si el email está verificado
+        } else {
+            return false; // La denuncia no existe
+        }
+    }
+
     // Metodo para verificar una denuncia
     function verifyDenuncia($folio) {
         // Preparar y bind
@@ -215,84 +236,5 @@ class Denuncia {
 }
 
 
-// Clase para manejar la conexión a la base de datos 
-class Admins {
-    private $host = "localhost";
-    private $db_name = "cecyayuda";
-    private $username = "denuncia";
-    private $password = "123";
 
-    public $conn = null;
-
-    // Constructor de la clase
-    public function __construct() {
-        $this->conn = $this->getConnection();
-    }
-
-    // Método para obtener la conexión a la base de datos
-    public function getConnection() {
-        $this->conn = null;
-
-        try {
-            $this->conn = new mysqli($this->host, $this->username, $this->password, $this->db_name);
-            // Verificar la conexión
-            if ($this->conn->connect_error) {
-                throw new Exception('Conexion a base de datos fallida.'.$this->conn->connect_error);
-            }
-        } catch(Exception $exception) {
-            throw new Exception('Error al conectar con la base de datos.'.$exception->getMessage());
-        }
-    }
-
-    // Método para cerrar la conexión a la base de datos
-    public function closeConnection() {
-        if ($this->conn) {
-            $this->conn->close();
-        }
-    }
-
-    // Metodo para verificar si un usuario existe
-    function userExists($username) {
-        // Preparar y bind
-        $stmt = $this->conn->prepare("SELECT * FROM admins WHERE username = ?");
-        if ($stmt === false) {
-            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
-        }
-        $stmt->bind_param("s", $username);
-        if (!$stmt->execute()) {
-            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
-        }
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            return true; // El usuario existe
-        } else {
-            return false; // El usuario no existe
-        }
-    }
-
-    // Metodo para verificar si un usuario y contraseña son correctos
-    function verifyUser($username, $password) {
-        // Preparar y bind
-        $stmt = $this->conn->prepare("SELECT * FROM admins WHERE username = ? AND password = ?");
-        if ($stmt === false) {
-            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
-        }
-        $stmt->bind_param("ss", $username, $password);
-        if (!$stmt->execute()) {
-            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
-        }
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            // Verificar el usuario y contraseña
-            if (password_verify($password, $row['password'])) {
-                return true; // El usuario y contraseña son correctos
-            } else {
-                return false; // La contraseña es incorrecta
-            }
-        } else {
-            return false; // El usuario y contraseña son incorrectos
-        }
-    }
-}
 ?>

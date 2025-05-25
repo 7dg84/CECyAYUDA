@@ -29,7 +29,7 @@
             <nav class="navbar-links">
               <a href="index.html">Inicio</a>
               <a href="reportar.html" class="active">Reportar</a>
-              <a href="consultar.html">Consultar Reportes</a>
+              <a href="consultar.php">Consultar Reportes</a>
               <a href="recursos.html">Recursos</a>
               <a href="sobre-nosotros.html">Sobre Nosotros</a>
             </nav>
@@ -57,7 +57,7 @@
         <!-- Seccion de reportar -->
         <section class="report-section">
             <div class="report-content">
-                <form id="report" method="post" action="save-report.php" onsubmit="return validateForm(this);" >
+                <form id="report"  method=POST  enctype=multipart/form-data action="save-report.php" onsubmit="return validateForm(this);" >
                     <!-- Formulario de denuncia de violencia de género -->
                     <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
                     <!-- Hechos  -->
@@ -77,8 +77,15 @@
                     <span id="ErrorHora" class="error"></span>
                     <!-- Ubicacion -->
                     <label for="ubicacion">Ubicacion</label>
-                    <input type="text" name="ubicacion" id="ubicacion" placeholder="La ubicacion de los hechos."><br>
-                    <span id="ErrorUbicacion" class="error"></span>
+                    <div class="ubicacion-container">
+                        <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);"><br>
+                        <span id="ErrorEstado" class="error"></span>
+                        <input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);"><br>
+                        <span id="ErrorMunicipio" class="error"></span>
+                        <input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);"><br>
+                        <span id="ErrorColonia" class="error"></span>
+                        <input type="text" name="calle" id="calle" placeholder="Calle" oninput="soloLetras(this);"><br>
+                        <span id="ErrorCalle" class="error"></span>
                     <!-- Datos del denunciante -->
                     <label for="nombre">Nombre del denunciante</label>
                     <input name="nombre" id="nombre" type="text" minlength="3" placeholder="Nombre completo del denunciante." oninput="soloLetras(this);"><br>
@@ -109,6 +116,10 @@
                     </select>
                     <br>
                     <span id="ErrorTipo" class="error"></span>
+                    <!-- Evidencia -->
+                    <label for="evidencia">Evidencia</label>
+                    <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png, .pdf" class="secondary-button"><br>
+                    <span id="ErrorEvidencia" class="error"></span>
                     <!-- Terminos de privacidad -->
                     <div class="radio-container">
                         <input type="checkbox" name="terminos" id="terminos"><br>

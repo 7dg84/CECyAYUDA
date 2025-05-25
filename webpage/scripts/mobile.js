@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Funcionalidad para el menú móvil
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const body = document.body;
+
+    // No mostar el envio de formulario
+    history.replaceState(null, null, location.pathname);
     
     if (mobileMenuBtn) {
       mobileMenuBtn.addEventListener('click', function() {

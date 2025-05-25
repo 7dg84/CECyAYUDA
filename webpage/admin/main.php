@@ -109,7 +109,10 @@ function renderDeleteButton($folio) {
             <th>Hechos</th>
             <th>Fecha</th>
             <th>Hora</th>
-            <th>Ubicación</th>
+            <th>Estado</th>
+            <th>Municipio</th>
+            <th>Colonia</th>
+            <th>Calle</th>
             <th>Nombre</th>
             <th>CURP</th>
             <th>Correo</th>
@@ -150,7 +153,10 @@ function renderDeleteButton($folio) {
             echo "<td>" . htmlspecialchars($record['Descripcion']) . "</td>";
             echo "<td>" . htmlspecialchars($record['Fecha']) . "</td>";
             echo "<td>" . htmlspecialchars($record['Hora']) . "</td>";
-            echo "<td>" . htmlspecialchars($record['Ubicacion']) . "</td>";
+            echo "<td>" . htmlspecialchars($record['Estado']) . "</td>";
+            echo "<td>" . htmlspecialchars($record['Municipio']) . "</td>";
+            echo "<td>" . htmlspecialchars($record['Colonia']) . "</td>";
+            echo "<td>" . htmlspecialchars($record['Calle']) . "</td>";
             echo "<td>" . htmlspecialchars($record['Nombre']) . "</td>";
             echo "<td>" . htmlspecialchars($record['CURP']) . "</td>";
             echo "<td>" . htmlspecialchars($record['Correo']) . "</td>";
