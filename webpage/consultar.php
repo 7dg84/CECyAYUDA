@@ -147,6 +147,7 @@ function validateFolio($folio)
 
   <script src="scripts/mobile.js"></script>
   <script src="scripts/search.js"></script>
+  <script src="scripts/form.js"></script>
 </head>
 
 <body>
@@ -175,13 +176,13 @@ function validateFolio($folio)
       <!-- Si se busca un folio -->
       <?php if (checkForm()): ?>
         <!-- Contenido del reporte -->
-        <section class="report-section">
-          <div class="report-content">
-            <!-- Validar el folio -->
-            <?php if (validateFolio($_GET['folio'])): ?>
-              <!-- Buscar el reporte -->
-              <?php $row = search($_GET['folio']);
-              if ($row): ?>
+        <!-- Validar el folio -->
+        <?php if (validateFolio($_GET['folio'])): ?>
+          <!-- Buscar el reporte -->
+          <?php $row = search($_GET['folio']);
+          if ($row): ?>
+            <section class="report-section">
+              <div class="report-content">
                 <h2 class="section-title">Reporte de Violencia de Género</h2>
                 <div class="report-container">
                   <div class="icon">
@@ -189,133 +190,111 @@ function validateFolio($folio)
                   </div>
                   <h2 class="section-title">Reporte encontrado</h2>
                 </div>
-                <?php
-                $html = "";
-                echo
-                $html .= '<form id="report" method="post" onsubmit="return validateForm(this);">';
-                $html .= '<h1 class="section-title">Formulario de denuncia de violencia de Género</h1>';
-                $html .= renderInput("hidden", "folio", "Folio", $_GET['folio']) . "<p>" . htmlspecialchars($_GET['folio']) . "</p>";
-                $html .= renderInput("hidden", "status", "Status", $row['Status']) . "<p>" . statusValue($row['Status']) . "</p>";
-                $html .= renderHechos($row['Descripcion']);
-                $html .= '<div class="date-time-container">';
-                $html .= renderInput("date", "fecha", "Fecha", $row['Fecha']);
-                $html .= renderInput("time", "hora", "Hora", $row['Hora']);
-                $html .= '</div>';
-                $html .= renderInput("text", "ubicacion", "Ubicación", $row['Estado']);
-                $html .= renderInput("text", "nombre", "Nombre del denunciante", $row['Nombre']);
-                $html .= renderInput("text", "curp", "CURP", $row['CURP']);
-                $html .= renderInput("email", "correo", "Correo", $row['Correo']);
-                $html .= renderInput("tel", "telefono", "Número de teléfono", $row['Numtelefono']);
-                $html .= renderTipo($row['Tipo']);
+              </div>
+            </section>
 
-                $html .= '<div class="buttons">';
-                if ($row['Status'] == 0 && $row['Verified'] == 1) {
-                  $html .= renderButton("update", "modificar", "Modificar", "updateDenuncia();");
-                }
-                $html .= renderButton("delete", "eliminar", "Eliminar", "window.modal.showModal();");
-                $html .= '</div>';
-                $html .= '</form>';;
-                echo
-
-                $html; ?>
-
-                <section class="report-section">
-                  <div class="report-content">
-                    <form id="report" method=POST enctype=multipart/form-data action="save-report.php" onsubmit="return validateForm(this);">
-                      <!-- Formulario de denuncia de violencia de género -->
-                      <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
-                      <!-- Folio -->
-                      <label for="folio">Folio</label>
-                      <p><?= $row['Folio'] ?></p><br>
-                      <!-- Status -->
-                      <label for="status">Status</label>
-                      <p><?= statusValue($row['Status']) ?></p><br>
-                      <!-- Hechos  -->
-                      <label for="hechos">Hechos</label>
-                      <textarea name="hechos" id="hechos" cols="30" rows="10"><?= $row['Descripcion'] ?></textarea><br>
-                      <span id="ErrorHechos" class="error"></span>
-                      <div class="date-time-container">
-                        <!-- Fecha -->
-                        <label for="fecha">Fecha</label><br>
-                        <input type="date" name="fecha" id="fecha" value="<?= $row['Fecha'] ?>"><br>
-                        <!-- Hora -->
-                        <label for="hora">Hora</label><br>
-                        <input type="time" name="hora" id="hora" value="<?= $row['Hora'] ?>" <br>
-                        <br>
-                      </div>
-                      <span id="ErrorFecha" class="error"></span><br>
-                      <span id="ErrorHora" class="error"></span>
-                      <!-- Ubicacion -->
-                      <label for="ubicacion">Ubicacion</label>
-                      <div class="ubicacion-container">
-                        <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);" value="<?= $row['Estado'] ?>" <br>
-                        <span id="ErrorEstado" class="error"></span>
-                        <input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);" value="<?= $row['Municipio'] ?>"><br>
-                        <span id="ErrorMunicipio" class="error"></span>
-                        <input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);" value="<?= $row['Colonia'] ?>"><br>
-                        <span id="ErrorColonia" class="error"></span>
-                        <input type="text" name="calle" id="calle" placeholder="Calle" oninput="soloLetras(this);" value="<?= $row['Calle'] ?>"><br>
-                        <span id="ErrorCalle" class="error"></span>
-                        <!-- Datos del denunciante -->
-                        <label for="nombre">Nombre del denunciante</label>
-                        <input name="nombre" id="nombre" type="text" minlength="3" oninput="soloLetras(this);" value="<?= $row['Nombre'] ?>"><br>
-                        <span id="ErrorNombre" class="error"></span>
-                        <!-- Curp  -->
-                        <label for="curp">CURP</label>
-                        <input type="text" name="curp" id="curp" minlength="18" maxlength="18" onkeydown="mayusculas(this);" value="<?= $row['CURP'] ?>"><br>
-                        <span id="ErrorCurp" class="error"></span>
-                        <!-- Correo -->
-                        <label for="correo">Correo</label>
-                        <input type="email" name="correo" id="correo" value="<?= $row['Correo'] ?>">
-                        <span id="ErrorCorreo" class="error"></span>
-                        <!-- Telefono -->
-                        <label for="telefono">Numero de telefono</label>
-                        <input type="tel" name="telefono" id="telefono" minlength="10" maxlength="10" oninput="soloNumeros(this);" value="<?= $row['Numtelefono'] ?>"><br>
-                        <span id="ErrorTelefono" class="error"></span>
-                        <!-- Tipo de violencia -->
-                        <?php $selected = [
-                          "Genero" => "",
-                          "Familiar" => "",
-                          "Psicologica" => "",
-                          "Sexual" => "",
-                          "Economica" => "",
-                          "Patrimonial" => "",
-                          "Cibernetica" => ""
-                        ];
-                        $selected[$row['Tipo']] = "selected";
-                        ?>
-                        <label for="tipo">Tipo de violencia</label>
-                        <select id="tipo" name="tipo">
-                          <option value="Genero" <?= $selected['Genero'] ?>>Violencia de Genero</option>
-                          <option value="Familiar" <?= $selected['Familiar'] ?>>Violencia Familiar</option>
-                          <option value="Psicologica" <?= $selected['Psicologica'] ?>>Violencia Psicologica</option>
-                          <option value="Sexual" <?= $selected['Sexual'] ?>>Violencia Sexual</option>
-                          <option value="Economica" <?= $selected['Economica'] ?>>Violencia Economica</option>
-                          <option value="Patrimonial" <?= $selected['Patrimonial'] ?>>Violencia Patrimonial</option>
-                          <option value="Cibernetica" <?= $selected['Cibernetica'] ?>>Violencia Cibernetica</option>
-                        </select>
-                        <br>
-                        <span id="ErrorTipo" class="error"></span>
-                        <!-- Evidencia -->
-                        <label for="evidencia">Evidencia</label>
-                        <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png, .pdf" class="secondary-button"><br>
-                        <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia">
-                        
-
-                        <span id="ErrorEvidencia" class="error"></span>
-                        <!-- Enviar -->
-                        <!-- <label for="enviar">Enviar</label><br>  -->
-                        <button class="primary-button" type="submit" name="enviar" id="enviar">Enviar</button><br>
-                        <span id="ErrorEnviar" class="error"></span>
-                    </form>
+            <section class="report-section">
+              <div class="report-content">
+                <form id="report" method=POST enctype=multipart/form-data action="" onsubmit="return validateForm(this);">
+                  <!-- Formulario de denuncia de violencia de género -->
+                  <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
+                  <!-- Folio -->
+                  <label for="folio">Folio</label>
+                  <p><?= $row['Folio'] ?></p><br>
+                  <!-- Status -->
+                  <label for="status">Status</label>
+                  <p><?= statusValue($row['Status']) ?></p><br>
+                  <!-- Hechos  -->
+                  <label for="hechos">Hechos</label>
+                  <textarea name="hechos" id="hechos" cols="30" rows="10"><?= $row['Descripcion'] ?></textarea><br>
+                  <span id="ErrorHechos" class="error"></span>
+                  <div class="date-time-container">
+                    <!-- Fecha -->
+                    <label for="fecha">Fecha</label><br>
+                    <input type="date" name="fecha" id="fecha" value="<?= $row['Fecha'] ?>"><br>
+                    <!-- Hora -->
+                    <label for="hora">Hora</label><br>
+                    <input type="time" name="hora" id="hora" value="<?= $row['Hora'] ?>"><br>
+                    <br>
                   </div>
-                </section>
-              <?php endif; ?>
-            <?php else: ?>
-              <?php error("El folio proporcionado no es válido."); ?>
-            <?php endif; ?>
-          </div>
-        </section>
+                  <span id="ErrorFecha" class="error"></span><br>
+                  <span id="ErrorHora" class="error"></span>
+                  <!-- Ubicacion -->
+                  <label for="ubicacion">Ubicacion</label>
+                  <div class="ubicacion-container">
+                    <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);" value="<?= $row['Estado'] ?>"><br>
+                    <span id="ErrorEstado" class="error"></span>
+                    <input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);" value="<?= $row['Municipio'] ?>"><br>
+                    <span id="ErrorMunicipio" class="error"></span>
+                    <input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);" value="<?= $row['Colonia'] ?>"><br>
+                    <span id="ErrorColonia" class="error"></span>
+                    <input type="text" name="calle" id="calle" placeholder="Calle" oninput="soloLetras(this);" value="<?= $row['Calle'] ?>"><br>
+                    <span id="ErrorCalle" class="error"></span>
+                  </div>
+                  <!-- Datos del denunciante -->
+                  <label for="nombre">Nombre del denunciante</label>
+                  <input name="nombre" id="nombre" type="text" minlength="3" oninput="soloLetras(this);" value="<?= $row['Nombre'] ?>"><br>
+                  <span id="ErrorNombre" class="error"></span>
+                  <!-- Curp  -->
+                  <label for="curp">CURP</label>
+                  <input type="text" name="curp" id="curp" minlength="18" maxlength="18" onkeydown="mayusculas(this);" value="<?= $row['CURP'] ?>"><br>
+                  <span id="ErrorCurp" class="error"></span>
+                  <!-- Correo -->
+                  <label for="correo">Correo</label>
+                  <input type="email" name="correo" id="correo" value="<?= $row['Correo'] ?>">
+                  <span id="ErrorCorreo" class="error"></span>
+                  <!-- Telefono -->
+                  <label for="telefono">Numero de telefono</label>
+                  <input type="tel" name="telefono" id="telefono" minlength="10" maxlength="10" oninput="soloNumeros(this);" value="<?= $row['Numtelefono'] ?>"><br>
+                  <span id="ErrorTelefono" class="error"></span>
+                  <!-- Tipo de violencia -->
+                  <?php $selected = [
+                    "Genero" => "",
+                    "Familiar" => "",
+                    "Psicologica" => "",
+                    "Sexual" => "",
+                    "Economica" => "",
+                    "Patrimonial" => "",
+                    "Cibernetica" => ""
+                  ];
+                  $selected[$row['Tipo']] = "selected";
+                  ?>
+                  <label for="tipo">Tipo de violencia</label>
+                  <select id="tipo" name="tipo">
+                    <option value="Genero" <?= $selected['Genero'] ?>>Violencia de Genero</option>
+                    <option value="Familiar" <?= $selected['Familiar'] ?>>Violencia Familiar</option>
+                    <option value="Psicologica" <?= $selected['Psicologica'] ?>>Violencia Psicologica</option>
+                    <option value="Sexual" <?= $selected['Sexual'] ?>>Violencia Sexual</option>
+                    <option value="Economica" <?= $selected['Economica'] ?>>Violencia Economica</option>
+                    <option value="Patrimonial" <?= $selected['Patrimonial'] ?>>Violencia Patrimonial</option>
+                    <option value="Cibernetica" <?= $selected['Cibernetica'] ?>>Violencia Cibernetica</option>
+                  </select>
+                  <br>
+                  <span id="ErrorTipo" class="error"></span>
+                  <!-- Evidencia -->
+                  <label for="evidencia">Evidencia</label>
+                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png, .pdf" class="secondary-button"><br>
+                  <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia">
+
+
+                  <span id="ErrorEvidencia" class="error"></span>
+                  <!-- Enviar -->
+                  <div class="buttons">
+                    <?php if ($row['Status'] == 0 && $row['Verified'] == 1): ?>
+                      <?= renderButton("update", "modificar", "Modificar", "updateDenuncia();"); ?>
+                    <?php endif; ?>
+                    <!-- delete -->
+                    <button type="button" class="primary-button" name="eliminar" id="delete" onclick="window.modal.showModal();">Eliminar</button><br>
+                  </div>
+                  <span id="ErrorEnviar" class="error"></span>
+
+                </form>
+              </div>
+            </section>
+          <?php endif; ?>
+        <?php else: ?>
+          <?php error("El folio proporcionado no es válido."); ?>
+        <?php endif; ?>
 
       <?php else: ?>
         <!-- Mensaje -->
@@ -346,7 +325,6 @@ function validateFolio($folio)
             </form>
           </div>
         </section>
-
       <?php endif; ?>
     </main>
 
