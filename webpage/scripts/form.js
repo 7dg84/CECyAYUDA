@@ -29,7 +29,7 @@ function validateForm() {
     // Limpiar mensajes de error
     clearError();
 
-    // Verificar si el campo 'hechos' está vacío
+    // Verificar si el campo 'hechos' está vacío o esta conformado por caracteres alfanumericos
     if (window.report.hechos.value.length < 10 || !/^[a-zA-Z0-9\s.,]+$/.test(window.report.hechos.value)) {
         showError("ErrorHechos", "Por favor, describa los hechos.");
         valid = false;
@@ -42,7 +42,7 @@ function validateForm() {
         valid = false;
     }
 
-    // Verificar si la fecha es válida
+    // Verificar si la fecha es anterior a la actual
     var fechaActual = new Date();
     var fechaSeleccionada = new Date(fecha);
     if (fechaSeleccionada > fechaActual) {
@@ -56,44 +56,44 @@ function validateForm() {
         valid = false;
     }
 
-    // Verificar el campo estado
+    // Verificar si el campo estado esta vacio o tiene menos de 5 caracteres
     if (window.report.estado.valid == "" || window.report.estado.value.length < 5) {
         showError("ErrorEstado", "Por favor, ingrese un estado válido.");
         valid = false;
     }
 
-    // Verificar el campo municipio
+    // Verificar si el campo municipio esta vacio o tiene menos de 5 caracters
     if (window.report.municipio.valid == "" || window.report.municipio.value.length < 5) {
         showError("ErrorMunicipio", "Por favor, ingrese un municipio válido.");
         valid = false;
     }
 
-    // Verificar el campo colonia
+    // Verificar si el campo colonia esta vacio o tiene menos de 5 caracteres
     if (window.report.colonia.valid == "" || window.report.colonia.value.length < 5) {
         showError("ErrorColonia", "Por favor, ingrese una colonia válida.");
         valid = false;
     }
 
-    // Verificar el campo calle
+    // Verificar si el campo calle esta vacio o tiene menos de 5 carcteres
     if (window.report.calle.valid == "" || window.report.calle.value.length < 5) {
         showError("ErrorCalle", "Por favor, ingrese una calle válida.");
         valid = false;
     }
 
-    // Verificar si el campo 'nombre' está vacío o tiene menos de 3 caracteres o es un número
+    // Verificar si el campo 'nombre' está vacío o tiene menos de 3 caracteres o no es un número
     nombre = window.report.nombre.value;
     if (nombre == "" || nombre.length < 3 || !isNaN(nombre)) {
         showError("ErrorNombre", "Por favor, ingrese un nombre válido (mínimo 3 caracteres).");
         valid = false;
     }
 
-    // Verificar si el campo 'curp' es válido
+    // Verificar si el campo 'curp' inicia con 4 letras, luego 6 numeros y despues 8 caracteres alfanumericos
     if (!/^[A-Z]{4}[0-9]{6}[\w]{8}$/.test(window.report.curp.value)) {
         showError("ErrorCurp", "Por favor, ingrese un CURP válido (18 caracteres).");
         valid = false;
     }
 
-    // Verificar si el campo 'correo' está vacío o no tiene un formato de correo válido
+    // Verificar si el campo 'correo' está vacío o no tiene un formato de correo válido con caracteres alfanumericos, @, dominio
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (window.report.correo.valid == "" || !emailPattern.test(window.report.correo.value)) {
         showError("ErrorCorreo", "Por favor, ingrese un correo electrónico válido.");
@@ -127,6 +127,8 @@ function validateForm() {
         valid = false;
         return valid;
     }
+    
+    // Validar el tipo de archivo
     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif|\.pdf)$/i;
     if (evidencia.value == "" || !allowedExtensions.exec(evidencia.value)) {
         showError("ErrorEvidencia", "Por favor, suba un archivo de evidencia válido (jpg, jpeg, png, gif, pdf).");

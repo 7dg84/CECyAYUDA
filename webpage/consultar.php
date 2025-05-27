@@ -147,7 +147,6 @@ function validateFolio($folio)
 
   <script src="scripts/mobile.js"></script>
   <script src="scripts/search.js"></script>
-  <script src="scripts/form.js"></script>
 </head>
 
 <body>
