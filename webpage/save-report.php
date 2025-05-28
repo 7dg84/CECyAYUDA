@@ -1,116 +1,9 @@
 <?php
-// Incluir la clase de conexión a la base de datos
-include_once 'admin/db.php';
-// Incluir la clase de verificación de token
-include_once 'admin/verify.php';
-
 $errorMsg = "Error desconocido";
 $folio;
 
-// Enviar el correo de verificacion
-function email() {
-  global $errorMsg, $folio;
-  try {
-      // Enviar el correo de verificación
-      sendEmail($_POST['nombre'], $folio, $_POST['curp'], $_POST['correo']);
-      return true;
-  } catch (Exception $e) {
-      $errorMsg = "Error al enviar el correo de verificación: " . htmlspecialchars($e->getMessage());
-      return false;
-  }
-}
-
-
-// Guardar el reporte en la base de datos
-function saveReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
-  global $errorMsg;
-  try {
-      // Crear una instancia de la clase Database
-      $database = new Denuncia();
-      // Insertar la denuncia en la base de datos
-      $database->insertDenuncia($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file);
-      // Cerrar la conexión a la base de datos
-      $database->closeConnection();
-      return true;
-  } catch (Exception $e) {  
-      $errorMsg = htmlspecialchars($e->getMessage()) .'\n'. $e->getMessage();
-      return false;
-  }
-}
-
-// Funcion para validar los datos del formulario
-function validateData() {
-  global $errorMsg, $folio;
-  // Funcion para validar los datos del formulario
-  function validate($field, $pattern=null) {
-    if (empty($field)) {
-      return false;
-    }
-    if ($pattern != null) {
-      return preg_match($pattern, $field);
-    }
-  }
-  // Verificar metodo de envio
-  if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $errorMsg = "Método de envío no permitido.";
-    return false;
-  }
-
-  // Validar los campos del formulario
-  if (!validate($_POST['hechos'], "/^[a-zA-Z0-9\s.,]+$/")) 
-    {$errorMsg = ("Campo 'Hechos' inválido."); return false;}
-  if (!validate($_POST['fecha'], "/^\d{4}-\d{2}-\d{2}$/")) 
-    {$errorMsg = ("Campo 'Fecha' inválido."); return false;}
-  if (date('Y-m-d', strtotime($_POST['fecha'])) > date('Y-m-d')) 
-    {$errorMsg = ("La fecha no puede ser posterior a la actual."); return false;}
-  if (!validate($_POST['hora'], "/^\d{2}:\d{2}$/")) 
-    {$errorMsg = ("Campo 'Hora' inválido."); return false;}
-  if (!validate($_POST['estado'], "/^[a-zA-Z0-9\s,.\-]+$/")) 
-    {$errorMsg = ("Campo 'Estado' inválido."); return false;}
-  if (!validate($_POST['municipio'], "/^[a-zA-Z0-9\s,.\-]+$/")) 
-    {$errorMsg = ("Campo 'Municipio' inválido."); return false;}
-  if (!validate($_POST['colonia'], "/^[a-zA-Z0-9\s,.\-]+$/")) 
-    {$errorMsg = ("Campo 'Colonia' inválido."); return false;}
-  if (!validate($_POST['calle'], "/^[a-zA-Z0-9\s,.\-]+$/")) 
-    {$errorMsg = ("Campo 'Calle' inválido."); return false;}
-  if (!validate($_POST['nombre'], "/^[a-zA-Z\s]+$/")) 
-    {$errorMsg = ("Campo 'Nombre' inválido."); return false;}
-  if (!validate($_POST['curp'], "/^[A-Z]{4}[0-9]{6}[\w]{8}$/")) 
-    {$errorMsg = ("Campo 'CURP' inválido."); return false;}
-  if (!validate($_POST['correo'], "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/")) 
-    {$errorMsg = ("Campo 'Correo' inválido."); return false;}
-  if (!validate($_POST['telefono'], "/^\d{10}$/")) 
-    {$errorMsg = ("Campo 'Teléfono' inválido."); return false;}
-  if (!validate($_POST['tipo'], "/^[a-zA-Z\s]+$/")) 
-    {$errorMsg = ("Campo 'Tipo de Reporte' inválido."); return false;}
-
-  // Validar el campo de archivo
-  if (empty($_FILES['evidencia']['name'])) {
-    $errorMsg = ("Campo 'Evidencia' no puede estar vacío.");
-    return false;
-  }
-
-  // Validar el tipo de archivo
-  $file = $_FILES['evidencia'];
-  if ($file && $file['error'] == 0) {
-    $allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-    if (!in_array($file['type'], $allowedTypes)) {
-      $errorMsg = ("Tipo de archivo no permitido. Solo se permiten imágenes JPEG, PNG y archivos PDF.");
-      return false;
-    }
-  }
-  // Validar el tamaño del archivo
-  if ($file && $file['error'] == 0) {
-    $maxFileSize = 2 * 1024 * 1024; // 2 MB
-    if ($file['size'] > $maxFileSize) {
-      $errorMsg = ("El tamaño del archivo excede el límite permitido de 2 MB.");
-      return false;
-    }
-  }
-  $folio = hash('sha256', $_POST['curp'] . $_POST['correo'] . $_POST['nombre'] . time() . bin2hex(random_bytes(16)));
-  // Si todos los campos son válidos, retornar true
-  return true;
-}
+// Incluir la logica de la base de datos y verificación
+include_once 'logic.php';
 ?>
 
 <!DOCTYPE html>
@@ -166,8 +59,8 @@ function validateData() {
               </div>
               <h2 class=\"section-title\">Error</h2>
               <h2><?= $errorMsg?></h2>
+            <!-- Guardar los Datos -->
             <?php else: ?>
-              <!-- Guardar los Datos -->
                <?php if (saveReport(
                 $folio, 
                 $_POST['hechos'], 
@@ -215,7 +108,10 @@ function validateData() {
                 <!-- <img src="<?php echo htmlspecialchars($_FILES['evidencia']['tmp_name']); ?>" alt="Evidencia" class="evidence-image"> -->
               </div>
               <!-- Enviar correo electronico -->
-               <?php if (email()): ?>
+               <?php if (sendVerificationEmail()): ?>
+                <div class="icon">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
                 <p>Recibirá un correo electrónico con un enlace para verificar su reporte.</p>
                 <p>Por favor, revise su bandeja de entrada y carpeta de spam.</p>
               <?php else: ?>
@@ -224,7 +120,8 @@ function validateData() {
                   <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
                 <h2 class="section-title">Error</h2>
-                <p><?php echo htmlspecialchars($errorMsg); ?></p>
+                <p>Hubo un problema al enviar el correo de verificación.</p>
+                <p><?= htmlspecialchars($errorMsg); ?></p>
                 <p>Por favor, intente nuevamente más tarde.</p>
                 <?php endif; ?>
                 <?php else: ?>
@@ -235,11 +132,11 @@ function validateData() {
                   <h2 class="section-title">Error</h2>
                   <p><?php echo htmlspecialchars($errorMsg); ?></p>
                   <p>Por favor, intente nuevamente más tarde.</p>
-            <?php endif; ?>            
+           
             <?php endif; ?>
             <div class="buttons">
               <a class="primary-button" href="index.html">Regresar a Inicio</a>
-              <a class="primary-button" href="consultar.html">Consultar Reportes</a>
+              <a class="primary-button" href="consultar.php">Consultar Reportes</a>
             </div>
           </div>
         </div>

@@ -219,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
 
             <button type="submit" name="change_credentials">Guardar cambios</button>
         </form>
-        <form method="post" style="margin-top:1em;">
+        <form method="post">
             <button type="submit" name="request_code">Reenviar Código</button>
         </form>
     <?php else: ?>

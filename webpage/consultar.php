@@ -1,129 +1,9 @@
 <?php
-// Incluir la clase de conexión a la base de datos
-include_once 'admin/db.php';
+// Incluir la logica de la base de datos y verificación
+include_once 'logic.php';
 
 // Variable de error
-$errorMSG = "";
-
-// Mostrar errror en caso de que el folio no sea valido
-function error($message)
-{
-  echo "
-  <div class=\"report-container\">
-  <div class=\"icon\">\n<i class=\"fa-solid fa-triangle-exclamation\"></i>\n</div>
-  <h2 class=\"section-title\">Error</h2>
-  <h2>$message</h2>
-  </div>
-  ";
-}
-
-// Renderizar el formulario de entrada
-function renderInput($type, $name, $placeholder, $value)
-{
-  return "
-      <!-- $placeholder -->
-      <label for=\"$name\">$placeholder</label>
-      <input type=\"$type\" name=\"$name\" id=\"$name\" value=\"" . htmlspecialchars($value) . "\">
-      <span class=\"error\" id=\"Error" . ucfirst($name) . "\"></span>
-  ";
-}
-
-// Renderizar los hechos
-function renderHechos($hechos)
-{
-  return "
-  <!-- Hechos  -->
-  <label for=\"hechos\">Hechos</label>
-  <textarea name=\"hechos\" id=\"hechos\" cols=\"30\" rows=\"10\" >" .
-    $hechos .
-    "</textarea><br>
-  <span id=\"ErrorHechos\" class=\"error\"></span>
-  ";
-}
-
-// Renderizar el tipo de violencia
-function renderTipo($type)
-{
-  $selected = [
-    "Genero" => "",
-    "Familiar" => "",
-    "Psicologica" => "",
-    "Sexual" => "",
-    "Economica" => "",
-    "Patrimonial" => "",
-    "Cibernetica" => ""
-  ];
-  $selected[$type] = "selected";
-  return "
-  <!-- Tipo de violencia -->
-  <label for=\"tipo\">Tipo de violencia</label>
-  <select id=\"tipo\" name=\"tipo\">
-      <option value=\"Genero\" $selected[Genero]>Violencia de Genero</option>
-      <option value=\"Familiar\" $selected[Familiar]>Violencia Familiar</option>
-      <option value=\"Psicologica\" $selected[Psicologica]>Violencia Psicologica</option>
-      <option value=\"Sexual\" $selected[Sexual]>Violencia Sexual</option>
-      <option value=\"Economica\" $selected[Economica]>Violencia Economica</option>
-      <option value=\"Patrimonial\" $selected[Patrimonial]>Violencia Patrimonial</option>
-      <option value=\"Cibernetica\" $selected[Cibernetica]>Violencia Cibernetica</option>
-  </select>
-  <span id=\"ErrorTipo\" class=\"error\"></span>
-  ";
-}
-
-// Renderizar los botones
-function renderButton($type, $name, $value, $function)
-{
-  return "
-  <!-- $type -->
-  <button type=\"button\" class=\"primary-button\"  name=\"$name\" id=\"$type\" onclick=\"$function\">$value</button><br>
-  </form>
-  ";
-}
-
-// obtener valor el Status
-function statusValue($value)
-{
-  $values = [
-    0 => "En Proceso",
-    1 => "Resuelto",
-    2 => "No Resuelto"
-  ];
-  return $values[$value] ?? "Desconocido";
-}
-
-// Buscar el reporte por folio
-function search($folio)
-{
-  $html = "";
-  $row = null;
-  try {
-    $database = new Denuncia();
-    $stmt = $database->searchDenuncia($folio);
-
-    if ($stmt->num_rows > 0) {
-      $row = $stmt->fetch_assoc();
-    } else {
-      $html .= error("No se encontraron resultados para el folio proporcionado.");
-    }
-    $database->closeConnection();
-  } catch (Exception $e) {
-    $html .= error("Error al buscar el reporte: " . htmlspecialchars($e->getMessage()));
-  }
-  return $row;
-}
-
-// Verificar si se ha enviado el formulario
-function checkForm()
-{
-  return isset($_GET['folio']) && !empty($_GET['folio']);
-}
-
-// Validar el folio
-function validateFolio($folio)
-{
-  $regex = "/^[a-f0-9]{64}$/";
-  return preg_match($regex, $folio);
-}
+$errorMsg = "Error desconocido";
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +26,7 @@ function validateFolio($folio)
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
   <script src="scripts/mobile.js"></script>
-  <script src="scripts/search.js"></script>
+  <script src="scripts/consult.js"></script>
 </head>
 
 <body>
@@ -173,8 +53,8 @@ function validateFolio($folio)
 
     <main>
       <!-- Si se busca un folio -->
-      <?php if (checkForm()): ?>
-        <!-- Contenido del reporte -->
+      <?php if (checkFolio()): ?>
+
         <!-- Validar el folio -->
         <?php if (validateFolio($_GET['folio'])): ?>
           <!-- Buscar el reporte -->
@@ -194,12 +74,13 @@ function validateFolio($folio)
 
             <section class="report-section">
               <div class="report-content">
-                <form id="report" method=POST enctype=multipart/form-data action="" onsubmit="return validateForm(this);">
+                <form id="Report" method=POST enctype=multipart/form-data action="" onsubmit="return validateForm(this);">
                   <!-- Formulario de denuncia de violencia de género -->
                   <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
                   <!-- Folio -->
                   <label for="folio">Folio</label>
                   <p><?= $row['Folio'] ?></p><br>
+                  <input type="hidden" name="folio" id="folio" value="<?= $row['Folio'] ?>">
                   <!-- Status -->
                   <label for="status">Status</label>
                   <p><?= statusValue($row['Status']) ?></p><br>
@@ -272,29 +153,58 @@ function validateFolio($folio)
                   <span id="ErrorTipo" class="error"></span>
                   <!-- Evidencia -->
                   <label for="evidencia">Evidencia</label>
-                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png, .pdf" class="secondary-button"><br>
+                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png">
+                  <span id="ErrorEvidencia" class="error"></span>
+                  <label for="evidencia">Evidencia actual</label>
                   <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia">
-
-
                   <span id="ErrorEvidencia" class="error"></span>
                   <!-- Enviar -->
                   <div class="buttons">
-                    <?php if ($row['Status'] == 0 && $row['Verified'] == 1): ?>
-                      <?= renderButton("update", "modificar", "Modificar", "updateDenuncia();"); ?>
-                    <?php endif; ?>
                     <!-- delete -->
-                    <button type="button" class="primary-button" name="eliminar" id="delete" onclick="window.modal.showModal();">Eliminar</button><br>
+                    <button type="button" class="primary-button" name="eliminar" id="delete" onclick="window.modal.showModal();">Eliminar</button>
+                    <?php if ($row['Status'] == 0 && $row['Verified'] == 1): ?>
+                      <!-- update -->
+                      <button type="button" class="primary-button" name="modificar" id="update" onclick="updateDenuncia();">Eliminar</button>
+                    <?php endif; ?>
                   </div>
                   <span id="ErrorEnviar" class="error"></span>
 
                 </form>
               </div>
             </section>
+            <!-- Error al buscar el reporte -->
+          <?php else: ?>
+            <section class="report-section">
+              <div class="report-content">
+                <div class="report-container">
+                  <div class="icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </div>
+                  <h2 class="section-title">Error</h2>
+                  <p><?php echo htmlspecialchars($errorMsg); ?></p>
+                  <p>Por favor, verifique el folio e intente nuevamente.</p>
+                </div>
+              </div>
+            </section>
           <?php endif; ?>
+
+          <!-- Error al validar el folio -->
         <?php else: ?>
-          <?php error("El folio proporcionado no es válido."); ?>
+          <section class="report-section">
+            <div class="report-content">
+              <div class="report-container">
+                <div class="icon">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h2 class="section-title">Error</h2>
+                <p><?php echo htmlspecialchars($errorMsg); ?></p>
+                <p>Por favor, intente nuevamente más tarde.</p>
+              </div>
+            </div>
+          </section>
         <?php endif; ?>
 
+        <!-- Sino mostrar el formulario de busqueda -->
       <?php else: ?>
         <!-- Mensaje -->
         <section class="hero-section">
@@ -317,8 +227,8 @@ function validateFolio($folio)
         <section class="search-section">
           <div class="search-content">
             <h2 class="section-title">Buscar Reportes</h2>
-            <form method="get" action="" onsubmit="return validateSearch(this);">
-              <input type="text" name="folio" id="folio" placeholder="Ingrese el Folio del reporte" maxlength="64" minlength="64" />
+            <form method=GET action="" onsubmit="return validateSearch(this);">
+              <input type="text" name="folio" id="folio" placeholder="Ingrese el Folio del reporte" maxlength="64" />
               <button type="submit" class="primary-button">Buscar</button>
               <span class="error" id="ErrorFolio"></span>
             </form>
