@@ -8,14 +8,14 @@
     "admin": {
         "user": "admin",
         "passwordhash": "$2y$10$nUJHzwlR98IDhwt8T.QDtOkCYZxj6S5VoxyhKHbBWzy\/3dK67psLK",
-        "email": "urielzuniga139@gmail.com"
+        "email": ""
     },
     "mail": {
         "enckey": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",
         "host": "smtp.gmail.com",
         "port": 587,
         "user": "dragonflycodes5@gmail.com",
-        "password": "wnyq kyyx canj gmfz",
+        "password": "",
         "from": [
             "dragonflycodes5@gmail.com",
             "DragonFly Codes"
