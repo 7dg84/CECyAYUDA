@@ -109,7 +109,7 @@ function validateForm() {
     
     // Verificar si el campo 'nombre' está vacío o tiene menos de 3 caracteres o no es un número
     let nombre = window.Report.nombre.value;
-    if (nombre == "" || nombre.length < 3 || isNaN(Number(nombre))) {
+    if (nombre == "" || nombre.length < 3 || !isNaN(Number(nombre))) {
         showError("ErrorNombre", "Por favor, ingrese un nombre válido (mínimo 3 caracteres).");
         valid = false;
     }
@@ -144,22 +144,19 @@ function validateForm() {
     let evidencia = window.Report.evidencia;
     // Verificar si el campo 'evidencia' está vacío
     if (evidencia.value == "") {
-        showError("ErrorEvidencia", "Por favor, suba un archivo de evidencia.");
-        valid = false;
-    }
-
-    // Verificar si el campo 'evidencia' tiene un tamaño máximo de 2MB
-    if (evidencia.files && evidencia.files[0] && evidencia.files[0].size > 2 * 1024 * 1024) {
-        showError("ErrorEvidencia", "El archivo de evidencia no debe exceder los 2MB.");
-        valid = false;
-    }
-
-    // Veerifivar el MIME type del archivo
-    var mimeType = evidencia.files && evidencia.files[0] ? evidencia.files[0].type : null;
-    var allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
-    if (!allowedMimeTypes.includes(mimeType)) {
-        showError("ErrorEvidencia", "El archivo de evidencia debe ser una imagen.");
-        valid = false;
+        // Verificar si el campo 'evidencia' tiene un tamaño máximo de 2MB
+        if (evidencia.files && evidencia.files[0] && evidencia.files[0].size > 2 * 1024 * 1024) {
+            showError("ErrorEvidencia", "El archivo de evidencia no debe exceder los 2MB.");
+            valid = false;
+        }
+    
+        // Veerifivar el MIME type del archivo
+        var mimeType = evidencia.files && evidencia.files[0] ? evidencia.files[0].type : "image/jpeg";
+        var allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
+        if (!allowedMimeTypes.includes(mimeType)) {
+            showError("ErrorEvidencia", "El archivo de evidencia debe ser una imagen.");
+            valid = false;
+        }
     }
 
     return valid;

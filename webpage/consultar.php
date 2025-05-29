@@ -94,7 +94,7 @@ $errorMsg = "Error desconocido";
                     <input type="date" name="fecha" id="fecha" value="<?= $row['Fecha'] ?>"><br>
                     <!-- Hora -->
                     <label for="hora">Hora</label><br>
-                    <input type="time" name="hora" id="hora" value="<?= $row['Hora'] ?>"><br>
+                    <input type="time" name="hora" id="hora" value="<?= substr($row['Hora'],0,5) ?>"><br>
                     <br>
                   </div>
                   <span id="ErrorFecha" class="error"></span><br>
@@ -153,10 +153,10 @@ $errorMsg = "Error desconocido";
                   <span id="ErrorTipo" class="error"></span>
                   <!-- Evidencia -->
                   <label for="evidencia">Evidencia</label>
-                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png">
+                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png" value="<?php echo htmlspecialchars($row['Evidencia']); ?>" />
                   <span id="ErrorEvidencia" class="error"></span>
                   <label for="evidencia">Evidencia actual</label>
-                  <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia">
+                  <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia"">
                   <span id="ErrorEvidencia" class="error"></span>
                   <!-- Enviar -->
                   <div class="buttons">
@@ -164,7 +164,7 @@ $errorMsg = "Error desconocido";
                     <button type="button" class="primary-button" name="eliminar" id="delete" onclick="window.modal.showModal();">Eliminar</button>
                     <?php if ($row['Status'] == 0 && $row['Verified'] == 1): ?>
                       <!-- update -->
-                      <button type="button" class="primary-button" name="modificar" id="update" onclick="updateDenuncia();">Eliminar</button>
+                      <button type="button" class="primary-button" name="modificar" id="update" onclick="updateDenuncia();">Modificar</button>
                     <?php endif; ?>
                   </div>
                   <span id="ErrorEnviar" class="error"></span>

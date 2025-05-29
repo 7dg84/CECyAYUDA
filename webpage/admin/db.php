@@ -112,14 +112,43 @@ class Denuncia {
         return $result;
     }
 
-    // Metodo para actualizar una denuncia
-    function updateDenuncia($folio, $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo) {
+    // Metodo para verificar si esxiste una denuncia por folio
+    public function existsDenuncia($folio) {
         // Preparar y bind
-        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Ubicacion = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ? WHERE Folio = ?");
+        $stmt = $this->conn->prepare("SELECT Folio FROM denuncias WHERE Folio = ?");
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
-        $stmt->bind_param("ssssssssss", $hechos, $fecha, $hora, $ubicacion, $nombre, $curp, $correo, $telefono, $tipo, $folio);
+        $stmt->bind_param("s", $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        return $result->num_rows > 0; // Retorna true si existe, false si no
+    }
+
+    // Metodo para actualizar una denuncia
+    function updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ? WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("sssssssssssss", $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $stmt->close();
+    }
+
+    // Metodo para actualizar una denuncia con archivo
+    function updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ?, Evidencia = ? WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("ssssssssssssss", $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file, $folio);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }

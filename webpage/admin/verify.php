@@ -7,7 +7,7 @@ include_once 'config.php';
 
 $config = new Config();
 
-$default_encryption_key = $config['mail']['key']; // Clave de encriptación por defecto
+$default_encryption_key = $config['mail']['enckey']; // Clave de encriptación por defecto
 $encryption_method = 'AES-256-CBC'; // Método de cifrado
 
 // Generar token en base a la información que expira en una hora
@@ -37,7 +37,7 @@ function genToken($folio, $curp, $correo) {
 
 // Verificar el token
 function verifyToken($token) {
-    global $default_encryption_key, $encryption_method;
+    global $default_encryption_key, $encryption_method, $errorMsg;
 
     try {
         // Decodificar el token (base64)
@@ -56,11 +56,13 @@ function verifyToken($token) {
 
         // Validar que el token tenga el formato esperado
         if (!is_array($data) || !isset($data['folio'], $data['curp'], $data['correo'], $data['expiration'])) {
+            $errorMsg = "Token inválido o malformado.";
             return false; // Token inválido
         }
 
         // Verificar si el token ha expirado
         if (time() > $data['expiration']) {
+            $errorMsg = "El token ha expirado.";
             return false; // Token expirado
         }
 
@@ -68,16 +70,22 @@ function verifyToken($token) {
         // Verificar la validez de los datos en la base de datos
         $result = $database->searchDenuncia($data['folio']);
         if ($result->num_rows === 0) {
+            $database->closeConnection();
+            $errorMsg = "Folio no encontrado.";
             return false; // Folio no encontrado
         }
 
         $record = $result->fetch_assoc();
         // Verificar si el CURP y correo coinciden con los datos de la denuncia
         if ($record['CURP'] !== $data['curp'] || $record['Correo'] !== $data['correo']) {
+            $database->closeConnection();
+            $errorMsg = "Token invalido.";
             return false; // CURP o correo no coinciden
         }
         // Verificar si la denuncia ya ha sido verificada
         if ($record['Verified'] == 1) {
+            $database->closeConnection();
+            $errorMsg = "Denuncia ya verificada.";
             return false; // Denuncia ya verificada
         }
 
@@ -87,6 +95,7 @@ function verifyToken($token) {
 
         return $isVerified; // Retorna true si la denuncia es válida
     } catch (Exception $e) {
+        $errorMsg = "Error al verificar el token: " . htmlspecialchars($e->getMessage());
         return false; // Error en la verificación
     }
 }
@@ -122,6 +131,9 @@ function sendEmail($nombre, $folio, $curp, $correo) {
         <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
         <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
         <p><a href=\"'.$config['mail']['url'].'/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
+        <p>Si no puedes hacer clic en el enlace, copia y pega la siguiente URL en tu navegador:</p>
+        <p>' . htmlspecialchars($config['mail']['url']) . '/verify.php?token=' . urlencode($token) . '</p>
+        <br>
         <p>Si no solicitaste esta verificación, puedes ignorar este mensaje.</p>
         <p>Este enlace expirará en 1 hora.</p>
         <br>
@@ -130,7 +142,7 @@ function sendEmail($nombre, $folio, $curp, $correo) {
     </body>
     </html>
     ';
-    $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: http://localhost:80/verify.php?token=' . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes';
+    $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: '. $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes';
 
     $mail->send();
 }

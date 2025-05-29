@@ -42,9 +42,9 @@ function saveReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $coloni
 }
 
 // Funcion para validar los datos del formulario
-function validateData()
+function validateData($requiereFile = true)
 {
-    global $errorMsg, $folio;
+    global $errorMsg;
     // Funcion para validar los datos del formulario
     function validate($field, $pattern = null)
     {
@@ -75,7 +75,7 @@ function validateData()
         return false;
     }
     if (!validate($_POST['hora'], "/^\d{2}:\d{2}$/")) {
-        $errorMsg = ("Campo 'Hora' inválido.");
+        $errorMsg = ("Campo 'Hora' inválido.") . $_POST['hora'];
         return false;
     }
     if (!validate($_POST['estado'], "/^[a-zA-Z0-9\s,.\-]+$/")) {
@@ -115,30 +115,29 @@ function validateData()
         return false;
     }
 
-    // Validar el campo de archivo
-    if (empty($_FILES['evidencia']['name'])) {
-        $errorMsg = ("Campo 'Evidencia' no puede estar vacío.");
-        return false;
+    // Validar el campo de archivo solo si es requerido
+    $file = $_FILES['evidencia'] ?? null;
+    if ($requiereFile) {
+        if (empty($file['name'])) {
+            $errorMsg = ("Campo 'Evidencia' no puede estar vacío.");
+            return false;
+        }
     }
 
-    // Validar el tipo de archivo
-    $file = $_FILES['evidencia'];
-    if ($file && $file['error'] == 0) {
+    // Si se proporcionó archivo, valida tipo y tamaño
+    if ($file && $file['error'] == 0 && !empty($file['name'])) {
         $allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
         if (!in_array($file['type'], $allowedTypes)) {
             $errorMsg = ("Tipo de archivo no permitido. Solo se permiten imágenes JPEG, PNG y archivos PDF.");
             return false;
         }
-    }
-    // Validar el tamaño del archivo
-    if ($file && $file['error'] == 0) {
         $maxFileSize = 2 * 1024 * 1024; // 2 MB
         if ($file['size'] > $maxFileSize) {
             $errorMsg = ("El tamaño del archivo excede el límite permitido de 2 MB.");
             return false;
         }
     }
-    $folio = hash('sha256', $_POST['curp'] . $_POST['correo'] . $_POST['nombre'] . time() . bin2hex(random_bytes(16)));
+
     // Si todos los campos son válidos, retornar true
     return true;
 }
@@ -188,6 +187,25 @@ function validateFolio($folio)
     return preg_match($regex, $folio);
 }
 
+// Validar el token de verificación
+function validateToken($token)
+{
+    global $errorMsg;
+    // Verificar si el token no está vacío
+    if (empty($token)) {
+        // Mostrar mensaje de error si el token está vacío
+        $errorMsg = "No se ha enviado el token.";
+        return false; // El token está vacío   
+    }
+    // Validar el formato del token (Base64)
+    if (!preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $token)) {
+        // Mostrar mensaje de error si el formato del token no es válido
+        $errorMsg = "El formato del token es inválido.";
+        return false; // El formato del token es inválido
+    }
+    return true; // El formato del token es válido
+}
+
 // Eliminar un reporte
 function deleteReport($folio)
 {
@@ -202,6 +220,36 @@ function deleteReport($folio)
         return true;
     } catch (Exception $e) {
         $errorMsg = "Error al eliminar el folio" . htmlspecialchars($e->getMessage());
+        return false;
+    }
+}
+
+// Funcion para actualizar el reporte
+function updateReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file)
+{
+    global $errorMsg;
+    try {
+        // Crear una instancia de la clase Database
+        $database = new Denuncia();
+        // Verificar si el email de la denuncia esta verificado
+        if (!$database->isEmailVerified($folio)) {
+            // Si el email no se ha verificado, no se puede actualizar la denuncia
+            $errorMsg = "El correo electrónico no ha sido verificado. No se puede actualizar la denuncia.";
+            return false;
+        }
+        // Actualizar la denuncia en la base de datos
+        if (!empty($file['name'])) {
+            // Si se proporciona un archivo, actualizar la denuncia con el archivo
+            $database->updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, file_get_contents($file['tmp_name']));
+        } else {
+            // Si no se proporciona un archivo, actualizar la denuncia sin el archivo
+            $database->updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo);
+        }
+        // Cerrar la conexión a la base de datos
+        $database->closeConnection();
+        return true;
+    } catch (Exception $e) {
+        $errorMsg = "Error\n" . htmlspecialchars($e->getMessage());
         return false;
     }
 }

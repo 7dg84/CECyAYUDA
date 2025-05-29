@@ -11,7 +11,7 @@
         "email": "urielzuniga139@gmail.com"
     },
     "mail": {
-        "key": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",
+        "enckey": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",
         "host": "smtp.gmail.com",
         "port": 587,
         "user": "dragonflycodes5@gmail.com",
@@ -20,6 +20,6 @@
             "dragonflycodes5@gmail.com",
             "DragonFly Codes"
         ],
-        "url": "https:\/\/psychiatry-million-colleagues-snake.trycloudflare.com"
+        "url": "192.168.0.100"
     }
 }
