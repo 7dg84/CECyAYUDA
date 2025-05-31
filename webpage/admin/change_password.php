@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_credentials'])
 }
 
 // Step 3: Verify code
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) && is_numeric($_POST['verification_code']) && $config['admin']['email'] !== 'admin') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) && is_numeric($_POST['verification_code']) && $config['admin']['email'] !== '') {
     if (isset($_SESSION['verification_code']) && time() < ($_SESSION['code_expiry'] ?? 0)) {
         if ((int)$_SESSION['verification_code'] == (int)$_POST['verification_code']) {
             $_SESSION['is_auth'] = true;

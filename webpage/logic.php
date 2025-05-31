@@ -31,7 +31,7 @@ function saveReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $coloni
         // Crear una instancia de la clase Database
         $database = new Denuncia();
         // Insertar la denuncia en la base de datos
-        $database->insertDenuncia($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file);
+        $database->insertDenuncia($folio, $hechos, $fecha, $hora, $estado, strtolower($municipio), strtolower($colonia), strtolower($calle), $nombre, $curp, $correo, $telefono, $tipo, $file);
         // Cerrar la conexión a la base de datos
         $database->closeConnection();
         return true;
@@ -78,7 +78,41 @@ function validateData($requiereFile = true)
         $errorMsg = ("Campo 'Hora' inválido.") . $_POST['hora'];
         return false;
     }
-    if (!validate($_POST['estado'], "/^[a-zA-Z0-9\s,.\-]+$/")) {
+    $estados = [
+        'Aguascalientes',
+        'Baja California',
+        'Baja California Sur',
+        'Campeche',
+        'Chiapas',
+        'Chihuahua',
+        'CDMX',
+        'Coahuila',
+        'Colima',
+        'Durango',
+        'Estado de México',
+        'Guanajuato',
+        'Guerrero',
+        'Hidalgo',
+        'Jalisco',
+        'Michoacán',
+        'Morelos',
+        'Nayarit',
+        'Nuevo León',
+        'Oaxaca',
+        'Puebla',
+        'Querétaro',
+        'Quintana Roo',
+        'San Luis Potosí',
+        'Sinaloa',
+        'Sonora',
+        'Tabasco',
+        'Tamaulipas',
+        'Tlaxcala',
+        'Veracruz',
+        'Yucatán',
+        'Zacatecas'
+    ];
+    if (!in_array($_POST['estado'], $estados)) {
         $errorMsg = ("Campo 'Estado' inválido.");
         return false;
     }
@@ -175,9 +209,14 @@ function search($folio)
 }
 
 // Verificar si se ha enviado el formulario
-function checkFolio()
+function checkFolioGet()
 {
     return isset($_GET['folio']) && !empty($_GET['folio']);
+}
+
+function checkFolioPost()
+{
+    return isset($_POST['folio']) && !empty($_POST['folio']);
 }
 
 // Validar el folio

@@ -1,0 +1,107 @@
+/* General Reset & Base Styles */
+* {
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #3a2e1f;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #e6f0f8;
+    min-height: 100vh;
+}
+
+/* Título principal */
+#titulo {
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    text-decoration: underline;
+    border: none;
+    border-bottom: 2px solid #3a2e1f;
+    border-radius: 30px;
+    width: 50%;
+    margin: 2rem auto 1.5rem auto;
+    padding: 1rem 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+#titulo h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Referencia */
+#Referencia {
+    font-size: 1.5rem;
+    width: 40%;
+    margin: 1.5rem auto;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+/* Información */
+#info {
+    animation: fadeIn 1s ease-out;
+    width: 50%;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Mapa */
+map {
+    background-color: #e0e0e0;
+    display: block;
+    margin: 2rem auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    max-width: 100%;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Encabezados */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    #titulo, #info, #Referencia {
+        width: 90%;
+        font-size: 1.1rem;
+    }
+    #titulo h1, h1 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    #titulo, #info, #Referencia {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    #titulo h1, h1 {
+        font-size: 1rem;
+    }
+}

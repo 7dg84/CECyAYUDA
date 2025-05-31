@@ -56,8 +56,43 @@ function validateForm() {
         valid = false;
     }
 
-    // Verificar si el campo estado esta vacio o tiene menos de 5 caracteres
-    if (window.Report.estado.value == "" || window.Report.estado.value.length < 5) {
+    // Verificar si el campo estado esta en los estados de la republica mexicana
+    let estados = [
+        'Aguascalientes',
+        'Baja California',
+        'Baja California Sur',
+        'Campeche',
+        'Chiapas',
+        'Chihuahua',
+        'CDMX',
+        'Coahuila',
+        'Colima',
+        'Durango',
+        'Estado de México',
+        'Guanajuato',
+        'Guerrero',
+        'Hidalgo',
+        'Jalisco',
+        'Michoacán',
+        'Morelos',
+        'Nayarit',
+        'Nuevo León',
+        'Oaxaca',
+        'Puebla',
+        'Querétaro',
+        'Quintana Roo',
+        'San Luis Potosí',
+        'Sinaloa',
+        'Sonora',
+        'Tabasco',
+        'Tamaulipas',
+        'Tlaxcala',
+        'Veracruz',
+        'Yucatán',
+        'Zacatecas'
+    ];
+    if (!estados.includes(window.Report.estado.value)) {
+        alert(window.Report.estado.value)
         showError("ErrorEstado", "Por favor, ingrese un estado válido.");
         valid = false;
     }

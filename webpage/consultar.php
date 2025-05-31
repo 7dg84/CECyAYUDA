@@ -53,7 +53,7 @@ $errorMsg = "Error desconocido";
 
     <main>
       <!-- Si se busca un folio -->
-      <?php if (checkFolio()): ?>
+      <?php if (checkFolioGet()): ?>
 
         <!-- Validar el folio -->
         <?php if (validateFolio($_GET['folio'])): ?>
@@ -94,7 +94,7 @@ $errorMsg = "Error desconocido";
                     <input type="date" name="fecha" id="fecha" value="<?= $row['Fecha'] ?>"><br>
                     <!-- Hora -->
                     <label for="hora">Hora</label><br>
-                    <input type="time" name="hora" id="hora" value="<?= substr($row['Hora'],0,5) ?>"><br>
+                    <input type="time" name="hora" id="hora" value="<?= substr($row['Hora'], 0, 5) ?>"><br>
                     <br>
                   </div>
                   <span id="ErrorFecha" class="error"></span><br>
@@ -102,7 +102,79 @@ $errorMsg = "Error desconocido";
                   <!-- Ubicacion -->
                   <label for="ubicacion">Ubicacion</label>
                   <div class="ubicacion-container">
-                    <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);" value="<?= $row['Estado'] ?>"><br>
+                    <!-- <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);" value="<?= $row['Estado'] ?>"><br> -->
+                    <?php
+                    $estados = [
+                      'Aguascalientes' => '',
+                      'Baja California' => '',
+                      'Baja California Sur' => '',
+                      'Campeche' => '',
+                      'Chiapas' => '',
+                      'Chihuahua' => '',
+                      'CDMX' => '',
+                      'Coahuila' => '',
+                      'Colima' => '',
+                      'Durango' => '',
+                      'Estado de México' => '',
+                      'Guanajuato' => '',
+                      'Guerrero' => '',
+                      'Hidalgo' => '',
+                      'Jalisco' => '',
+                      'Michoacán' => '',
+                      'Morelos' => '',
+                      'Nayarit' => '',
+                      'Nuevo León' => '',
+                      'Oaxaca' => '',
+                      'Puebla' => '',
+                      'Querétaro' => '',
+                      'Quintana Roo' => '',
+                      'San Luis Potosí' => '',
+                      'Sinaloa' => '',
+                      'Sonora' => '',
+                      'Tabasco' => '',
+                      'Tamaulipas' => '',
+                      'Tlaxcala' => '',
+                      'Veracruz' => '',
+                      'Yucatán' => '',
+                      'Zacatecas' => ''
+                    ];
+                    $estados[$row['Estado']] = "selected";
+                    ?>
+                    <label for="estado">Estado</label>
+                    <select id="estado" name="estado">
+                      <option value="Aguascalientes" <?= $estados['Aguascalientes'] ?>>Aguascalientes</option>
+                      <option value="Baja California" <?= $estados['Baja California'] ?>>Baja California</option>
+                      <option value="Baja California Sur" <?= $estados['Baja California Sur'] ?>>Baja California Sur</option>
+                      <option value="Campeche" <?= $estados['Campeche'] ?>>Campeche</option>
+                      <option value="Chiapas" <?= $estados['Chiapas'] ?>>Chiapas</option>
+                      <option value="Chihuahua" <?= $estados['Chihuahua'] ?>>Chihuahua</option>
+                      <option value="CDMX" <?= isset($estados['CDMX']) ? $estados['CDMX'] : '' ?>>Ciudad de México</option>
+                      <option value="Coahuila" <?= $estados['Coahuila'] ?>>Coahuila</option>
+                      <option value="Colima" <?= $estados['Colima'] ?>>Colima</option>
+                      <option value="Durango" <?= $estados['Durango'] ?>>Durango</option>
+                      <option value="Estado de México" <?= $estados['Estado de México'] ?>>Estado de México</option>
+                      <option value="Guanajuato" <?= $estados['Guanajuato'] ?>>Guanajuato</option>
+                      <option value="Guerrero" <?= $estados['Guerrero'] ?>>Guerrero</option>
+                      <option value="Hidalgo" <?= $estados['Hidalgo'] ?>>Hidalgo</option>
+                      <option value="Jalisco" <?= $estados['Jalisco'] ?>>Jalisco</option>
+                      <option value="Michoacán" <?= $estados['Michoacán'] ?>>Michoacán</option>
+                      <option value="Morelos" <?= $estados['Morelos'] ?>>Morelos</option>
+                      <option value="Nayarit" <?= $estados['Nayarit'] ?>>Nayarit</option>
+                      <option value="Nuevo León" <?= $estados['Nuevo León'] ?>>Nuevo León</option>
+                      <option value="Oaxaca" <?= $estados['Oaxaca'] ?>>Oaxaca</option>
+                      <option value="Puebla" <?= $estados['Puebla'] ?>>Puebla</option>
+                      <option value="Querétaro" <?= $estados['Querétaro'] ?>>Querétaro</option>
+                      <option value="Quintana Roo" <?= $estados['Quintana Roo'] ?>>Quintana Roo</option>
+                      <option value="San Luis Potosí" <?= $estados['San Luis Potosí'] ?>>San Luis Potosí</option>
+                      <option value="Sinaloa" <?= $estados['Sinaloa'] ?>>Sinaloa</option>
+                      <option value="Sonora" <?= $estados['Sonora'] ?>>Sonora</option>
+                      <option value="Tabasco" <?= $estados['Tabasco'] ?>>Tabasco</option>
+                      <option value="Tamaulipas" <?= $estados['Tamaulipas'] ?>>Tamaulipas</option>
+                      <option value="Tlaxcala" <?= $estados['Tlaxcala'] ?>>Tlaxcala</option>
+                      <option value="Veracruz" <?= $estados['Veracruz'] ?>>Veracruz</option>
+                      <option value="Yucatán" <?= $estados['Yucatán'] ?>>Yucatán</option>
+                      <option value="Zacatecas" <?= $estados['Zacatecas'] ?>>Zacatecas</option>
+                    </select>
                     <span id="ErrorEstado" class="error"></span>
                     <input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);" value="<?= $row['Municipio'] ?>"><br>
                     <span id="ErrorMunicipio" class="error"></span>
@@ -157,7 +229,7 @@ $errorMsg = "Error desconocido";
                   <span id="ErrorEvidencia" class="error"></span>
                   <label for="evidencia">Evidencia actual</label>
                   <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia"">
-                  <span id="ErrorEvidencia" class="error"></span>
+                  <span id=" ErrorEvidencia" class="error"></span>
                   <!-- Enviar -->
                   <div class="buttons">
                     <!-- delete -->
@@ -204,7 +276,7 @@ $errorMsg = "Error desconocido";
           </section>
         <?php endif; ?>
 
-        <!-- Sino mostrar el formulario de busqueda -->
+      <!-- Sino mostrar el formulario de busqueda -->
       <?php else: ?>
         <!-- Mensaje -->
         <section class="hero-section">

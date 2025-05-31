@@ -83,7 +83,7 @@ class Denuncia {
     // Metodo para buscar una denuncia por folio
     public function searchDenunciaBy($field, $operator, $value) {
         // Validar el campo y el operador
-        $valid_fields = ['Folio', 'Descripcion', 'Fecha', 'Hora', 'Ubicacion', 'Nombre', 'CURP', 'Correo', 'Numtelefono', 'Tipo', 'Verified', 'Status'];
+        $valid_fields = ['Folio', 'Descripcion', 'Fecha', 'Hora', 'Estado', 'Municipio', 'Calle', 'Colonia', 'Nombre', 'CURP', 'Correo', 'Numtelefono', 'Tipo', 'Verified', 'Status'];
         $valid_operators = ['=', '!=', '>', '<', '>=', '<=', 'LIKE'];
 
         if (!in_array($field, $valid_fields)) {

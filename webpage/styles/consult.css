@@ -1,4 +1,3 @@
-
 /* Icono de buscar */
 .search-icon {
     background-color: white;
@@ -31,18 +30,34 @@
 .search-content form {
     margin: 40px 40px;
     padding: 40px 40px;
-    background: #fff;
+    background: var(--background);
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.288);
+    box-shadow: 0 4px 12px var(--border);
 }
 
 .search-content input[type="text"] {
+    border: 1px solid var(--border);
     display: inline-block;
     padding: 12px 24px;
     border-radius: 6px;
-    width: 80%;
     font-weight: 500;
-    background: #fff;
+    background: var(--background);
+    width: 80%;
+}
+
+.search-content button {
+    border: 1px solid var(--border);
+    width: 100px;
+}
+
+@media (max-width: 768px) {
+    .search-content input[type="text"] {
+        width: 100%;
+    }
+    .search-content button {
+        width: 100%;
+        margin-top: 12px;
+    }
 }
 
 /* Imagenes de evidencia */
@@ -53,8 +68,9 @@ img {
     height: auto;
     border-radius: 12px;
     margin: 20px 0;
-    object-fit: contain; /* O usa 'cover' si prefieres recorte */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    object-fit: contain;
+    /* O usa 'cover' si prefieres recorte */
+    box-shadow: 0 2px 8px var(--border);
 }
 
 
@@ -68,16 +84,18 @@ img {
     width: 40%;
     height: fit-content;
     overflow: auto;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--background);
     padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.288);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px var(--border);
     border-radius: 12px;
 }
 
 /* Boton de eliminar */
 .delete-button {
+    border: 1px solid var(--border);
     background-color: var(--destructive);
-    color: white;
+    color: var(--background);
     padding: 12px 24px;
     border-radius: 6px;
     font-weight: 500;
@@ -87,7 +105,7 @@ img {
 
 .delete-button:hover {
     background-color: var(--destructive-dark);
-    color: white;
+    color: var(--background);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px var(--border);
 }
