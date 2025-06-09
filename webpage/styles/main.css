@@ -8,6 +8,7 @@
   --text-primary: #222222;
   --text-secondary: #555555;
   --background: #ffffff;
+  --background-footer: #f8f8f8;
   --border: #e1e1e1;
   --muted: #8E9196;
 }
@@ -48,7 +49,7 @@ a:hover {
 /* Primario */
 .primary-button {
   background-color: var(--primary);
-  color: white;
+  color: var(--background);
   padding: 12px 24px;
   border-radius: 6px;
   font-weight: 500;
@@ -58,9 +59,9 @@ a:hover {
 
 .primary-button:hover {
   background-color: var(--primary-dark);
-  color: white;
+  color: var(--background);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--border);
 }
 
 /* Secundario */
@@ -98,8 +99,8 @@ a:hover {
 
 /* Barra de navegación */
 .navbar {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--background);
+  box-shadow: 0 2px 10px var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -150,7 +151,7 @@ a:hover {
 
 /* Seccion del mensaje superior principal */
 .hero-section {
-  background: linear-gradient(to bottom, var(--primary-light), white);
+  background: linear-gradient(to bottom, var(--primary-light), var(--background));
   padding: 5rem 2rem;
   text-align: center;
 }
@@ -184,7 +185,7 @@ a:hover {
 
 /* Pie de Pagina */
 .footer {
-  background-color: #f8f8f8;
+  background-color: var(--background-footer);
   padding-top: 3rem;
   margin-top: auto;
 }
@@ -285,7 +286,7 @@ a:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: white;
+  background-color: var(--background);
   z-index: 200;
   padding: 2rem;
   flex-direction: column;
@@ -313,4 +314,30 @@ a:hover {
 
 .mobile-menu a:last-child {
   border-bottom: none;
+}
+
+/* Ventana modal */
+dialog {
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: fit-content;
+    overflow: auto;
+    background-color: var(--background);
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px var(--border);
+    border-radius: 12px;
+}
+
+/* Mensajes de error */
+.error {
+    display: block;
+    margin-top: 5px;
+    text-align: left;
+    color: var(--destructive);
+    font-size: 0.9em;
 }

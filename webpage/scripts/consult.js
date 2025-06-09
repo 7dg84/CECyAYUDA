@@ -31,6 +31,21 @@ function validateSearch() {
     }
 }
 
+// Guardar en el localStorage el folio
+function saveFolio(){
+    folio = document.getElementById('folio').value;
+    // Guardar el dato
+    s = window.localStorage;
+    s.setItem('folio', folio);
+}
+
+// Funcion para cargar el Folio
+function loadFolio() {
+    folio = document.getElementById('folio');
+    s = window.localStorage;
+    folio.innerText = s.getItem('folio') ?? '';
+}
+
 // Funcion para limpiar los mensajes de error
 function clearError(){
     // Limpiar los mensajes de error de los campos

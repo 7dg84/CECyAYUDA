@@ -1,0 +1,28 @@
+/* Formulario */
+.detection-section {
+    padding: 3rem 2rem;
+
+    @media screen and (min-width: 768px) {
+        padding: 0;
+
+    }
+}
+
+.detection-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.detection-content form {
+    margin: 40px 40px;
+    padding: 40px 40px;
+    background: var(--background);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--border);
+}
+
+.detection-content button {
+    width: 100%;
+    border: 1px solid var(--border);
+}
+

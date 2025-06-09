@@ -73,24 +73,6 @@ img {
     box-shadow: 0 2px 8px var(--border);
 }
 
-
-/* Ventana modal */
-#modal {
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 40%;
-    height: fit-content;
-    overflow: auto;
-    background-color: var(--background);
-    padding: 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 12px var(--border);
-    border-radius: 12px;
-}
-
 /* Boton de eliminar */
 .delete-button {
     border: 1px solid var(--border);

@@ -295,11 +295,12 @@ $errorMsg = "Error desconocido";
           </div>
         </section>
 
+        <script>loadFolio()</script>
         <!-- Seccion para buscar -->
         <section class="search-section">
           <div class="search-content">
             <h2 class="section-title">Buscar Reportes</h2>
-            <form method=GET action="" onsubmit="return validateSearch(this);">
+            <form id="buscar" method=GET action="" onsubmit="return validateSearch(this);" onchange="alert('hola')" onload="alert('hola')">
               <input type="text" name="folio" id="folio" placeholder="Ingrese el Folio del reporte" maxlength="64" />
               <button type="submit" class="primary-button">Buscar</button>
               <span class="error" id="ErrorFolio"></span>
