@@ -26,3 +26,12 @@
     border: 1px solid var(--border);
 }
 
+#modal button,
+#modal a {
+    font-size: 1rem;
+}
+
+#modal button {
+    border: 1px solid var(--border);
+    padding: 13px 24px;
+}

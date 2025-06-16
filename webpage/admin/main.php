@@ -47,9 +47,9 @@ function statusValue($value)
 }
 
 // renderizar boton para modifocar
-function renderActionsButton($folio)
+function renderActionsButton($folio, $verify)
 {
-    return "<button type='button' onclick=\"openActionsDialog('$folio')\">Modificar</button>";
+    return "<button type='button' onclick=\"openActionsDialog('$folio', $verify)\">Modificar</button>";
 }
 
 // renderizar el boton para eliminar
@@ -70,20 +70,23 @@ function renderDeleteButton($folio)
         // No mostar el envio de formulario
         history.replaceState(null, null, location.pathname);
     </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <header>
+        <h1>Panel de Administracion</h1>
+        <p>Usuario: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+    <nav>
+        <ul>
+            <li><a href="main.php">Inicio</a></li>
+            <li><a href="change_password.php">Cambiar Contraseña</a></li>
+            <li><a href="logout.php">Cerrar Sesión</a></li>
+        </ul>
+    </header>
     <h1>Bienvenido al Panel de Administracion</h1>
     <p>Has iniciado sesión correctamente.</p>
-    <p>Usuario: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
-    <p>Cambiar contraseña: <a href="change_password.php">Cambiar Contraseña</a></p>
-    <a href="logout.php">Cerrar Sesión</a>
-    <!-- Elije cuantos mostrar -->
-    <form method="post" action="">
-        <label for="num_records">Número de registros a mostrar:</label>
-        <input type="number" id="num_records" name="num_records" min="1" max="100" value="20">
-        <button type="submit">Mostrar</button>
-    </form>
+
     <!-- Buscar -->
     <form method="get" action="" id="searchForm" onchange="typeSearch(this)">
         <label for="field">Buscar:</label>
@@ -110,7 +113,26 @@ function renderDeleteButton($folio)
         <div id="valuecontainer"></div>
 
         <label for="num_records">Número de registros a mostrar:</label>
-        <input type="number" id="num_records" name="num_records" min="1" max="100" value="20">
+        <input type="number" id="num_records" name="num_records" min="1" max="100" value="<?php echo isset($_GET['num_records']) ? htmlspecialchars($_GET['num_records']) : 20; ?>">
+
+        <label for="order">Ordenar por:</label>
+        <select name="order" id="order">
+            <option value="Folio" selected>Folio</option>
+            <option value="Fecha">Fecha</option>
+            <option value="Hora">Hora</option>
+            <option value="Estado">Estado</option>
+            <option value="Municipio">Municipio</option>
+            <option value="Colonia">Colonia</option>
+            <option value="Calle">Calle</option>
+            <option value="Nombre">Nombre</option>
+            <option value="CURP">CURP</option>
+            <option value="Correo">Correo</option>
+            <option value="Telefono">Teléfono</option>
+            <option value="Tipo">Tipo</option>
+            <option value="Verified">Verificado</option>
+            <option value="Status">Status</option>
+            <option value="Created">Fecha de Creación</option>
+        </select>
 
         <button type="submit">Buscar</button>
         <button type="reset" onclick="searchFormlastValue = ''; window.location.href = 'main.php';">Limpiar</button>
@@ -135,27 +157,37 @@ function renderDeleteButton($folio)
             <th>Tipo</th>
             <th>Verificado</th>
             <th>Status</th>
+            <th>Fecha de Creación</th>
+            <th>Imagen</th>
             <th>Acciones</th>
             <th>Eliminar</th>
         </tr>
         <?php
-        $max = isset($_POST['num_records']) ? (int)$_POST['num_records'] : 20;
+        $max = isset($_GET['num_records']) ? (int)$_GET['num_records'] : 20;
+
         // Buscar denuncias
-        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['field'], $_GET['operator'], $_GET['value'],$_GET['num_records'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['field'], $_GET['operator'], $_GET['value'],$_GET['num_records'],$_GET['order']) && $_GET['field'] != 'Default') {
             $field = $_GET['field'];
             $operator = $_GET['operator'];
             $value = $_GET['value'];
+            $num_records = (int)$_GET['num_records'];
+            $order = $_GET['order'];
 
             // Validar y sanitizar los datos
             $field = htmlspecialchars($field);
             $operator = htmlspecialchars($operator);
             $value = htmlspecialchars($value);
+            $num_records = max(1, min($num_records, 100)); // Limitar a un rango de 1 a 100
+            $order = htmlspecialchars($order);           
 
             // Buscar la denuncia
-            $row = $database->searchDenunciaBy($field, $operator, $value);
-        } else {
+            $row = $database->searchDenunciaBy($field, $operator, $value,$order, $max, 0);
+        } elseif($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['num_records'])) {
             // Obtener todas las denuncias si no se busca nada
             $row = $database->getDenuncias($max);
+        } else {
+            // Obtener todas las denuncias por defecto
+            $row = $database->getDenuncias(20);
         }
 
         // Mostrar los registros en la tabla
@@ -179,7 +211,9 @@ function renderDeleteButton($folio)
                 echo "<td>" . htmlspecialchars($record['Tipo']) . "</td>";
                 echo "<td>" . htmlspecialchars($record['Verified']) . "</td>";
                 echo "<td>" . statusValue($record['Status']) . "</td>";
-                echo "<td>" . renderActionsButton($record['Folio']) . "</td>";
+                echo "<td>" . htmlspecialchars($record['Created']) . "</td>";
+                echo '<td><img src="data:image/png;base64,'.base64_encode($record['Evidencia']).'" alt="Evidencia" class="evidencia-img" onclick="openImageDialog(\''.$record['Folio'].'\')"></td>';
+                echo "<td>" . renderActionsButton($record['Folio'], $record['Verified']) . "</td>";
                 echo "<td>" . renderDeleteButton($record['Folio']) . "</td>";
                 echo "</tr>";
             }
@@ -225,5 +259,11 @@ function renderDeleteButton($folio)
         <button type="submit">Eliminar</button>
     </form>
 </dialog>
+
+<dialog id="imageDialog">
+    <img id="imagePreview" src="" alt="Evidencia">
+    <button type="button" onclick="closeImageDialog()">Cerrar</button>
+</dialog>
+
 
 </html>

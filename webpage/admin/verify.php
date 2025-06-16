@@ -146,4 +146,47 @@ function sendEmail($nombre, $folio, $curp, $correo) {
 
     $mail->send();
 }
+
+// Funcion para envial un correo con folios encontrados
+function sendFolioEmail($nombre, $folio, $correo) {
+    global $config;
+    $mail = new PHPMailer(true);
+
+    // Configuración del servidor SMTP
+    $mail->isSMTP();
+    $mail->Host = $config['mail']['host']; // Servidor SMTP de Gmail
+    $mail->SMTPAuth = true;
+    $mail->Username = $config['mail']['user']; // Tu correo de Gmail
+    $mail->Password = $config['mail']['password']; // Tu contraseña de Gmail (usa un App Password si es posible)
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = $config['mail']['port']; // Puerto SMTP (587 para TLS)
+
+    // Remitente y destinatario
+    $mail->setFrom($config['mail']['from'][0], $config['mail']['from'][0]); // Tu nombre
+    $mail->addAddress($correo, $nombre);
+
+    // Contenido del correo
+    $mail->isHTML(true);
+    $mail->Subject = 'Folio Recuperado';
+    $mail->Body = '
+    <html>
+    <head>
+        <title>Folio Recuperado</title>
+    </head>
+    <body>
+        <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
+        <p>Tu folio ha sido recuperado exitosamente.</p>
+        <p>Folio: ' . htmlspecialchars($folio) . '</p>
+        <br>
+        <p>Consulta el estado de tu reporte en cualquier momento.</p>
+        <a href="' . htmlspecialchars($config['mail']['url']) . '/consultar.php?folio=' . urlencode($folio) . '">Consultar Reporte</a>
+        <p>Atentamente,</p>
+        <p>El equipo de DragonFly Codes</p>
+    </body>
+    </html>
+    ';
+    $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Tu folio ha sido recuperado exitosamente. Folio: ' . htmlspecialchars($folio) . ' Atentamente, El equipo de DragonFly Codes';
+
+    return $mail->send();
+}
 ?>

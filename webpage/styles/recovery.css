@@ -1,0 +1,71 @@
+/* Icono*/
+.icon {
+    background-color: var(--background);
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+}
+
+.icon i {
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+/* Formulario de Recuperar Folio*/
+.recovery-section {
+    padding: 3rem 2rem;
+
+    @media screen and (min-width: 768px) {
+        padding: 0;
+
+    }
+}
+
+.recovery-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.recovery-container,
+.recovery-content form {
+    margin: 40px 40px;
+    padding: 40px 40px;
+    background: var(--background);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--border);
+}
+
+.report-details {
+    display: block;
+    text-align: left;
+    padding: 10px;
+}
+
+.recovery-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.recovery-content input[type="text"],
+.recovery-content input[type="email"],
+.recovery-content input[type="tel"],
+.recovery-content select,
+.recovery-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+
+.recovery-content button {
+    width: 100%;
+    border: 1px solid var(--border);
+}

@@ -64,6 +64,15 @@
     border-radius: 6px;
 }
 
+.report-content input[type="file"] {
+    display: none;
+}
+
+.report-content label[for="evidencia"] p{
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+}
 
 .report-content button {
     width: 100%;
@@ -121,3 +130,4 @@ input[type="time"] {
     text-align: center;
     width: 100%;
 }
+

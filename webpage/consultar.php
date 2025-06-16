@@ -224,8 +224,12 @@ $errorMsg = "Error desconocido";
                   <br>
                   <span id="ErrorTipo" class="error"></span>
                   <!-- Evidencia -->
-                  <label for="evidencia">Evidencia</label>
-                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png" value="<?php echo htmlspecialchars($row['Evidencia']); ?>" />
+                  <label for="evidencia">
+                    Evidencia
+                    <br>
+                    <p class="secondary-button">Eligir Archivo</p>
+                  </label>
+                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png"><br>
                   <span id="ErrorEvidencia" class="error"></span>
                   <label for="evidencia">Evidencia actual</label>
                   <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia"">
@@ -252,7 +256,7 @@ $errorMsg = "Error desconocido";
                   <div class="icon">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                   </div>
-                  <h2 class="section-title">Error</h2>
+                  <h2 class="section-title">Error al buscar el reporte</h2>
                   <p><?php echo htmlspecialchars($errorMsg); ?></p>
                   <p>Por favor, verifique el folio e intente nuevamente.</p>
                 </div>
@@ -260,15 +264,15 @@ $errorMsg = "Error desconocido";
             </section>
           <?php endif; ?>
 
-          <!-- Error al validar el folio -->
         <?php else: ?>
+          <!-- Error al validar el folio -->
           <section class="report-section">
             <div class="report-content">
               <div class="report-container">
                 <div class="icon">
                   <i class="fa-solid fa-triangle-exclamation"></i>
                 </div>
-                <h2 class="section-title">Error</h2>
+                <h2 class="section-title">Error al Validar el Folio</h2>
                 <p><?php echo htmlspecialchars($errorMsg); ?></p>
                 <p>Por favor, intente nuevamente más tarde.</p>
               </div>
@@ -276,7 +280,7 @@ $errorMsg = "Error desconocido";
           </section>
         <?php endif; ?>
 
-      <!-- Sino mostrar el formulario de busqueda -->
+        <!-- Sino mostrar el formulario de busqueda -->
       <?php else: ?>
         <!-- Mensaje -->
         <section class="hero-section">
@@ -295,15 +299,15 @@ $errorMsg = "Error desconocido";
           </div>
         </section>
 
-        <script>loadFolio()</script>
         <!-- Seccion para buscar -->
         <section class="search-section">
           <div class="search-content">
             <h2 class="section-title">Buscar Reportes</h2>
-            <form id="buscar" method=GET action="" onsubmit="return validateSearch(this);" onchange="alert('hola')" onload="alert('hola')">
+            <form id="buscar" method=GET action="" onsubmit="return validateSearch(this); " onchange="saveFolio();">
               <input type="text" name="folio" id="folio" placeholder="Ingrese el Folio del reporte" maxlength="64" />
               <button type="submit" class="primary-button">Buscar</button>
               <span class="error" id="ErrorFolio"></span>
+              <a href="recuperar.php">¿Olvidaste tu folio?</a>
             </form>
           </div>
         </section>

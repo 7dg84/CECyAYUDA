@@ -77,11 +77,12 @@ class Denuncia {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
         $result = $stmt->get_result();
+        $stmt->close();
         return $result;
     }
 
     // Metodo para buscar una denuncia por folio
-    public function searchDenunciaBy($field, $operator, $value) {
+    public function searchDenunciaBy($field, $operator, $value, $order, $limit, $offset) {
         // Validar el campo y el operador
         $valid_fields = ['Folio', 'Descripcion', 'Fecha', 'Hora', 'Estado', 'Municipio', 'Calle', 'Colonia', 'Nombre', 'CURP', 'Correo', 'Numtelefono', 'Tipo', 'Verified', 'Status'];
         $valid_operators = ['=', '!=', '>', '<', '>=', '<=', 'LIKE'];
@@ -93,7 +94,7 @@ class Denuncia {
             die("Operador inválido: " . htmlspecialchars($operator));
         }
 
-        $sql = "SELECT * FROM denuncias WHERE `$field` $operator ?";
+        $sql = "SELECT * FROM denuncias WHERE $field $operator ? ORDER BY $order LIMIT ?";
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
@@ -104,12 +105,35 @@ class Denuncia {
             $value = "%$value%";
         }
 
-        $stmt->bind_param("s", $value);
+        $stmt->bind_param("si", $value, $limit);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
         $result = $stmt->get_result();
+        $stmt->close();
         return $result;
+    }
+
+    // Metodo para obtener la imagen de una denuncia
+    public function getDenunciaImage($folio) {
+        // Preparar y bind
+        $stmt = $this->conn->prepare("SELECT Evidencia FROM denuncias WHERE Folio = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("s", $folio);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        $stmt->close();
+        
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['Evidencia']; // Retorna la imagen
+        } else {
+            return null; // No se encontró la denuncia
+        }
     }
 
     // Metodo para verificar si esxiste una denuncia por folio
@@ -124,11 +148,12 @@ class Denuncia {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
         $result = $stmt->get_result();
+        $stmt->close();
         return $result->num_rows > 0; // Retorna true si existe, false si no
     }
 
     // Metodo para actualizar una denuncia
-    function updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo) {
+    public function updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo) {
         // Preparar y bind
         $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ? WHERE Folio = ?");
         if ($stmt === false) {
@@ -142,7 +167,7 @@ class Denuncia {
     }
 
     // Metodo para actualizar una denuncia con archivo
-    function updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
+    public function updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
         // Preparar y bind
         $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ?, Evidencia = ? WHERE Folio = ?");
         if ($stmt === false) {
@@ -156,7 +181,7 @@ class Denuncia {
     }
 
     // Metodo para actualizar una denuncia desde el admin
-    function updateDenunciaBy($folio, $status, $verify) {
+    public function updateDenunciaBy($folio, $status, $verify) {
         // Preparar y bind
         $stmt = $this->conn->prepare("UPDATE denuncias SET `Status`=?, `Verified`=? WHERE Folio = ?");
         if ($stmt === false) {
@@ -170,7 +195,7 @@ class Denuncia {
     }
 
     // Metodo para eliminar una denuncia
-    function deleteDenuncia($folio) {
+    public function deleteDenuncia($folio) {
         // Preparar y bind
         $stmt = $this->conn->prepare("DELETE FROM denuncias WHERE Folio = ?");
         if ($stmt === false) {
@@ -184,7 +209,7 @@ class Denuncia {
     }
 
     // Metodo para verificar si el email de la denuncia esta verificado
-    function isEmailVerified($folio) {
+    public function isEmailVerified($folio) {
         // Preparar y bind
         $stmt = $this->conn->prepare("SELECT Verified FROM denuncias WHERE Folio = ?");
         if ($stmt === false) {
@@ -201,10 +226,11 @@ class Denuncia {
         } else {
             return false; // La denuncia no existe
         }
+        $stmt->close();
     }
 
     // Metodo para verificar una denuncia
-    function verifyDenuncia($folio) {
+    public function verifyDenuncia($folio) {
         // Preparar y bind
         $stmt = $this->conn->prepare("UPDATE denuncias SET Verified = 1 WHERE Folio = ?");
         if ($stmt === false) {
@@ -221,7 +247,7 @@ class Denuncia {
     }
 
     // Metodo para cambiar el status de una denuncia
-    function changeStatus($folio, $status) {
+    public function changeStatus($folio, $status) {
         // Preparar y bind
         $stmt = $this->conn->prepare("UPDATE denuncias SET Status = ? WHERE Folio = ?");
         if ($stmt === false) {
@@ -235,7 +261,7 @@ class Denuncia {
     }
 
     // Metodo para obtener todas las denuncias
-    function getAllDenuncias() {
+    public function getAllDenuncias() {
         // Preparar y bind
         $stmt = $this->conn->prepare("SELECT * FROM denuncias");
         if ($stmt === false) {
@@ -245,11 +271,12 @@ class Denuncia {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
         $result = $stmt->get_result();
+        $stmt->close();
         return $result;
     }
 
     // Metodo para obtener algunas las denuncias
-    function getDenuncias($n) {
+    public function getDenuncias($n) {
         // Preparar y bind
         $stmt = $this->conn->prepare("SELECT * FROM denuncias LIMIT ?");
         if ($stmt === false) {
@@ -260,7 +287,36 @@ class Denuncia {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
         $result = $stmt->get_result();
+        $stmt->close();
         return $result;
+    }
+
+    // Metodo para buscar un folio de denuncia por datos del denunciante
+    public function searchFolio($nombre, $curp, $correo, $telefono) {
+        // Sanitizar los datos
+        $nombre = self::sanitize($nombre);
+        $curp = self::sanitize($curp);
+        $correo = self::sanitize($correo);
+        $telefono = self::sanitize($telefono);
+
+        // Preparar y bind
+        $stmt = $this->conn->prepare("SELECT Folio, Correo, Verified, Nombre FROM denuncias WHERE Nombre = ? AND CURP = ? AND Correo = ? AND Numtelefono = ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("ssss", $nombre, $curp, $correo, $telefono);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        $stmt->close();
+        // Verificar si se encontró el folio
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $result; // Retorna los datos
+        } else {
+            return null; // No se encontró el folio
+        }
     }
 }
 

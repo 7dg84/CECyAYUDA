@@ -35,16 +35,19 @@ function validateSearch() {
 function saveFolio(){
     folio = document.getElementById('folio').value;
     // Guardar el dato
-    s = window.localStorage;
-    s.setItem('folio', folio);
+    localStorage.setItem('folio', folio);
 }
 
 // Funcion para cargar el Folio
 function loadFolio() {
     folio = document.getElementById('folio');
-    s = window.localStorage;
-    folio.innerText = s.getItem('folio') ?? '';
+    folio.value = localStorage.getItem('folio') ?? '';
 }
+
+// Cargar el folio al cargar la pagina
+window.addEventListener("DOMContentLoaded", function() {
+    loadFolio();
+})
 
 // Funcion para limpiar los mensajes de error
 function clearError(){

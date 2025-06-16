@@ -192,8 +192,8 @@ function typeSearch(form) {
             <label for="value">Valor:</label>
             <select name="value" id="value">
                 ${config.value.options.map(opt =>
-                    `<option value="${opt.value}"${opt.disabled ? " disabled" : ""}${opt.selected ? " selected" : ""}>${opt.text}</option>`
-                ).join('')}
+            `<option value="${opt.value}"${opt.disabled ? " disabled" : ""}${opt.selected ? " selected" : ""}>${opt.text}</option>`
+        ).join('')}
             </select>
         `;
     } else {
@@ -207,9 +207,10 @@ function typeSearch(form) {
     }
 }
 
-function openActionsDialog(folio) {
+function openActionsDialog(folio, verify) {
     const dialog = window.actions;
     const folioInput = document.getElementById('actionfolio');
+    document.getElementById('verify').checked = verify;
     folioInput.value = folio;
     dialog.showModal();
 }
@@ -225,6 +226,33 @@ function openDeleteDialog(folio) {
     dialog.showModal();
 }
 function closeDeleteDialog() {
-    const dialog = window.actions;
+    const dialog = window.delete;
+    dialog.close();
+}
+
+function openImageDialog(folio) {
+    const dialog = window.imageDialog;
+    console.log(folio);
+    fetch('api.php?action=getImage&folio=' + folio)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const image = document.getElementById('imagePreview');
+                image.src = "data:image/png;base64, " + data.value;
+            } else {
+                alert('Error al obtener la imagen: ' + data.message);
+            }
+        }).catch(error => {
+            console.error('Error fetching image:', error);
+            alert('Error al obtener la imagen.');
+        });
+    dialog.showModal();
+}
+
+function closeImageDialog() {
+    const image = document.getElementById('imagePreview');
+    image.src = "";
+    image.alt = "No hay imagen disponible";
+    const dialog = window.imageDialog;
     dialog.close();
 }

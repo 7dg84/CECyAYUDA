@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+    font: 1em sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    background-color: #11decdbc;
+    color: white;
+    padding: 10px 20px;
+}
+
+header h1 {
+    flex: .5;
+    margin: 0;
+    font-size: 2rem
+}
+
+heder p {
+    flex: 1;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+nav {
+    flex: 1;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+.evidencia-img {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+}

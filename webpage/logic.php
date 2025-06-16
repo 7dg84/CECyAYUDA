@@ -42,19 +42,20 @@ function saveReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $coloni
 }
 
 // Funcion para validar los datos del formulario
+function validate($field, $pattern = null)
+{
+    if (empty($field)) {
+        return false;
+    }
+    if ($pattern != null) {
+        return preg_match($pattern, $field);
+    }
+}
+
+// Funcion para validar los datos del formulario
 function validateData($requiereFile = true)
 {
     global $errorMsg;
-    // Funcion para validar los datos del formulario
-    function validate($field, $pattern = null)
-    {
-        if (empty($field)) {
-            return false;
-        }
-        if ($pattern != null) {
-            return preg_match($pattern, $field);
-        }
-    }
     // Verificar metodo de envio
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         $errorMsg = "Método de envío no permitido.";
@@ -289,6 +290,101 @@ function updateReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $colo
         return true;
     } catch (Exception $e) {
         $errorMsg = "Error\n" . htmlspecialchars($e->getMessage());
+        return false;
+    }
+}
+
+
+// Verificar si se han proporcionado los datos de recuperación
+function ckeckDataRecovery()
+{
+    // Verificar si se han enviado los datos del formulario
+    return $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nombre'], $_POST['curp'], $_POST['correo'], $_POST['telefono']);
+}
+
+function validateRecoveryData()
+{
+    global $errorMsg;
+    // Verificar metodo de envio
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $errorMsg = "Método de envío no permitido.";
+        return false;
+    }
+    // Validar los campos del formulario de recuperación
+    if (!validate($_POST['nombre'], "/^[a-zA-Z\s]+$/")) {
+        $errorMsg = ("Campo 'Nombre' inválido.");
+        return false;
+    }
+    if (!validate($_POST['curp'], "/^[A-Z]{4}[0-9]{6}[\w]{8}$/")) {
+        $errorMsg = ("Campo 'CURP' inválido.");
+        return false;
+    }
+    if (!validate($_POST['correo'], "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/")) {
+        $errorMsg = ("Campo 'Correo' inválido.");
+        return false;
+    }
+    if (!validate($_POST['telefono'], "/^\d{10}$/")) {
+        $errorMsg = ("Campo 'Teléfono' inválido.");
+        return false;
+    }
+    return true;
+}
+
+// Buscar el folio en la base de datos
+function searchReport()
+{
+    global $errorMsg;
+    try {
+        // Crear una instancia de la clase Database
+        $database = new Denuncia();
+        // Buscar el folio en la base de datos
+        $result = $database->searchFolio($_POST['nombre'], $_POST['curp'], $_POST['correo'], $_POST['telefono']);
+        // Cerrar la conexión a la base de datos
+        $database->closeConnection();
+        // Verificar si se encontró el folio
+        if (!$result) {
+            // Si no se encontró el folio, retornar null
+            $errorMsg = "No se encontró un reporte con los datos proporcionados.";
+            return false;
+        }
+        // Si se encontró el folio, retornar el folio
+        $folios = [];
+        while ($row = $result->fetch_assoc()) {
+            // Verificar si el correo esta verificado
+            if ($row['Verified'] == 1) {
+                // Si el correo esta verificado, agregar el folio al array
+                $folios[] = $row;
+            }
+        }
+        // Si no se encontraron folios verificados, retornar false
+        if (empty($folios)) {
+            // Si el correo no esta verificado, retornar false
+            $errorMsg = "El correo electrónico no ha sido verificado. No se puede recuperar el folio.";
+        }
+        // Enviar el correo con los filios encontrados
+        if (!sendRecoveryEmail($folios)) {
+            // Si no se pudo enviar el correo de verificación, retornar false
+            return false;
+        }
+        return true;
+    } catch (Exception $e) {
+        $errorMsg = "Error al buscar el folio: " . htmlspecialchars($e->getMessage());
+        return false;
+    }
+}
+
+// Enviar el correo con el folio
+function sendRecoveryEmail($folios)
+{
+    global $errorMsg;
+    try {
+        // Enviar el correo con el folio
+        foreach ($folios as $folio) {
+            sendFolioEmail($folio['Nombre'], $folio['Folio'], $folio['Correo']);
+        }
+        return true;
+    } catch (Exception $e) {
+        $errorMsg = "Error al enviar el correo con el folio: " . htmlspecialchars($e->getMessage());
         return false;
     }
 }

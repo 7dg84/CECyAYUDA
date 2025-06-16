@@ -70,9 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code'])) {
     $code = rand(100000, 999999);
     $_SESSION['verification_code'] = $code;
     $_SESSION['code_expiry'] = time() + 600; // 10 
-    if ($adminEmail === 'admin') {
+    if ($adminEmail === '') {
         $_SESSION['verification_code'] = $code;
         $msg = "Porfavor cambia el correo del administrador en la configuración.";
+        $_SESSION['is_auth'] = true;
     } else {
         if (send_verification_code($adminEmail, $code)) {
             $msg = "Código enviado al correo del administrador.";
@@ -161,6 +162,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
     <title>Cambiar Credenciales de Administrador</title>
 </head>
 <body>
+    <header>
+        <h1>Panel de Administracion</h1>
+        <p>Usuario: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+    <nav>
+        <ul>
+            <li><a href="main.php">Inicio</a></li>
+            <li><a href="change_password.php">Cambiar Contraseña</a></li>
+            <li><a href="logout.php">Cerrar Sesión</a></li>
+        </ul>
+    </header>
     <h2>Cambiar Credenciales de Administrador</h2>
     <?php if (isset($msg)): ?>
         <div class="msg"><?= htmlspecialchars($msg) ?></div>
@@ -193,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             
             <h2>Configuracion de Correo</h2>
             <label for="mail_key">Llave de encriptacion para correos de verificacion:</label>
-            <input type="text" id="mail_key" name="mail_key" value="<?= htmlspecialchars($config['mail']['key']) ?>" required>
+            <input type="text" id="mail_key" name="mail_key" value="<?= htmlspecialchars($config['mail']['enckey']) ?>" required>
             <br>
             <label for="mail_host">Host:</label>
             <input type="text" id="mail_host" name="mail_host" value="<?= htmlspecialchars($config['mail']['host']) ?>" required>
@@ -211,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             <input type="text" id="mail_url" name="mail_url" value="<?= htmlspecialchars($config['mail']['url']) ?>" required>
 
             <label for="verification_code">Código de Verificación:</label>
-            <?php if ($config['admin']['email'] === 'admin'): ?>
+            <?php if ($config['admin']['email'] === ''): ?>
                 <input type="text" id="verification_code" name="verification_code" value="<?= htmlspecialchars($_SESSION['verification_code']) ?>" readonly>
             <?php else: ?>
                 <input type="text" id="verification_code" name="verification_code" required>
