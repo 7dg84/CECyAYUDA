@@ -129,7 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_credentials'])
                 unset($_SESSION['verification_code']);
                 unset($_SESSION['code_expiry']);
                 unset($_SESSION['is_auth']);
-                header("Location: main.php");
+                echo "<div class='success'>Configuración guardada correctamente.</div>";
+                // Redirect to main page or another page
+                echo "<a href='main.php'>Volver al inicio</a>";
                 exit;
             } else {
                 echo "<div class='error'>Error al guardar la configuración.</div>";

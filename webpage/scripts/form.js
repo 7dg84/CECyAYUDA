@@ -92,7 +92,7 @@ function validateForm() {
         'Zacatecas'
     ];
     if (!estados.includes(window.Report.estado.value)) {
-        alert(window.Report.estado.value)
+        alert("Error")
         showError("ErrorEstado", "Por favor, ingrese un estado válido.");
         valid = false;
     }
