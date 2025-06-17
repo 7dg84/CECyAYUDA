@@ -14,11 +14,11 @@
         "enckey": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",
         "host": "smtp.gmail.com",
         "port": 587,
-        "user": "dragonflycodes5@gmail.com",
-        "password": "gsdw cnqr tlta ksft",
+        "user": "",
+        "password": "",
         "from": [
-            "dragonflycodes5@gmail.com",
-            "DragonFly Codes"
+            "",
+            ""
         ],
         "url": "192.168.0.100"
     }
