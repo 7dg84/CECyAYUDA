@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_credentials'])
                 'email' => $ademail
             ];
             $config['mail'] = [
-                'key' => $mail_key,
+                'enckey' => $mail_key,
                 'host' => $mail_host,
                 'port' => (int)$mail_port,
                 'user' => $mail_user,

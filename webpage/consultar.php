@@ -228,8 +228,11 @@ $errorMsg = "Error desconocido";
                     Evidencia
                     <br>
                     <p class="secondary-button">Eligir Archivo</p>
+                    <br>
+                    <p class="file-info" id="fileName"></p>
+                    <br>
                   </label>
-                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png"><br>
+                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png" oninput="updateFileName(this);"><br>
                   <span id="ErrorEvidencia" class="error"></span>
                   <label for="evidencia">Evidencia actual</label>
                   <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia"">

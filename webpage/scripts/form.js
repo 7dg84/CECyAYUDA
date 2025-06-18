@@ -18,6 +18,7 @@ function clearError(){
     document.getElementById("ErrorCorreo").innerText = "";
     document.getElementById("ErrorTelefono").innerText = "";
     document.getElementById("ErrorTipo").innerText = "";
+    document.getElementById("ErrorEvidencia").innerText = "";
     document.getElementById("ErrorTerminos").innerText = "";
 }
 
@@ -92,7 +93,6 @@ function validateForm() {
         'Zacatecas'
     ];
     if (!estados.includes(window.Report.estado.value)) {
-        alert("Error")
         showError("ErrorEstado", "Por favor, ingrese un estado válido.");
         valid = false;
     }
@@ -193,4 +193,13 @@ function soloLetras(e) {
 // Funcion para solo escribir numeros en el telefono
 function soloNumeros(e) {
     e.value = e.value.replace(/[^0-9]/g, '');
+}
+
+// Funcion para actualizar el nombre del archivo de evidencia
+function updateFileName(input) {
+    // Obtener el nombre del archivo seleccionado
+    var fileName = input.files && input.files[0] ? input.files[0].name : "";
+    
+    // Actualizar el texto del elemento con el ID 'fileName'
+    document.getElementById("fileName").innerText = fileName ? "Archivo seleccionado: " + fileName : "No se ha seleccionado ningún archivo.";
 }
