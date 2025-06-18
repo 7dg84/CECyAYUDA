@@ -11,7 +11,13 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 // Conectar a la base de datos
-$database = new Denuncia();
+try {
+    $database = new Denuncia();
+} catch (Exception $e) {
+    die("Error al conectar a la base de datos:
+    <a href='logout.php'>Cerrar Sesion </a><br>
+    <a href='change_password.php'>cambiar Contraseña</a><br> " . htmlspecialchars($e->getMessage()));
+}
 
 // Modificar la denuncia
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

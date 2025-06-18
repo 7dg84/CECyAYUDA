@@ -64,6 +64,7 @@ function clearError(){
     document.getElementById("ErrorCorreo").innerText = "";
     document.getElementById("ErrorTelefono").innerText = "";
     document.getElementById("ErrorTipo").innerText = "";
+    document.getElementById("ErrorEvidencia").innerText = "";
 }
 
 // Funcion para validar campos
@@ -196,7 +197,7 @@ function validateForm() {
     // Validar el archivo de evidencia
     let evidencia = window.Report.evidencia;
     // Verificar si el campo 'evidencia' está vacío
-    if (evidencia.value == "") {
+    if (evidencia.value != "") {
         // Verificar si el campo 'evidencia' tiene un tamaño máximo de 2MB
         if (evidencia.files && evidencia.files[0] && evidencia.files[0].size > 2 * 1024 * 1024) {
             showError("ErrorEvidencia", "El archivo de evidencia no debe exceder los 2MB.");
@@ -249,4 +250,13 @@ function updateDenuncia(){
         // Enviar el formulario
         form.submit()
     }
+}
+
+// Funcion para actualizar el nombre del archivo de evidencia
+function updateFileName(input) {
+    // Obtener el nombre del archivo seleccionado
+    var fileName = input.files && input.files[0] ? input.files[0].name : "";
+    
+    // Actualizar el texto del elemento con el ID 'fileName'
+    document.getElementById("fileName").innerText = fileName ? "Archivo seleccionado: " + fileName : "No se ha seleccionado ningún archivo.";
 }

@@ -115,7 +115,7 @@ function sendEmail($nombre, $folio, $curp, $correo) {
     $mail->Port = $config['mail']['port']; // Puerto SMTP (587 para TLS)
 
     // Remitente y destinatario
-    $mail->setFrom($config['mail']['from'][0], $config['mail']['from'][0]); // Tu nombre
+    $mail->setFrom($config['mail']['from'][0], $config['mail']['from'][1]); // Tu nombre
     $mail->addAddress($correo, $nombre);
 
     // Contenido del correo
