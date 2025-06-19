@@ -45,44 +45,6 @@ CREATE TABLE IF NOT EXISTS `denuncias` (
   PRIMARY KEY (`Folio`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarios`
---
-
-CREATE TABLE IF NOT EXISTS `usuarios` (
-  `Nombre` varchar(20) NOT NULL,
-  `ApellidoP` varchar(20) NOT NULL,
-  `ApellidoM` varchar(20) NOT NULL,
-  `CURP` varchar(18) NOT NULL,
-  `Edad` int(3) NOT NULL,
-  `Sexo` varchar(10) NOT NULL,
-  `FechaNac` date NOT NULL,
-  `Estado` varchar(100) NOT NULL,
-  `Municipio` varchar(100) NOT NULL,
-  `Colonia` varchar(100) NOT NULL,
-  `Calle` varchar(100) NOT NULL,
-  `NoExterior` int(3) NOT NULL,
-  `NoInterior` int(5) NOT NULL,
-  PRIMARY KEY (`CURP`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `admins`
---
-
-CREATE TABLE IF NOT EXISTS `admins` (
-  `User` varchar(20) NOT NULL,
-  `Password` varchar(20) NOT NULL,
-  `Rol` varchar(20) NOT NULL,
-  PRIMARY KEY (`User`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

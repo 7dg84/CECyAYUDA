@@ -102,6 +102,12 @@ input[type="time"] {
     }
 }
 
+@media (max-width: 768px){
+    .report-content form, .report-container {
+        margin: 0;
+    }
+}
+
 .report-content .radio-container {
     display: flex;
     gap: 5px;

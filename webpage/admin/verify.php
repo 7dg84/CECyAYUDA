@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -11,7 +12,8 @@ $default_encryption_key = $config['mail']['enckey']; // Clave de encriptación p
 $encryption_method = 'AES-256-CBC'; // Método de cifrado
 
 // Generar token en base a la información que expira en una hora
-function genToken($folio, $curp, $correo) {
+function genToken($folio, $curp, $correo)
+{
     global $default_encryption_key, $encryption_method;
 
     $expiration = time() + 3600; // Expira en una hora
@@ -36,7 +38,8 @@ function genToken($folio, $curp, $correo) {
 }
 
 // Verificar el token
-function verifyToken($token) {
+function verifyToken($token)
+{
     global $default_encryption_key, $encryption_method, $errorMsg;
 
     try {
@@ -101,7 +104,8 @@ function verifyToken($token) {
 }
 
 // Enviar el correo con el token
-function sendEmail($nombre, $folio, $curp, $correo) {
+function sendEmaildep($nombre, $folio, $curp, $correo)
+{
     global $config;
     $mail = new PHPMailer(true);
 
@@ -130,7 +134,7 @@ function sendEmail($nombre, $folio, $curp, $correo) {
     <body>
         <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
         <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
-        <p><a href=\"'.$config['mail']['url'].'/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
+        <p><a href=\"' . $config['mail']['url'] . '/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
         <p>Si no puedes hacer clic en el enlace, copia y pega la siguiente URL en tu navegador:</p>
         <p>' . htmlspecialchars($config['mail']['url']) . '/verify.php?token=' . urlencode($token) . '</p>
         <br>
@@ -142,13 +146,52 @@ function sendEmail($nombre, $folio, $curp, $correo) {
     </body>
     </html>
     ';
-    $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: '. $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes';
+    $mail->AltBody = 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: ' . $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes';
 
     $mail->send();
 }
 
+function sendEmail($nombre, $folio, $curp, $correo)
+{
+    require __DIR__ . '/vendor/autoload.php';
+    global $config;
+
+    // Contenido del correo
+    $token = genToken($folio, $curp, $correo);
+    
+    $resend = Resend::client('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6');
+
+    $resend->emails->send([
+        'from' => $config['mail']['from'][1] . $config['mail']['from'][0],
+        'to' => [$correo],
+        'subject' => 'Verifica tu cuenta de correo',
+        'html' => '
+    <html>
+    <head>
+        <title>Verificación de Correo Electrónico</title>
+    </head>
+    <body>
+        <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
+        <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
+        <p><a href=\"' . $config['mail']['url'] . '/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
+        <p>Si no puedes hacer clic en el enlace, copia y pega la siguiente URL en tu navegador:</p>
+        <p>' . htmlspecialchars($config['mail']['url']) . '/verify.php?token=' . urlencode($token) . '</p>
+        <br>
+        <p>Si no solicitaste esta verificación, puedes ignorar este mensaje.</p>
+        <p>Este enlace expirará en 1 hora.</p>
+        <br>
+        <p>Atentamente,</p>
+        <p>El equipo de DragonFly Codes</p>
+    </body>
+    </html>
+    ',
+    'text'=>'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: ' . $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes'
+    ]);
+}
+
 // Funcion para envial un correo con folios encontrados
-function sendFolioEmail($nombre, $folio, $correo) {
+function sendFolioEmaildep($nombre, $folio, $correo)
+{
     global $config;
     $mail = new PHPMailer(true);
 
@@ -189,4 +232,35 @@ function sendFolioEmail($nombre, $folio, $correo) {
 
     return $mail->send();
 }
-?>
+
+function sendFolioEmail($nombre, $folio, $correo)
+{
+    require __DIR__ . '/vendor/autoload.php';
+    global $config;
+
+    // Contenido del correo    
+    $resend = Resend::client('re_cvNywNbY_KqsPYLW24FhZuKfekw6YXWM3');
+    $resend->emails->send([
+        'from' => $config['mail']['from'][1] . $config['mail']['from'][0],
+        'to' => [$correo],
+        'subject' => 'Folio Recuperado',
+        'html' => '
+        <html>
+    <head>
+        <title>Folio Recuperado</title>
+    </head>
+    <body>
+        <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
+        <p>Tu folio ha sido recuperado exitosamente.</p>
+        <p>Folio: ' . htmlspecialchars($folio) . '</p>
+        <br>
+        <p>Consulta el estado de tu reporte en cualquier momento.</p>
+        <a href="' . htmlspecialchars($config['mail']['url']) . '/consultar.php?folio=' . urlencode($folio) . '">Consultar Reporte</a>
+        <p>Atentamente,</p>
+        <p>El equipo de DragonFly Codes</p>
+    </body>
+    </html>
+    ',
+    'text'=>'Hola, ' . htmlspecialchars($nombre) . '! Tu folio ha sido recuperado exitosamente. Folio: ' . htmlspecialchars($folio) . ' Atentamente, El equipo de DragonFly Codes'
+    ]);
+}

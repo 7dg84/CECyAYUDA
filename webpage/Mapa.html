@@ -4,17 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Un documento simple con marcos</title>
+    <title>Mapa de casos de violencia en chimalhuacan</title>
 
     <link rel="stylesheet" href="styles/map.css">
+    <script src="scripts/mapa.js"></script>
 </head>
 <main>
-<!--Los "frameset", nos sirven para incrustar diferentes paginas a una pagina. -->
-<frameset cols="358%,100%" noresize>
-    <frame name="mapa" title="mapa" src="chimalhuacan(map).html"></frame>
-    <frame name="contenido" title="contenido" src="Selecionar.html"></frame>
+    <!--Los "frameset", nos sirven para incrustar diferentes paginas a una pagina. -->
+    <frameset id="mapa" noresize>
+        <frame name="mapa" title="mapa" src="chimalhuacan(map).html"></frame>
+        <frame name="contenido" title="contenido" src="Selecionar.html"></frame>
 
-</frameset>
+    </frameset>
 </main>
 
 </html>
