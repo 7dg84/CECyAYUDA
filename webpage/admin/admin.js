@@ -259,3 +259,46 @@ function closeImageDialog() {
     const dialog = window.imageDialog;
     dialog.close();
 }
+
+function saveConfigSearch(e) {
+    if (e.field.value === "Default") {
+        localStorage.setItem('searchConfig', JSON.stringify({
+            field: e.field.value,
+            operator: "",
+            value: "",
+            num_records: e.num_records.value,
+            order: e.order.value
+        }));
+    } else {
+        localStorage.setItem('searchConfig', JSON.stringify({
+            field: e.field.value,
+            operator: e.operator.value,
+            value: e.value.value,
+            num_records: e.num_records.value,
+            order: e.order.value
+        }));
+    }
+}
+
+function resetSearchConfig() {
+    localStorage.removeItem('searchConfig');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    let searchConfig = JSON.parse(localStorage.getItem('searchConfig'))
+    const searchForm = document.getElementById('searchForm');
+    
+    if (!searchConfig) {
+        return;
+    }
+    // Initialize search form elements
+    searchForm.field.value = searchConfig.field || "Folio"; 
+    // Initialize search form
+    typeSearch(searchForm);
+    searchForm.num_records.value =  searchConfig.num_records || "20";
+    searchForm.order.value = searchConfig.order || "Folio";  
+    if (searchConfig.field !== "Default") {
+        searchForm.operator.value = searchConfig.operator || "=";
+        searchForm.value.value = searchConfig.value || "";
+    }    
+});

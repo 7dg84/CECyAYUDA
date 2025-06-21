@@ -180,7 +180,7 @@ function renderDeleteButton($folio)
             border: 2px solid #11decdbc;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
             width: 100%;
-            max-width: 600px;   
+            max-width: 600px;
             left: 70%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -215,6 +215,14 @@ function renderDeleteButton($folio)
             max-height: 400px;
             border-radius: 8px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        dialog input,
+        dialog select {
+            padding: 0.5rem 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
         }
 
         @media (max-width: 900px) {
@@ -264,7 +272,7 @@ function renderDeleteButton($folio)
     <h1>Busca Registros</h1>
 
     <!-- Buscar -->
-    <form method="get" action="" id="searchForm" onchange="typeSearch(this)">
+    <form method="get" action="" id="searchForm" onchange="typeSearch(this); saveConfigSearch(this)">
         <label for="field">Buscar:</label>
         <select name="field" id="field">
             <option value="Default" selected>Seleccionar campo</option>
@@ -309,9 +317,10 @@ function renderDeleteButton($folio)
             <option value="Status">Status</option>
             <option value="Created">Fecha de Creación</option>
         </select>
+        <br>
 
         <button type="submit">Buscar</button>
-        <button type="reset" onclick="searchFormlastValue = ''; window.location.href = 'main.php';">Limpiar</button>
+        <button type="reset" onclick="resetSearchConfig(); searchFormlastValue = ''; window.location.href = 'main.php';">Limpiar</button>
 
     </form>
     <!-- Tabala con los registros -->
@@ -340,45 +349,86 @@ function renderDeleteButton($folio)
         </tr>
         <?php
         $max = isset($_GET['num_records']) ? (int)$_GET['num_records'] : 20;
+        // Si no se ha definido $_SESSION['last_search'], inicializarla
+        if (!isset($_SESSION['last_search']) || !is_array($_SESSION['last_search'])) {
+            $_SESSION['last_search'] = [
+            'field' => 'Default',
+            'operator' => '',
+            'value' => '',
+            'num_records' => $max,
+            'order' => 'Folio'
+        ];
+        }
+        $last_search = $_SESSION['last_search'];
 
         // Buscar denuncias usando switch para evaluar los casos posibles
         switch (true) {
             // Caso: búsqueda avanzada con campo, operador, valor, num_records y order
             case ($_SERVER['REQUEST_METHOD'] == 'GET'
-            && isset($_GET['field'], $_GET['operator'], $_GET['value'], $_GET['num_records'], $_GET['order'])
-            && $_GET['field'] != 'Default'):
-            $field = htmlspecialchars($_GET['field']);
-            $operator = htmlspecialchars($_GET['operator']);
-            $value = htmlspecialchars($_GET['value']);
-            $num_records = max(1, min((int)$_GET['num_records'], 100));
-            $order = htmlspecialchars($_GET['order']);
-            $row = $database->searchDenunciaBy($field, $operator, $value, $order, $num_records, 0);
-            break;
+                && isset($_GET['field'], $_GET['operator'], $_GET['value'], $_GET['num_records'], $_GET['order'])
+                && $_GET['field'] != 'Default'):
+                $field = htmlspecialchars($_GET['field']);
+                $operator = ($_GET['operator']);
+                $value = ($_GET['value']);
+                $num_records = max(1, min((int)$_GET['num_records'], 100));
+                $order = ($_GET['order']);
+                $row = $database->searchDenunciaBy($field, $operator, $value, $order, $num_records, 0);
+                $_SESSION['last_search'] = [
+                    'field' => $field,
+                    'operator' => $operator,
+                    'value' => $value,
+                    'num_records' => $num_records,
+                    'order' => $order
+                ];
+                break;
 
             // Caso: solo num_records y order (ordenar sin búsqueda)
             case ($_SERVER['REQUEST_METHOD'] == 'GET'
-            && isset($_GET['num_records'], $_GET['order'])
-            && (!isset($_GET['field']) || $_GET['field'] == 'Default')):
-            $num_records = max(1, min((int)$_GET['num_records'], 100));
-            $order = htmlspecialchars($_GET['order']);
-            $row = $database->getDenunciasWithOrder($num_records, $order);
-            break;
+                && isset($_GET['num_records'], $_GET['order'])
+                && (!isset($_GET['field']) || $_GET['field'] == 'Default')):
+                $num_records = max(1, min((int)$_GET['num_records'], 100));
+                $order = htmlspecialchars($_GET['order']);
+                $row = $database->getDenunciasWithOrder($num_records, $order);
+                $_SESSION['last_search'] = [
+                    'num_records' => $num_records,
+                    'order' => $order
+                ];
+                break;
 
             // Caso: solo num_records (sin búsqueda ni orden)
             case ($_SERVER['REQUEST_METHOD'] == 'GET'
-            && isset($_GET['num_records'])
-            && (!isset($_GET['order']) || empty($_GET['order']))
-            && (!isset($_GET['field']) || $_GET['field'] == 'Default')):
-            $num_records = max(1, min((int)$_GET['num_records'], 100));
-            $row = $database->getDenuncias($num_records);
-            break;
+                && isset($_GET['num_records'])
+                && (!isset($_GET['order']) || empty($_GET['order']))
+                && (!isset($_GET['field']) || $_GET['field'] == 'Default')):
+                $num_records = max(1, min((int)$_GET['num_records'], 100));
+                $row = $database->getDenuncias($num_records);
+                $_SESSION['last_search'] = [
+                    'num_records' => $num_records
+                ];
+                break;
+            
+            // Caso: ultima búsqueda guardada avanzada
+            case ($last_search['field'] != 'Default' && isset($last_search['field'], $last_search['operator'], $last_search['value'], $last_search['num_records'], $last_search['order'])):
+                $field = htmlspecialchars($last_search['field']);
+                $operator = ($last_search['operator']);
+                $value = ($last_search['value']);
+                $num_records = max(1, min((int)$last_search['num_records'], 100));
+                $order = ($last_search['order']);
+                $row = $database->searchDenunciaBy($field, $operator, $value, $order, $num_records, 0);
+                break;
 
+            // Caso: última búsqueda guardada sin campo (solo num_records y order)
+            case ($last_search['field'] === 'Default' && isset($last_search['num_records'], $last_search['order'])
+                && (!isset($last_search['field']) || $last_search['field'] == 'Default')):
+                $num_records = max(1, min((int)$last_search['num_records'], 100));
+                $order = htmlspecialchars($last_search['order']);
+                $row = $database->getDenunciasWithOrder($num_records, $order);
+                break;
             // Caso por defecto: mostrar 20 registros
             default:
-            $row = $database->getDenuncias(20);
-            break;
+                $row = $database->getDenuncias(20);
+                break;
         }
-
         // Mostrar los registros en la tabla
         if ($row->num_rows > 0) {
 

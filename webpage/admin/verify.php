@@ -12,6 +12,9 @@ function genToken($folio, $curp, $correo)
     $config = new Config(); // Cargar la configuración
 
     $default_encryption_key = $config['mail']['enckey']; // Clave de encriptación por defecto
+    if (empty($default_encryption_key)) {
+        throw new Exception("La clave de encriptación no está configurada.");
+    }
     $encryption_method = 'AES-256-CBC'; // Método de cifrado
 
     $expiration = time() + 3600; // Expira en una hora
@@ -43,6 +46,10 @@ function verifyToken($token)
         $config = new Config(); // Cargar la configuración
 
         $default_encryption_key = $config['mail']['enckey']; // Clave de encriptación por defecto
+        if (empty($default_encryption_key)) {
+            $errorMsg = "La clave de encriptación no está configurada.";
+            return false; // Clave de encriptación no configurada
+        }
         $encryption_method = 'AES-256-CBC'; // Método de cifrado
 
         // Decodificar el token (base64)
@@ -155,21 +162,32 @@ function sendEmaildep($nombre, $folio, $curp, $correo)
 
 function sendEmail($nombre, $folio, $curp, $correo)
 {
-    global $errorMsg;
-    try {
-        require __DIR__ . '/vendor/autoload.php';
-        $config = new Config(); // Cargar la configuración
+    require __DIR__ . '/vendor/autoload.php';
+    $config = new Config(); // Cargar la configuración
+    // Verificar que la configuración de correo esté completa
+    if (
+        empty($config['mail']['host']) ||
+        empty($config['mail']['user']) ||
+        empty($config['mail']['password']) ||
+        empty($config['mail']['from']) ||
+        !is_array($config['mail']['from']) ||
+        empty($config['mail']['from'][0]) ||
+        empty($config['mail']['from'][1]) ||
+        empty($config['mail']['url'])
+    ) {
+        throw new Exception("La configuración de correo no está completa.");
+    }
 
-        // Contenido del correo
-        $token = genToken($folio, $curp, $correo);
+    // Contenido del correo
+    $token = genToken($folio, $curp, $correo);
 
-        $resend = Resend::client('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6');
+    $resend = Resend::client('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6');
 
-        $resend->emails->send([
-            'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
-            'to' => [$correo],
-            'subject' => 'Verifica tu cuenta de correo',
-            'html' => '
+    $resend->emails->send([
+        'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
+        'to' => [$correo],
+        'subject' => 'Verifica tu cuenta de correo',
+        'html' => '
     <html>
     <head>
         <title>Verificación de Correo Electrónico</title>
@@ -189,12 +207,9 @@ function sendEmail($nombre, $folio, $curp, $correo)
     </body>
     </html>
     ',
-            'text' => 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: ' . $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes'
-        ]);
-    } catch (Exception $e) {
-        $errorMsg = "Error al enviar el correo: " . htmlspecialchars($e->getMessage());
-        return false; // Error al enviar el correo
-    }
+        'text' => 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: ' . $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes'
+    ]);
+
     return true; // Correo enviado exitosamente
 }
 
@@ -244,17 +259,29 @@ function sendFolioEmaildep($nombre, $folio, $correo)
 
 function sendFolioEmail($nombre, $folio, $correo)
 {
-    try {
-        require __DIR__ . '/vendor/autoload.php';
-        $config = new Config();
+    require __DIR__ . '/vendor/autoload.php';
+    $config = new Config();
+    // Verificar que la configuración de correo esté completa
+    if (
+        empty($config['mail']['host']) ||
+        empty($config['mail']['user']) ||
+        empty($config['mail']['password']) ||
+        empty($config['mail']['from']) ||
+        !is_array($config['mail']['from']) ||
+        empty($config['mail']['from'][0]) ||
+        empty($config['mail']['from'][1]) ||
+        empty($config['mail']['url'])
+    ) {
+        throw new Exception("La configuración de correo no está completa.");
+    }
 
-        // Contenido del correo    
-        $resend = Resend::client('re_cvNywNbY_KqsPYLW24FhZuKfekw6YXWM3');
-        $resend->emails->send([
-            'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
-            'to' => [$correo],
-            'subject' => 'Folio Recuperado',
-            'html' => '
+    // Contenido del correo    
+    $resend = Resend::client('re_cvNywNbY_KqsPYLW24FhZuKfekw6YXWM3');
+    $resend->emails->send([
+        'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
+        'to' => [$correo],
+        'subject' => 'Folio Recuperado',
+        'html' => '
         <html>
     <head>
         <title>Folio Recuperado</title>
@@ -271,11 +298,6 @@ function sendFolioEmail($nombre, $folio, $correo)
     </body>
     </html>
     ',
-            'text' => 'Hola, ' . htmlspecialchars($nombre) . '! Tu folio ha sido recuperado exitosamente. Folio: ' . htmlspecialchars($folio) . ' Atentamente, El equipo de DragonFly Codes'
-        ]);
-    } catch (Exception $e) {
-        global $errorMsg;
-        $errorMsg = "Error al enviar el correo: " . htmlspecialchars($e->getMessage());
-        return false; // Error al enviar el correo
-    }
+        'text' => 'Hola, ' . htmlspecialchars($nombre) . '! Tu folio ha sido recuperado exitosamente. Folio: ' . htmlspecialchars($folio) . ' Atentamente, El equipo de DragonFly Codes'
+    ]);
 }

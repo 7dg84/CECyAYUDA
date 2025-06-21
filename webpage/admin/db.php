@@ -85,13 +85,13 @@ class Denuncia {
     public function searchDenunciaBy($field, $operator, $value, $order, $limit, $offset) {
         // Validar el campo y el operador
         $valid_fields = ['Folio', 'Descripcion', 'Fecha', 'Hora', 'Estado', 'Municipio', 'Calle', 'Colonia', 'Nombre', 'CURP', 'Correo', 'Numtelefono', 'Tipo', 'Verified', 'Status'];
-        $valid_operators = ['=', '!=', '>', '<', '>=', '<=', 'LIKE'];
+        $valid_operators = ['=', '<>', '>', '<', '>=', '<=', 'LIKE'];
 
         if (!in_array($field, $valid_fields)) {
             die("Campo inválido: " . htmlspecialchars($field));
         }
         if (!in_array($operator, $valid_operators)) {
-            die("Operador inválido: " . htmlspecialchars($operator));
+            die("Operador inválido: " . ($operator));
         }
 
         $sql = "SELECT * FROM denuncias WHERE $field $operator ? ORDER BY $order LIMIT ?";

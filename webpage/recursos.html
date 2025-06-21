@@ -57,10 +57,11 @@
         <div class="buttons-content">
           <nav class="navbar-links-resources">
             <!-- <a href="#"><i class="fa-solid fa-house"></i>Inicio</a> -->
+            <a href="#Instituciones"><i class="fa-solid fa-building"></i>Instituciones</a>
             <a href="#Mapa"><i class="fa-solid fa-map-location-dot"></i>Mapa</a>
-            <a href="#Infografia"><i class="fa-solid fa-circle-info"></i>Infografia</a>
-            <a href="#Cuestionario"><i class="fa-solid fa-circle-question"></i>Infografia</a>
-            <a href="#manual"><i class="fa-solid fa-book"></i>Manual</a>
+            <a href="#Cuestionario"><i class="fa-solid fa-circle-question"></i>Cuestionario</a>
+            <a href="#SabiasQue"><i class="fa-solid fa-circle-info"></i>Sabias Que..</a>
+            <a href="#Infografia"><i class="fa-solid fa-file-pdf"></i>Infografia</a>
           </nav>
         </div>
       </div>
@@ -205,7 +206,7 @@
       <section class="memorama" id="Instituciones" data-aos="fade-up">
         <h1 class="principal">INSTITUCIONES QUE BRIDAN APOYO A VICTIMAS DE VIOLENCIA DE GENERO</h1>
         <div class="game-container" id="game-board"></div>
-        <audio id="audioElement" src="audio.mp3" autoplay></audio>
+        <audio id="audioElement" src="media/cards.mp3"></audio>
       </section>
       <script>
         const board = document.getElementById('game-board');
@@ -270,6 +271,13 @@
             // Ya no se necesita lógica de comparación
             card.addEventListener('click', () => {
               card.classList.toggle('flipped');
+              const audio = document.getElementById('audioElement');
+              if (audio.paused) {
+                audio.currentTime = 0; // Reiniciar el audio
+                audio.play();
+              } else {
+                audio.pause();
+              }
             });
 
             board.appendChild(card);
@@ -319,6 +327,20 @@
       </section>
 
       <!-- Infografia -->
+      <section class="resource-section" id="SabiasQue">
+        <div class="resource-content" data-aos="fade-up">
+          <div class="resource-info">
+            <div class="icon-info">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h1>Sabias Que..</h1>
+            <a class="primary-button" download="InfografiaQuimica" href="resources/infografia.pdf">Descargar</a>
+          </div>
+          <img src="media/Infografia.jpg" alt="Infografia" id="infografia"></img>
+        </div>
+      </section>
+
+      <!-- Infografia Ingles -->
       <section class="resource-section" id="Infografia">
         <div class="resource-content" data-aos="fade-up">
           <div class="resource-info">
@@ -326,23 +348,9 @@
               <i class="fa-solid fa-circle-info"></i>
             </div>
             <h1>Infografia</h1>
-            <a class="primary-button" download="InfografiaQuimica" href="resources/infografia2.pdf">Descargar</a>
+            <a class="primary-button" download="InfografiaQuimica" href="resources/manual.pdf">Descargar</a>
           </div>
-          <img src="media/Infografia.jpg" alt="Infografia" id="infografia"></img>
-        </div>
-      </section>
-
-      <!-- Infografia Ingles -->
-      <section class="resource-section" id="Maunual">
-        <div class="resource-content" data-aos="fade-up">
-          <div class="resource-info">
-            <div class="icon-info">
-              <i class="fa-solid fa-circle-info"></i>
-            </div>
-            <h1>Manual</h1>
-            <a class="primary-button" download="InfografiaQuimica" href="resources/infografia2.pdf">Descargar</a>
-          </div>
-          <img src="media/Infografia.jpg" alt="Infografia" id="infografia"></img>
+          <img src="media/manual.jpg" alt="Infografia" id="infografia"></img>
         </div>
       </section>
     </main>

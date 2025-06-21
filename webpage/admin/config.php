@@ -54,9 +54,7 @@ class Config implements ArrayAccess
             !isset($this->data['mail']['url']) || !is_array($this->data['mail']['from']) || count($this->data['mail']['from']) < 2) {
             throw new Exception("Mail configuration is incomplete.");
         }
-        if ($this->data['mail']['from'][0] === "" || $this->data['mail']['from'][1] === "") {
-            throw new Exception("Mail 'from' configuration is incomplete.");
-        }
+        
     }
 
     // Save changes to the config file
