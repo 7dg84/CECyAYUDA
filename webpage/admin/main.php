@@ -320,7 +320,7 @@ function renderDeleteButton($folio)
         <br>
 
         <button type="submit">Buscar</button>
-        <button type="reset" onclick="resetSearchConfig(); searchFormlastValue = ''; window.location.href = 'main.php';">Limpiar</button>
+        <button type="reset" onclick="resetSearchConfig(); searchFormlastValue = '';">Limpiar</button>
 
     </form>
     <!-- Tabala con los registros -->

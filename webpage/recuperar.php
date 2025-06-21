@@ -25,7 +25,6 @@ $errorMsg = "Error desconocido";
   <link rel="stylesheet" href="styles/recovery.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-  <script src="scripts/mobile.js"></script>
   <script src="scripts/form.js"></script>
   <script src="scripts/recovery.js"></script>
 </head>
@@ -161,6 +160,8 @@ $errorMsg = "Error desconocido";
       </div>
     </footer>
   </div>
+  <!-- Script para el menú móvil -->
+  <script src="scripts/mobile.js"></script>
 </body>
 
 </html>

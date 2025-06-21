@@ -103,4 +103,8 @@ a i {
     #infografia, #Cuestionario img {
         margin-left: 0;
     }
+
+    .navbar-links-resources a {
+        font-size: 0.6rem;
+    }
 }

@@ -282,6 +282,13 @@ function saveConfigSearch(e) {
 
 function resetSearchConfig() {
     localStorage.removeItem('searchConfig');
+    const searchForm = document.getElementById('searchForm');
+    searchForm.field.value = "Default";
+    searchForm.operator.value = "";
+    searchForm.value.value = "";
+    searchForm.num_records.value = "20";
+    searchForm.order.value = "Folio";
+    typeSearch(searchForm);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
