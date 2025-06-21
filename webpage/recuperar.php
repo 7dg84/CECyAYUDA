@@ -12,7 +12,7 @@ $errorMsg = "Error desconocido";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CECyAYUDA - Contra la Violencia de Género</title>
+  <title>CECyAYUDA - Recuperar Folio</title>
   <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
   <meta name="author" content="DragonFly Coders" />
 
@@ -20,6 +20,7 @@ $errorMsg = "Error desconocido";
   <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
   <meta property="og:type" content="website" />
 
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/recovery.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -39,6 +40,7 @@ $errorMsg = "Error desconocido";
         </a>
         <nav class="navbar-links">
           <a href="index.html">Inicio</a>
+          <a href="info.html">Informacion</a>
           <a href="reportar.html">Reportar</a>
           <a href="consultar.php" class="active">Consultar Reportes</a>
           <a href="recursos.html">Recursos</a>
@@ -141,6 +143,7 @@ $errorMsg = "Error desconocido";
           <h3>Enlaces rápidos</h3>
           <ul>
             <li><a href="index.html">Inicio</a></li>
+            <li><a href="info.html">Información</a></li>
             <li><a href="reportar.html">Reportar</a></li>
             <li><a href="consultar.html">Consultar Reportes</a></li>
             <li><a href="recursos.html">Recursos</a></li>

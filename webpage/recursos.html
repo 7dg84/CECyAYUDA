@@ -2,133 +2,379 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos - CECyAYUDA</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/resources.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="scripts/aos/dist/aos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CECyAYUDA - Recursos</title>
+  <meta name="description"
+    content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+  <meta name="author" content="DragonFly Coders" />
 
-    <!-- Script para el menú móvil -->
-    <script src="scripts/mobile.js"></script>
-    <script src="scripts/aos/dist/aos.js"></script>
-    <script src="scripts/resources.js"></script>
+  <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
+  <meta property="og:description"
+    content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/resources.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="scripts/aos/dist/aos.css">
+
+  <!-- Script para el menú móvil -->
+  <script src="scripts/mobile.js"></script>
+  <script src="scripts/aos/dist/aos.js"></script>
+  <script src="scripts/resources.js"></script>
 </head>
 
 <body>
-    <script>
-        AOS.init({
-            duration: 1200,
-        })
-    </script>
-    <div class="container">
-        <!-- Barra de navegación -->
-        <header class="navbar">
-            <div class="navbar-container">
-                <a href="index.html" class="navbar-logo">
-                    <strong>CECyAYUDA</strong>
-                </a>
-                <nav class="navbar-links">
-                    <a href="index.html">Inicio</a>
-                    <a href="reportar.html">Reportar</a>
-                    <a href="consultar.php">Consultar Reportes</a>
-                    <a href="recursos.html" class="active">Recursos</a>
-                    <a href="sobre-nosotros.html">Sobre Nosotros</a>
-                </nav>
-                <!-- Boton para dispositivos Moviles -->
-                <button class="mobile-menu-btn" title="Abrir menú móvil">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-            <div class="buttons-section">
-                <div class="buttons-content">
-                    <nav class="navbar-links-resources">
-                        <!-- <a href="#"><i class="fa-solid fa-house"></i>Inicio</a> -->
-                        <a href="#Mapa"><i class="fa-solid fa-map-location-dot"></i>Mapa</a>
-                        <a href="#Infografia"><i class="fa-solid fa-circle-info"></i>Infografia</a>
-                        <a href="#Cuestionario"><i class="fa-solid fa-circle-question"></i>Infografia</a>
-                        <a href="#manual"><i class="fa-solid fa-book"></i>Manual</a>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <main>
-            <!-- Contenido -->
-            <!-- Mapa -->
-            <section class="resource-section" id="Mapa">
-                <div class="resource-content" data-aos="fade-up">
-                    <div class="resource-info">
-                        <div class="icon-info">
-                            <i class="fa-solid fa-map-location-dot"></i>
-                        </div>
-                        <h1>Mapa</h1>
-                        <a class="primary-button" href="Mapa.html" target="_blank">Abri Mapa</a>
-                    </div>
-                    <iframe src="Mapa.html" title="Mapa"></iframe>
-                </div>
-            </section>
+  <script>
+    AOS.init({
+      duration: 1200,
+    })
+  </script>
+  <div class="container">
+    <!-- Barra de navegación -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-logo">
+          <strong>CECyAYUDA</strong>
+        </a>
+        <nav class="navbar-links">
+          <a href="index.html">Inicio</a>
+          <a href="info.html">Informacion</a>
+          <a href="reportar.html">Reportar</a>
+          <a href="consultar.php">Consultar Reportes</a>
+          <a href="recursos.html" class="active">Recursos</a>
+          <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        </nav>
+        <!-- Boton para dispositivos Moviles -->
+        <button class="mobile-menu-btn" title="Abrir menú móvil">
+          <i class="fas fa-bars"></i>
+        </button>
+        <!-- Sub menu -->
+      </div>
+      <div class="buttons-section">
+        <div class="buttons-content">
+          <nav class="navbar-links-resources">
+            <!-- <a href="#"><i class="fa-solid fa-house"></i>Inicio</a> -->
+            <a href="#Mapa"><i class="fa-solid fa-map-location-dot"></i>Mapa</a>
+            <a href="#Infografia"><i class="fa-solid fa-circle-info"></i>Infografia</a>
+            <a href="#Cuestionario"><i class="fa-solid fa-circle-question"></i>Infografia</a>
+            <a href="#manual"><i class="fa-solid fa-book"></i>Manual</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <main>
+      <!-- Contenido -->
+      <!-- Instituciones -->
+      <!-- MEMORAMA -->
+      <style>
+        /* ESTILOS SOLO PARA LA SECCIÓN MEMORAMA */
+        .memorama {
+          padding: 40px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: var(--color-background);
+        }
 
-            <!-- Infografia -->
-            <section class="resource-section" id="Infografia">
-                <div class="resource-content" data-aos="fade-up">
-                    <div class="resource-info">
-                        <div class="icon-info">
-                            <i class="fa-solid fa-circle-info"></i>
-                        </div>
-                        <h1>Infografia</h1>
-                        <a class="primary-button" download="InfografiaQuimica"
-                            href="resources/infografia2.pdf">Descargar</a>
-                    </div>
-                    <iframe src="images/Infografia.jpg" title="Infografia"></iframe>
-                </div>
-            </section>
+        .memorama h1 {
+          color: #333;
+          margin-bottom: 20px;
+        }
 
-            <!-- Cuestionario -->
-            <section class="resource-section" id="Cuestionario">
-                <div class="resource-content" data-aos="fade-up">
-                    <div class="resource-info">
-                        <div class="icon-info">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </div>
-                        <h1>Cuestionario de Violencia de Genero</h1>
-                        <a class="primary-button" href="violencia.html">Iniciar</a>
-                    </div>
-                    <img src="images/forms.png" title="Cuestionario" alt="form"></img>
-                </div>
-                <center><a href="https://www.flaticon.com/free-icons/google" title="google icons">Google icons created
-                    by Driss Lebbat - Flaticon</a></center>
-            </section>
+        .memorama .game-container {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          /* Cambiado */
+          gap: 30px;
+          max-width: 1080px;
+          /* Ajustado para 3 columnas de 320px + espacios */
+          width: 100%;
+          justify-content: center;
+        }
 
-        </main>
+        .memorama .card {
+          width: 320px;
+          /* Aumentado */
+          height: 400px;
+          /* Aumentado */
+          perspective: 1000px;
+        }
 
-        <!-- Pie de página -->
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3>CECyAYUDA</h3>
-                    <p>Trabajando juntos contra la violencia de género</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Enlaces rápidos</h3>
-                    <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="reportar.html">Reportar</a></li>
-                        <li><a href="consultar.html">Consultar Reportes</a></li>
-                        <li><a href="recursos.html">Recursos</a></li>
-                        <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contacto</h3>
-                    <p>dragonflycodes5@gmail.com</p>
-                </div>
+
+        .memorama .card-inner {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+          transition: transform 0.6s ease;
+        }
+
+        .memorama .card.flipped .card-inner {
+          transform: rotateY(180deg);
+        }
+
+        .memorama .card-front,
+        .memorama .card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
+          border-radius: 15px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 15px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          font-size: 16px;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .memorama .card-front {
+          background-color: white;
+        }
+
+        .memorama .card-front img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .memorama .card-back {
+          display: inline;
+          background-color: white;
+          color: black;
+          transform: rotateY(180deg);
+          font-size: 16px;
+          text-align: justify;
+          overflow-y: auto;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          border: solid violet;
+          font-weight: bold;
+          text-align: center;
+        }
+
+        .memorama #restart-btn {
+          margin: 20px;
+          padding: 12px 25px;
+          border: none;
+          background-color: #2575fc;
+          color: white;
+          border-radius: 25px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+
+        .memorama #restart-btn:hover {
+          background-color: #1e5bd0;
+        }
+
+        .principal {
+          animation: fadeIn 1s ease-out;
+        }
+
+        @media screen and (max-width: 768px) {
+          .memorama .game-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+          }
+
+          .memorama .card {
+            width: 100%;
+            height: 300px;
+          }
+
+          .memorama .card-inner {
+            transition: transform 0.4s ease;
+          }
+
+          .memorama .card-back {
+            font-size: 0.6rem;
+          }
+
+          .memorama .card {
+            height: 200px;
+          }
+
+        }
+      </style>
+      <section class="memorama" id="Instituciones" data-aos="fade-up">
+        <h1 class="principal">INSTITUCIONES QUE BRIDAN APOYO A VICTIMAS DE VIOLENCIA DE GENERO</h1>
+        <div class="game-container" id="game-board"></div>
+        <audio id="audioElement" src="audio.mp3" autoplay></audio>
+      </section>
+      <script>
+        const board = document.getElementById('game-board');
+
+        const cardsContent = [
+          {
+            img: 'media/instituciones/secretaria-de-mujeres.jpg',
+            text: 'La Secretaría de las Mujeres de la Ciudad de México, anteriormente Inmujeres CDMX es un organismo del Gobierno de la Ciudad de México que promueve el desarrollo de la mujer en equidad de género y respeto a sus derechos humanos. TELEFONO: 55 5512 2836.  SITIO WEB:https://www.semujeres.cdmx.gob.mx/'
+          },
+          {
+            img: 'media/instituciones/inmujeres.jpg',
+            text: 'InMujeres (Instituto Nacional de las Mujeres) es una institución gubernamental en México cuyo objetivo principal es promover y fomentar la igualdad entre mujeres y hombres. Su función es garantizar que las mujeres tengan acceso a los mismos derechos, oportunidades y recursos que los hombres, así como prevenir y erradicar la discriminación y violencia de género. TELEFONO:911 y 5553226030, SITIO WEB: https://icl.inmujeres.gob.mx/'
+          },
+          {
+            img: 'media/instituciones/conavim.jpg',
+            text: 'Genera un registro de datos sobre las Órdenes de Protección e identifica situaciones que requieran medidas gubernamentales de urgente aplicación en función de los intereses superiores de las mujeres en situación de violencia, que les permitan romper el silencio, alzar la voz, mirarse nuevamente y reconstruir su vida. TELEFONO: 5209 8902 y 5209 8907, SITIO WEB:https://www.gob.mx/conavim'
+          },
+          {
+            img: 'media/instituciones/conapred.jpg',
+            text: 'El Consejo es la institución rectora para promover políticas y medidas tendientes a contribuir al desarrollo cultural y social y avanzar en la inclusión social y garantizar el derecho a la igualdad, que es el primero de los derechos fundamentales en la Constitución Federal. TELEFONO: 800 543 0033, EXTENSIONES: 5418, 5419, 5421, 5423 y 5442, SITIO WEB:https://www.conapred.org.mx/'
+          },
+          {
+            img: 'media/instituciones/cndh.jpg',
+            text: 'La CNDH, o Comisión Nacional de los Derechos Humanos, es un organismo constitucional autónomo en México cuya función principal es la protección, promoción, estudio y divulgación de los derechos humanos. También se encarga de recibir y conocer de quejas por presuntas violaciones de derechos humanos, investigarlas, y formular recomendaciones a las autoridades. TELEFONO: 568181 2501, SITIO WEB:https://www.cndh.org.mx/'
+          },
+          {
+            img: 'media/instituciones/puertaVioleta.jpg',
+            text: 'El "Programa Puerta Violeta" es una iniciativa gubernamental mexicana cuyo objetivo principal es brindar apoyo y protección a mujeres, niñas y adolescentes que han sido víctimas de violencia de género. Este programa busca crear espacios seguros y ofrecer servicios integrales para su atención y empoderamiento. TELEFONO:  800 108 40 53. '
+          }
+        ];
+
+        // NOTA: Ya no se duplica el array
+        const cardsArray = shuffle([...cardsContent]);
+
+        function shuffle(array) {
+          return array.sort(() => 0.5 - Math.random());
+        }
+
+        function createBoard() {
+          board.innerHTML = '';
+          cardsArray.forEach(data => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const inner = document.createElement('div');
+            inner.classList.add('card-inner');
+
+            const front = document.createElement('div');
+            front.classList.add('card-front');
+            const img = document.createElement('img');
+            img.src = data.img;
+            front.appendChild(img);
+
+            const back = document.createElement('div');
+            back.classList.add('card-back');
+            back.textContent = data.text;
+
+            inner.appendChild(front);
+            inner.appendChild(back);
+            card.appendChild(inner);
+
+            // Ya no se necesita lógica de comparación
+            card.addEventListener('click', () => {
+              card.classList.toggle('flipped');
+            });
+
+            board.appendChild(card);
+          });
+        }
+
+        function restartGame() {
+          const shuffled = shuffle([...cardsContent]);
+          cardsArray.length = 0;
+          cardsArray.push(...shuffled);
+          createBoard();
+        }
+
+        createBoard();
+      </script>
+
+      </section>
+      <!-- Mapa -->
+      <section class="resource-section" id="Mapa">
+        <div class="resource-content" data-aos="fade-up">
+          <div class="resource-info">
+            <div class="icon-info">
+              <i class="fa-solid fa-map-location-dot"></i>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 CECyAYUDA. Todos los derechos reservados.</p>
+            <h1>Mapa</h1>
+            <a class="primary-button" href="Mapa.html" target="_blank">Abri Mapa</a>
+          </div>
+          <iframe src="Mapa.html" title="Mapa"></iframe>
+        </div>
+      </section>
+
+
+      <!-- Cuestionario -->
+      <section class="resource-section" id="Cuestionario">
+        <div class="resource-content" data-aos="fade-up">
+          <div class="resource-info">
+            <div class="icon-info">
+              <i class="fa-solid fa-circle-question"></i>
             </div>
-        </footer>
-    </div>
+            <h1>Cuestionario de Violencia de Genero</h1>
+            <a class="primary-button" href="violencia.html">Iniciar</a>
+          </div>
+          <img src="media/forms.png" title="Cuestionario" alt="form"></img>
+        </div>
+        <center><a href="https://www.flaticon.com/free-icons/google" title="google icons">Google icons created
+            by Driss Lebbat - Flaticon</a></center>
+      </section>
+
+      <!-- Infografia -->
+      <section class="resource-section" id="Infografia">
+        <div class="resource-content" data-aos="fade-up">
+          <div class="resource-info">
+            <div class="icon-info">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h1>Infografia</h1>
+            <a class="primary-button" download="InfografiaQuimica" href="resources/infografia2.pdf">Descargar</a>
+          </div>
+          <img src="media/Infografia.jpg" alt="Infografia" id="infografia"></img>
+        </div>
+      </section>
+
+      <!-- Infografia Ingles -->
+      <section class="resource-section" id="Maunual">
+        <div class="resource-content" data-aos="fade-up">
+          <div class="resource-info">
+            <div class="icon-info">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <h1>Manual</h1>
+            <a class="primary-button" download="InfografiaQuimica" href="resources/infografia2.pdf">Descargar</a>
+          </div>
+          <img src="media/Infografia.jpg" alt="Infografia" id="infografia"></img>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>CECyAYUDA</h3>
+          <p>Trabajando juntos contra la violencia de género</p>
+        </div>
+        <div class="footer-section">
+          <h3>Enlaces rápidos</h3>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="info.html">Información</a></li>
+            <li><a href="reportar.html">Reportar</a></li>
+            <li><a href="consultar.html">Consultar Reportes</a></li>
+            <li><a href="recursos.html">Recursos</a></li>
+            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contacto</h3>
+          <p>dragonflycodes5@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 CECyAYUDA. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </div>
 </body>
 
 </html>

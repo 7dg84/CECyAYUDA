@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Agregar enlaces
           const links = [
             { href: 'index.html', text: 'Inicio', active: true },
+            { href: 'info.html', text: 'Información' },
             { href: 'reportar.html', text: 'Reportar' },
             { href: 'consultar.php', text: 'Consultar reportes' },
             { href: 'recursos.html', text: 'Recursos' },

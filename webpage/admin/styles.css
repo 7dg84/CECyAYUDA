@@ -1,54 +1,104 @@
+/* Reset y fuentes base */
 * {
     box-sizing: border-box;
-    font: 1em sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #e6f0f8 0%, #f4f4f4 100%);
+    min-height: 100vh;
+    color: #3a2e1f;
 }
 
 header {
     display: flex;
-    background-color: #11decdbc;
-    color: white;
-    padding: 10px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    background: #11decdbc;
+    color: #fff;
+    padding: 1.5rem 2rem 1rem 2rem;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
 }
 
 header h1 {
-    flex: .5;
-    margin: 0;
-    font-size: 2rem
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: white;
 }
 
-heder p {
-    flex: 1;
-    margin: 0;
-    font-size: 1.2rem;
-}
-
-nav {
-    flex: 1;
+header p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
 nav ul {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
     list-style: none;
     padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 nav ul li {
-    margin-right: 20px;
-    margin-left: 20px;
-    margin-top: 15px;
+    margin: 0;
 }
 
-.evidencia-img {
-    max-width: 100px;
-    max-height: 100px;
-    object-fit: cover;
+nav ul a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.4rem 1.2rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+nav ul a:hover,
+nav ul a.active {
+    background: #0bb8a9;
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 1rem;
+    }
+    header h1 {
+        font-size: 1.3rem;
+    }
+}
+
+h1, h2 {
+    text-align: center;
+    color: #11decdbc;
+    margin-bottom: 1rem;
+}
+
+.editButton {
+    background: #11decdbc;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.editButton:hover {
+    background: #0bb8a9;
+}
+
+.deleteButton {
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.deleteButton:hover {
+    background: #e60000;
 }

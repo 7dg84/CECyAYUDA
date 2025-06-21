@@ -1,11 +1,6 @@
 /* Formulario */
 .detection-section {
     padding: 3rem 2rem;
-
-    @media screen and (min-width: 768px) {
-        padding: 0;
-
-    }
 }
 
 .detection-content {
@@ -34,4 +29,10 @@
 #modal button {
     border: 1px solid var(--border);
     padding: 13px 24px;
+}
+
+@media screen and (max-width: 768px) {
+    .detection-content form {
+        margin: 0;
+    }
 }

@@ -32,7 +32,7 @@ function validateSearch() {
 }
 
 // Guardar en el localStorage el folio
-function saveFolio(){
+function saveFolio() {
     folio = document.getElementById('folio').value;
     // Guardar el dato
     localStorage.setItem('folio', folio);
@@ -45,16 +45,16 @@ function loadFolio() {
 }
 
 // Cargar el folio al cargar la pagina
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function () {
     loadFolio();
 })
 
 // Funcion para limpiar los mensajes de error
-function clearError(){
+function clearError() {
     // Limpiar los mensajes de error de los campos
     document.getElementById("ErrorHechos").innerText = "";
     document.getElementById("ErrorFecha").innerText = "";
-    document.getElementById("ErrorHora").innerText = "";    
+    document.getElementById("ErrorHora").innerText = "";
     document.getElementById("ErrorEstado").innerText = "";
     document.getElementById("ErrorMunicipio").innerText = "";
     document.getElementById("ErrorColonia").innerText = "";
@@ -160,14 +160,14 @@ function validateForm() {
         showError("ErrorCalle", "Por favor, ingrese una calle válida.");
         valid = false;
     }
-    
+
     // Verificar si el campo 'nombre' está vacío o tiene menos de 3 caracteres o no es un número
     let nombre = window.Report.nombre.value;
     if (nombre == "" || nombre.length < 3 || !isNaN(Number(nombre))) {
         showError("ErrorNombre", "Por favor, ingrese un nombre válido (mínimo 3 caracteres).");
         valid = false;
     }
-    
+
     // Verificar si el campo 'curp' inicia con 4 letras, luego 6 numeros y despues 8 caracteres alfanumericos
     if (!/^[A-Z]{4}[0-9]{6}[A-Z0-9]{8}$/.test(window.Report.curp.value)) {
         showError("ErrorCurp", "Por favor, ingrese un CURP válido (18 caracteres).");
@@ -203,7 +203,7 @@ function validateForm() {
             showError("ErrorEvidencia", "El archivo de evidencia no debe exceder los 2MB.");
             valid = false;
         }
-    
+
         // Veerifivar el MIME type del archivo
         var mimeType = evidencia.files && evidencia.files[0] ? evidencia.files[0].type : "image/jpeg";
         var allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
@@ -232,20 +232,20 @@ function soloNumeros(e) {
 }
 
 // Funcion para eliminar una denuncia
-function deleteDenuncia(){
+function deleteDenuncia() {
     window.modal.close()
     form = document.getElementById("Report")
     // Modificar el action del formulario
-    form.setAttribute('action','delete-report.php')
+    form.setAttribute('action', 'delete-report.php')
     // Enviar el formulario
-    form.submit()   
+    form.submit()
 }
 
 // Funcion para actualizar una denuncia
-function updateDenuncia(){
+function updateDenuncia() {
     form = document.getElementById("Report")
     // Modificar el action del formulario
-    form.setAttribute('action','update-report.php')
+    form.setAttribute('action', 'update-report.php')
     if (validateForm()) {
         // Enviar el formulario
         form.submit()
@@ -256,7 +256,17 @@ function updateDenuncia(){
 function updateFileName(input) {
     // Obtener el nombre del archivo seleccionado
     var fileName = input.files && input.files[0] ? input.files[0].name : "";
-    
+
     // Actualizar el texto del elemento con el ID 'fileName'
     document.getElementById("fileName").innerText = fileName ? "Archivo seleccionado: " + fileName : "No se ha seleccionado ningún archivo.";
+}
+
+function copy(event, folio) {
+    navigator.clipboard.writeText(folio).then(function () {
+        event.target.textContent = '¡Copiado!';
+        setTimeout(function () {
+            event.target.textContent = 'Copiar';
+        }, 1500);
+    });
+    ;
 }

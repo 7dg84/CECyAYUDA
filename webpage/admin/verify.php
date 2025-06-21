@@ -6,15 +6,13 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 include_once 'config.php';
 
-$config = new Config();
-
-$default_encryption_key = $config['mail']['enckey']; // Clave de encriptación por defecto
-$encryption_method = 'AES-256-CBC'; // Método de cifrado
-
 // Generar token en base a la información que expira en una hora
 function genToken($folio, $curp, $correo)
 {
-    global $default_encryption_key, $encryption_method;
+    $config = new Config(); // Cargar la configuración
+
+    $default_encryption_key = $config['mail']['enckey']; // Clave de encriptación por defecto
+    $encryption_method = 'AES-256-CBC'; // Método de cifrado
 
     $expiration = time() + 3600; // Expira en una hora
     $data = [
@@ -40,9 +38,13 @@ function genToken($folio, $curp, $correo)
 // Verificar el token
 function verifyToken($token)
 {
-    global $default_encryption_key, $encryption_method, $errorMsg;
-
+    global $errorMsg;
     try {
+        $config = new Config(); // Cargar la configuración
+
+        $default_encryption_key = $config['mail']['enckey']; // Clave de encriptación por defecto
+        $encryption_method = 'AES-256-CBC'; // Método de cifrado
+
         // Decodificar el token (base64)
         $decoded_token = base64_decode($token);
 
@@ -106,7 +108,7 @@ function verifyToken($token)
 // Enviar el correo con el token
 function sendEmaildep($nombre, $folio, $curp, $correo)
 {
-    global $config;
+    $config = new Config(); // Cargar la configuración
     $mail = new PHPMailer(true);
 
     // Configuración del servidor SMTP
@@ -153,19 +155,21 @@ function sendEmaildep($nombre, $folio, $curp, $correo)
 
 function sendEmail($nombre, $folio, $curp, $correo)
 {
-    require __DIR__ . '/vendor/autoload.php';
-    global $config;
+    global $errorMsg;
+    try {
+        require __DIR__ . '/vendor/autoload.php';
+        $config = new Config(); // Cargar la configuración
 
-    // Contenido del correo
-    $token = genToken($folio, $curp, $correo);
-    
-    $resend = Resend::client('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6');
+        // Contenido del correo
+        $token = genToken($folio, $curp, $correo);
 
-    $resend->emails->send([
-        'from' => $config['mail']['from'][1] . $config['mail']['from'][0],
-        'to' => [$correo],
-        'subject' => 'Verifica tu cuenta de correo',
-        'html' => '
+        $resend = Resend::client('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6');
+
+        $resend->emails->send([
+            'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
+            'to' => [$correo],
+            'subject' => 'Verifica tu cuenta de correo',
+            'html' => '
     <html>
     <head>
         <title>Verificación de Correo Electrónico</title>
@@ -173,7 +177,7 @@ function sendEmail($nombre, $folio, $curp, $correo)
     <body>
         <h1>Hola, ' . htmlspecialchars($nombre) . '!</h1>
         <p>Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico:</p>
-        <p><a href=\"' . $config['mail']['url'] . '/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
+        <p><a href="' . $config['mail']['url'] . '/verify.php?token=' . urlencode($token) . '">Verificar mi correo</a></p>
         <p>Si no puedes hacer clic en el enlace, copia y pega la siguiente URL en tu navegador:</p>
         <p>' . htmlspecialchars($config['mail']['url']) . '/verify.php?token=' . urlencode($token) . '</p>
         <br>
@@ -185,8 +189,13 @@ function sendEmail($nombre, $folio, $curp, $correo)
     </body>
     </html>
     ',
-    'text'=>'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: ' . $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes'
-    ]);
+            'text' => 'Hola, ' . htmlspecialchars($nombre) . '! Gracias por reportar. Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: ' . $config['mail']['url'] . urlencode($token) . ' Si no solicitaste esta verificación, puedes ignorar este mensaje. Este enlace expirará en 1 hora. Atentamente, El equipo de DragonFly Codes'
+        ]);
+    } catch (Exception $e) {
+        $errorMsg = "Error al enviar el correo: " . htmlspecialchars($e->getMessage());
+        return false; // Error al enviar el correo
+    }
+    return true; // Correo enviado exitosamente
 }
 
 // Funcion para envial un correo con folios encontrados
@@ -235,16 +244,17 @@ function sendFolioEmaildep($nombre, $folio, $correo)
 
 function sendFolioEmail($nombre, $folio, $correo)
 {
-    require __DIR__ . '/vendor/autoload.php';
-    global $config;
+    try {
+        require __DIR__ . '/vendor/autoload.php';
+        $config = new Config();
 
-    // Contenido del correo    
-    $resend = Resend::client('re_cvNywNbY_KqsPYLW24FhZuKfekw6YXWM3');
-    $resend->emails->send([
-        'from' => $config['mail']['from'][1] . $config['mail']['from'][0],
-        'to' => [$correo],
-        'subject' => 'Folio Recuperado',
-        'html' => '
+        // Contenido del correo    
+        $resend = Resend::client('re_cvNywNbY_KqsPYLW24FhZuKfekw6YXWM3');
+        $resend->emails->send([
+            'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
+            'to' => [$correo],
+            'subject' => 'Folio Recuperado',
+            'html' => '
         <html>
     <head>
         <title>Folio Recuperado</title>
@@ -261,6 +271,11 @@ function sendFolioEmail($nombre, $folio, $correo)
     </body>
     </html>
     ',
-    'text'=>'Hola, ' . htmlspecialchars($nombre) . '! Tu folio ha sido recuperado exitosamente. Folio: ' . htmlspecialchars($folio) . ' Atentamente, El equipo de DragonFly Codes'
-    ]);
+            'text' => 'Hola, ' . htmlspecialchars($nombre) . '! Tu folio ha sido recuperado exitosamente. Folio: ' . htmlspecialchars($folio) . ' Atentamente, El equipo de DragonFly Codes'
+        ]);
+    } catch (Exception $e) {
+        global $errorMsg;
+        $errorMsg = "Error al enviar el correo: " . htmlspecialchars($e->getMessage());
+        return false; // Error al enviar el correo
+    }
 }
