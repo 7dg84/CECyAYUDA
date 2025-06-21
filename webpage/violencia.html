@@ -2,155 +2,158 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CECyAYUDA - Contra la Violencia de Género</title>
-    <meta name="description"
-        content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
-    <meta name="author" content="DragonFly Coders" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CECyAYUDA - Identifica la Violencia</title>
+  <meta name="description"
+    content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+  <meta name="author" content="DragonFly Coders" />
 
-    <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
-    <meta property="og:description"
-        content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
-    <meta property="og:type" content="website" />
+  <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
+  <meta property="og:description"
+    content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+  <meta property="og:type" content="website" />
 
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/violencia.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/violencia.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 
 
 </head>
 
 <body>
-    <div class="container">
-        <!-- Barra de navegación -->
-        <header class="navbar">
-            <div class="navbar-container">
-                <a href="index.html" class="navbar-logo">
-                    <strong>CECyAYUDA</strong>
-                </a>
-                <nav class="navbar-links">
-                    <a href="index.html">Inicio</a>
-                    <a href="reportar.html">Reportar</a>
-                    <a href="consultar.php">Consultar Reportes</a>
-                    <a href="recursos.html" class="active">Recursos</a>
-                    <a href="sobre-nosotros.html">Sobre Nosotros</a>
-                </nav>
-                <!-- Boton para dispositivos Moviles -->
-                <button class="mobile-menu-btn" title="Abrir menú de navegación">
-                    <i class="fas fa-bars"></i>
-                </button>
+  <div class="container">
+    <!-- Barra de navegación -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-logo">
+          <strong>CECyAYUDA</strong>
+        </a>
+        <nav class="navbar-links">
+          <a href="index.html">Inicio</a>
+          <a href="info.html">Informacion</a>
+          <a href="reportar.html">Reportar</a>
+          <a href="consultar.php">Consultar Reportes</a>
+          <a href="recursos.html" class="active">Recursos</a>
+          <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        </nav>
+        <!-- Boton para dispositivos Moviles -->
+        <button class="mobile-menu-btn" title="Abrir menú de navegación">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+
+      <!-- Formulario de seteccion de violencia de genero -->
+      <section class="detection-section">
+        <div id="detection-content" class="detection-content">
+          <center>
+          </center>
+          <h1 class="section-title">Formulario de Detección de Violencia</h1>
+
+          <form id="violenciaForm">
+
+            <p>1. ¿Alguna vez alguien te ha hecho sentir menos o inferior solo por ser mujer (o por tu
+              identidad de género)?
+            </p>
+            <div class="respuestas" id="q1">
+              <label><input type="radio" name="q1" value="a"> No, nunca</label><br>
+              <label><input type="radio" name="q1" value="b"> A veces</label><br>
+              <label><input type="radio" name="q1" value="c"> Frecuentemente</label><br>
+              <label><input type="radio" name="q1" value="d"> Siempre</label><br><br>
             </div>
+            <span id="ErrorQ1" class="error"></span>
+
+            <p>2. ¿Has recibido amenazas, gritos o insultos por parte de alguien que usa su poder para
+              intimidarte?
+            </p>
+            <div class="respuestas">
+              <label><input type="radio" name="q2" value="a"> No, nunca</label><br>
+              <label><input type="radio" name="q2" value="b"> Ocasionalmente</label><br>
+              <label><input type="radio" name="q2" value="c"> Si, en varias ocasiones</label><br>
+              <label><input type="radio" name="q2" value="d"> Siempre</label><br><br>
+            </div>
+            <span id="ErrorQ2" class="error"></span>
+
+            <p>3. ¿Te han tocado sin tu permiso o te han hecho comentarios sexuales no deseados?</p>
+            <div class="respuestas">
+              <label><input type="radio" name="q3" value="a"> Nunca</label><br>
+              <label><input type="radio" name="q3" value="b"> Una vez</label><br>
+              <label><input type="radio" name="q3" value="c"> Varias veces</label><br>
+              <label><input type="radio" name="q3" value="d"> Siempre</label><br><br>
+            </div>
+            <span id="ErrorQ3" class="error"></span>
+
+            <p>4. ¿Has sentido que necesitas actuar de cierta manera para evitar reacciones violentas o
+              agresivas?
+            </p>
+            <div class="respuestas">
+              <label><input type="radio" name="q4" value="a"> Nunca</label><br>
+              <label><input type="radio" name="q4" value="b"> A veces</label><br>
+              <label><input type="radio" name="q4" value="c"> Frecuentemente</label><br>
+              <label><input type="radio" name="q4" value="d"> Siempre</label><br><br>
+            </div>
+            <span id="ErrorQ4" class="error"></span>
+
+            <p>5. ¿Te han hecho sentir que no puedes valerte por ti misma económicamente o que necesitas
+              depender de alguien?
+            </p>
+            <div class="respuestas">
+              <label><input type="radio" name="q5" value="a"> Nunca</label><br>
+              <label><input type="radio" name="q5" value="b"> A veces</label><br>
+              <label><input type="radio" name="q5" value="c"> Frecuentemente</label><br>
+              <label><input type="radio" name="q5" value="d"> Siempre</label><br><br>
+            </div>
+            <span id="ErrorQ5" class="error"></span>
+            <button class="primary-button" type="submit">Enviar</button>
+          </form>
+        </div>
+        <dialog id="modal">
+          <h1 id="title"></h1>
+          <p id="contenttext"></p>
+          <br>
+          <button type="button" class="primary-button" onclick="window.modal.close();">Cerrar</button>
+          <a href="reportar.html" class="secondary-button">Reportar</a>
+        </dialog>
+      </section>
 
 
-            <!-- Formulario de seteccion de violencia de genero -->
-            <section class="detection-section">
-                <div id="detection-content" class="detection-content">
-                    <center>
-                    </center>
-                    <h1 class="section-title">Formulario de Detección de Violencia</h1>
-
-                    <form id="violenciaForm">
-
-                        <p>1. ¿Alguna vez alguien te ha hecho sentir menos o inferior solo por ser mujer (o por tu
-                            identidad de género)?
-                        </p>
-                        <div class="respuestas" id="q1">
-                            <label><input type="radio" name="q1" value="a"> No, nunca</label><br>
-                            <label><input type="radio" name="q1" value="b"> A veces</label><br>
-                            <label><input type="radio" name="q1" value="c"> Frecuentemente</label><br>
-                            <label><input type="radio" name="q1" value="d"> Siempre</label><br><br>
-                        </div>
-                        <span id="ErrorQ1" class="error"></span>
-
-                        <p>2. ¿Has recibido amenazas, gritos o insultos por parte de alguien que usa su poder para
-                            intimidarte?
-                        </p>
-                        <div class="respuestas">
-                            <label><input type="radio" name="q2" value="a"> No, nunca</label><br>
-                            <label><input type="radio" name="q2" value="b"> Ocasionalmente</label><br>
-                            <label><input type="radio" name="q2" value="c"> Si, en varias ocasiones</label><br>
-                            <label><input type="radio" name="q2" value="d"> Siempre</label><br><br>
-                        </div>
-                        <span id="ErrorQ2" class="error"></span>
-
-                        <p>3. ¿Te han tocado sin tu permiso o te han hecho comentarios sexuales no deseados?</p>
-                        <div class="respuestas">
-                            <label><input type="radio" name="q3" value="a"> Nunca</label><br>
-                            <label><input type="radio" name="q3" value="b"> Una vez</label><br>
-                            <label><input type="radio" name="q3" value="c"> Varias veces</label><br>
-                            <label><input type="radio" name="q3" value="d"> Siempre</label><br><br>
-                        </div>
-                        <span id="ErrorQ3" class="error"></span>
-
-                        <p>4. ¿Has sentido que necesitas actuar de cierta manera para evitar reacciones violentas o
-                            agresivas?
-                        </p>
-                        <div class="respuestas">
-                            <label><input type="radio" name="q4" value="a"> Nunca</label><br>
-                            <label><input type="radio" name="q4" value="b"> A veces</label><br>
-                            <label><input type="radio" name="q4" value="c"> Frecuentemente</label><br>
-                            <label><input type="radio" name="q4" value="d"> Siempre</label><br><br>
-                        </div>
-                        <span id="ErrorQ4" class="error"></span>
-
-                        <p>5. ¿Te han hecho sentir que no puedes valerte por ti misma económicamente o que necesitas
-                            depender de alguien?
-                        </p>
-                        <div class="respuestas">
-                            <label><input type="radio" name="q5" value="a"> Nunca</label><br>
-                            <label><input type="radio" name="q5" value="b"> A veces</label><br>
-                            <label><input type="radio" name="q5" value="c"> Frecuentemente</label><br>
-                            <label><input type="radio" name="q5" value="d"> Siempre</label><br><br>
-                        </div>
-                        <span id="ErrorQ5" class="error"></span>
-                        <button class="primary-button" type="submit">Enviar</button>
-                    </form>
-                </div>
-                <dialog id="modal">
-                    <h1 id="title"></h1>
-                    <p id="contenttext"></p>
-                    <br>
-                    <button type="button" class="primary-button" onclick="window.modal.close();">Cerrar</button>
-                    <a href="reportar.html" class="secondary-button">Reportar</a>
-                </dialog>
-            </section>
+      <!-- Enlace al archivo JavaScript -->
+      <script src="scripts/violencia.js"></script>
 
 
-            <!-- Enlace al archivo JavaScript -->
-            <script src="scripts/violencia.js"></script>
+      <!-- Pie de página -->
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer-section">
+            <h3>CECyAYUDA</h3>
+            <p>Trabajando juntos contra la violencia de género</p>
+          </div>
+          <div class="footer-section">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="info.html">Información</a></li>
+              <li><a href="reportar.html">Reportar</a></li>
+              <li><a href="consultar.html">Consultar Reportes</a></li>
+              <li><a href="recursos.html">Recursos</a></li>
+              <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Contacto</h3>
+            <p>dragonflycodes5@gmail.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 CECyAYUDA. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+  </div>
 
-
-            <!-- Pie de página -->
-            <footer class="footer">
-                <div class="footer-container">
-                    <div class="footer-section">
-                        <h3>CECyAYUDA</h3>
-                        <p>Trabajando juntos contra la violencia de género</p>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Enlaces rápidos</h3>
-                        <ul>
-                            <li><a href="index.html">Inicio</a></li>
-                            <li><a href="reportar.html">Reportar</a></li>
-                            <li><a href="consultar.html">Consultar Reportes</a></li>
-                            <li><a href="recursos.html">Recursos</a></li>
-                            <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h3>Contacto</h3>
-                        <p>dragonflycodes5@gmail.com</p>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2025 CECyAYUDA. Todos los derechos reservados.</p>
-                </div>
-            </footer>
-    </div>
-
-    <script src="scripts/mobile.js"></script>
+  <script src="scripts/mobile.js"></script>
 </body>
 
 </html>

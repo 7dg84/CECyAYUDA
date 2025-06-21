@@ -291,6 +291,28 @@ class Denuncia {
         return $result;
     }
 
+    // Metodo para ontener algunas denuncias con orden de un campo
+    public function getDenunciasWithOrder($n, $order) {
+        // Validar el campo de orden
+        $valid_orders = ['Folio', 'Fecha', 'Hora', 'Estado', 'Municipio', 'Colonia', 'Calle', 'Nombre', 'CURP', 'Correo', 'Numtelefono', 'Tipo', 'Status', 'Verified', 'Created'];
+        if (!in_array($order, $valid_orders)) {
+            die("Campo de orden inválido: " . ($order));
+        }
+
+        // Preparar y bind
+        $stmt = $this->conn->prepare("SELECT * FROM denuncias ORDER BY $order LIMIT ?");
+        if ($stmt === false) {
+            die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
+        }
+        $stmt->bind_param("i", $n);
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
+        }
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
+    }
+
     // Metodo para buscar un folio de denuncia por datos del denunciante
     public function searchFolio($nombre, $curp, $correo, $telefono) {
         // Sanitizar los datos

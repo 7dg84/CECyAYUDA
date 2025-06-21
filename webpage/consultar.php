@@ -12,7 +12,7 @@ $errorMsg = "Error desconocido";
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CECyAYUDA - Contra la Violencia de Género</title>
+  <title>CECyAYUDA - Consultar Reportes</title>
   <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
   <meta name="author" content="DragonFly Coders" />
 
@@ -20,6 +20,7 @@ $errorMsg = "Error desconocido";
   <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
   <meta property="og:type" content="website" />
 
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/report.css">
   <link rel="stylesheet" href="styles/consult.css">
@@ -39,6 +40,7 @@ $errorMsg = "Error desconocido";
         </a>
         <nav class="navbar-links">
           <a href="index.html">Inicio</a>
+          <a href="info.html">Informacion</a>
           <a href="reportar.html">Reportar</a>
           <a href="consultar.php" class="active">Consultar Reportes</a>
           <a href="recursos.html">Recursos</a>
@@ -79,10 +81,11 @@ $errorMsg = "Error desconocido";
                   <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
                   <!-- Folio -->
                   <label for="folio">Folio</label>
-                  <p><?= $row['Folio'] ?></p><br>
+                  <p id="folioParraph"><?= $row['Folio'] ?></p><br>
                   <input type="hidden" name="folio" id="folio" value="<?= $row['Folio'] ?>">
+                  <button type='button' class="secondary-button" onclick="copy(this, '<?php echo htmlspecialchars($row['Folio']); ?>')">Copiar</button>
                   <!-- Status -->
-                  <label for="status">Status</label>
+                  <label>Status</label>
                   <p><?= statusValue($row['Status']) ?></p><br>
                   <!-- Hechos  -->
                   <label for="hechos">Hechos</label>
@@ -329,6 +332,7 @@ $errorMsg = "Error desconocido";
           <h3>Enlaces rápidos</h3>
           <ul>
             <li><a href="index.html">Inicio</a></li>
+            <li><a href="info.html">Información</a></li>
             <li><a href="reportar.html">Reportar</a></li>
             <li><a href="consultar.html">Consultar Reportes</a></li>
             <li><a href="recursos.html">Recursos</a></li>

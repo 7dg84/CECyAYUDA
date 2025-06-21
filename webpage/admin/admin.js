@@ -215,6 +215,9 @@ function openActionsDialog(folio, verify) {
     dialog.showModal();
 }
 function closeActionsDialog() {
+    const folioInput = document.getElementById('actionfolio');
+    document.getElementById('verify').checked = false;
+    folioInput.value = '';
     const dialog = window.actions;
     dialog.close();
 }

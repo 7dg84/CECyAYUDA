@@ -1,9 +1,10 @@
 .resource-section {
     padding: 3rem 2rem;
+    text-align: center;
 }
 
 .resource-content {
-    margin-top: 5rem;
+    margin-top: 7rem;
     display: flex;
     
 }
@@ -23,6 +24,14 @@ iframe, .resource-content {
     height: 600px;
     border: none;
     border-radius: 12px;
+}
+
+#infografia {
+    height: 600px;
+    width: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px var(--border);
+    margin-left: 30%;
 }
 
 /* Navegacion */
@@ -76,9 +85,10 @@ a i {
     margin-right: 1.5rem;
 }
 
-img {
+#Cuestionario img {
     max-width: 600px;
     width: 100%;
+    margin-left: 20%;
 }
 
 @media (max-width: 768px) {
@@ -88,5 +98,9 @@ img {
 
     .resource-info {
         width: 100%;
+    }
+
+    #infografia, #Cuestionario img {
+        margin-left: 0;
     }
 }

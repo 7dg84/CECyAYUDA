@@ -106,6 +106,16 @@ input[type="time"] {
     .report-content form, .report-container {
         margin: 0;
     }
+    .buttons {
+        flex-direction: column;
+    }
+    .buttons a {
+        width: 100%;
+    }
+
+    #folioParraph {
+        font-size: 0.5rem;
+    }
 }
 
 .report-content .radio-container {

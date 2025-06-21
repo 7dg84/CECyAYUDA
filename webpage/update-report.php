@@ -20,9 +20,18 @@ $folio = isset($_POST['folio']) ? $_POST['folio'] : '';
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CECyAYUDA - Actualizar Reporte</title>
+    <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta name="author" content="DragonFly Coders" />
+
+    <meta property="og:title" content="CECyAYUDA - Contra la Violencia de Género" />
+    <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body>

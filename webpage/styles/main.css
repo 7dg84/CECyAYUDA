@@ -333,6 +333,12 @@ dialog {
     border-radius: 12px;
 }
 
+@media screen and (max-width: 768px) {
+    dialog {
+        width: 90%;
+    }
+}
+
 /* Mensajes de error */
 .error {
     display: block;

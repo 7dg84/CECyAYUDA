@@ -20,7 +20,7 @@ function error($message)
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CECyAYUDA - Contra la Violencia de Género</title>
+  <title>CECyAYUDA - Verifica tu Correo Electronico</title>
   <meta name="description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
   <meta name="author" content="DragonFly Coders" />
 
@@ -28,6 +28,7 @@ function error($message)
   <meta property="og:description" content="Plataforma para reportar y encontrar recursos contra la violencia de género. Reportes confidenciales, información y líneas de ayuda." />
   <meta property="og:type" content="website" />
 
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/report.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -43,7 +44,8 @@ function error($message)
         </a>
         <nav class="navbar-links">
           <a href="index.html"">Inicio</a>
-            <a href=" reportar.html" class="active">Reportar</a>
+          <a href=" info.html">Informacion</a>
+          <a href=" reportar.html" class="active">Reportar</a>
           <a href="consultar.html">Consultar Reportes</a>
           <a href="recursos.html">Recursos</a>
           <a href="sobre-nosotros.html">Sobre Nosotros</a>
@@ -70,7 +72,9 @@ function error($message)
               if (validateToken($token)): ?>
                 <!-- Verificar el correo -->
                 <?php if (verifyToken($token)): ?>
-                  <div class="icon">\n<i class="fa-solid fa-check"></i>\n</div>
+                  <div class="icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                  </div>
                   <h2 class="section-title">Éxito</h2>
                   <p>Tu correo ha sido verificado exitosamente. Gracias por tu reporte.</p>
                 <?php else: ?>
@@ -118,6 +122,7 @@ function error($message)
           <h3>Enlaces rápidos</h3>
           <ul>
             <li><a href="index.html">Inicio</a></li>
+            <li><a href="info.html">Información</a></li>
             <li><a href="reportar.html">Reportar</a></li>
             <li><a href="consultar.html">Consultar Reportes</a></li>
             <li><a href="recursos.html">Recursos</a></li>

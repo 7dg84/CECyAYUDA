@@ -69,3 +69,11 @@
     width: 100%;
     border: 1px solid var(--border);
 }
+
+@media screen and (max-width: 768px) {
+    .recovery-container,
+    .recovery-content form {
+        margin: 0;
+    }
+    
+}

@@ -18,7 +18,8 @@ $config = new Config();
 $adminEmail = $config['admin']['email'] ?? '';
 
 // Helper: send verification code
-function send_verification_code($email, $code) {
+function send_verification_code($email, $code)
+{
     global $config;
     $mail = new PHPMailer(true);
     try {
@@ -159,20 +160,123 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Cambiar Credenciales de Administrador</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        form {
+            background: #fff;
+            max-width: 480px;
+            margin: 2rem auto 1.5rem auto;
+            padding: 2rem 2rem 1.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        form h2 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: #0bb8a9;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"] {
+            padding: 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="number"]:focus {
+            border-color: #11decdbc;
+            outline: none;
+        }
+
+        button[type="submit"],
+        button {
+            background: #11decdbc;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        button[type="submit"]:hover,
+        button:hover {
+            background: #0bb8a9;
+        }
+
+        .msg,
+        .success,
+        .error {
+            text-align: center;
+            margin: 1rem auto;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            max-width: 480px;
+        }
+
+        .success {
+            background: #d1f7ee;
+            color: #0bb8a9;
+            border: 1px solid #0bb8a9;
+        }
+
+        .error {
+            background: #ffeaea;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                max-width: 98vw;
+                padding: 1rem 0.5rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <header>
         <h1>Panel de Administracion</h1>
         <p>Usuario: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
-    <nav>
-        <ul>
-            <li><a href="main.php">Inicio</a></li>
-            <li><a href="change_password.php">Cambiar Contraseña</a></li>
-            <li><a href="logout.php">Cerrar Sesión</a></li>
-        </ul>
+        <nav>
+            <ul>
+                <li><a href="main.php">Inicio</a></li>
+                <li><a href="change_password.php">Cambiar Contraseña</a></li>
+                <li><a href="logout.php">Cerrar Sesión</a></li>
+            </ul>
     </header>
     <h2>Cambiar Credenciales de Administrador</h2>
     <?php if (isset($msg)): ?>
@@ -184,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             <p>Se enviará un código de verificación al correo del administrador (<b><?= htmlspecialchars($adminEmail) ?></b>).</p>
             <button type="submit" name="request_code">Solicitar Código</button>
         </form>
-    <?php elseif (isset($_SESSION['is_auth']) && $_SESSION['is_auth']===true): ?>
+    <?php elseif (isset($_SESSION['is_auth']) && $_SESSION['is_auth'] === true): ?>
         <form method="post">
             <h2>Base de Datos</h2>
             <label for="host">Host:</label>
@@ -196,14 +300,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             <label for="dbpassword">Contraseña:</label>
             <input type="password" id="dbpassword" name="dbpassword" value="<?= htmlspecialchars($config['db']['password']) ?>" required>
             
+
             <h2>Credenciales de Administrador</h2>
             <label for="aduser">Usuario:</label>
-            <input type="text" id="aduser" name="aduser" value="<?= htmlspecialchars($config['admin']['user'])?>" required>
+            <input type="text" id="aduser" name="aduser" value="<?= htmlspecialchars($config['admin']['user']) ?>" required>
             <label for="adpassword">Contraseña:</label>
-            <input type="password" id="adpassword" name="adpassword"  required>
+            <input type="password" id="adpassword" name="adpassword" required>
             <label for="ademail">Correo:</label>
             <input type="email" id="ademail" name="ademail" value="<?= htmlspecialchars($adminEmail) ?>" required>
-            
+
             <h2>Configuracion de Correo</h2>
             <label for="mail_key">Llave de encriptacion para correos de verificacion:</label>
             <input type="text" id="mail_key" name="mail_key" value="<?= htmlspecialchars($config['mail']['enckey']) ?>" required>
@@ -237,11 +342,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
         </form>
     <?php else: ?>
         <form method="post">
-            <p><?php echo $_SESSION['verification_code']?></p>
+            <p><?php echo $_SESSION['verification_code'] ?></p>
             <label for="verification_code">Código de Verificación:</label>
             <input type="text" id="verification_code" name="verification_code" required>
             <button type="submit">Verificar Código</button>
         </form>
     <?php endif; ?>
 </body>
+
 </html>
