@@ -97,6 +97,25 @@ a:hover {
   background-color: var(--primary-light);
 }
 
+/* Boton de eliminar */
+.delete-button {
+    border: 1px solid var(--border);
+    background-color: var(--destructive);
+    color: var(--background);
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: var(--destructive-dark);
+    color: var(--background);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--border);
+}
+
 /* Barra de navegación */
 .navbar {
   background-color: var(--background);
@@ -318,32 +337,92 @@ a:hover {
 
 /* Ventana modal */
 dialog {
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 40%;
-    height: fit-content;
-    overflow: auto;
-    background-color: var(--background);
-    padding: 20px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 12px var(--border);
-    border-radius: 12px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: fit-content;
+  overflow: auto;
+  background-color: var(--background);
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px var(--border);
+  border-radius: 12px;
 }
 
 @media screen and (max-width: 768px) {
-    dialog {
-        width: 90%;
-    }
+  dialog {
+    width: 90%;
+  }
 }
 
 /* Mensajes de error */
 .error {
-    display: block;
-    margin-top: 5px;
-    text-align: left;
-    color: var(--destructive);
-    font-size: 0.9em;
+  display: block;
+  margin-top: 5px;
+  text-align: left;
+  color: var(--destructive);
+  font-size: 0.9em;
+}
+
+/* Icono*/
+.icon {
+  background-color: var(--background);
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+}
+
+.icon i {
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+/* Boton para manuales */
+.icon-faq {
+  position: fixed;
+  z-index: 1;
+  bottom: 5px;
+  right: 2%;
+  background-color: var(--background);
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+}
+
+.icon-faq i {
+  color: var(--primary);
+  font-size: 2rem;
+}
+
+.icon-faq:hover {
+  color: var(--background);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--border);
+}
+
+.icon-faq i:hover {
+  color: var(--primary-dark);
+}
+
+#faq a, #faq button{
+  border: 1px solid var(--border);
+  padding: 13px 24px;
+  font-size: 1rem;
+  margin: 5px;
+}
+
+#faq video {
+  max-width: 100%;
+  height: 30%;
 }

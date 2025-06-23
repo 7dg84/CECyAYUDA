@@ -160,6 +160,20 @@ $errorMsg = "Error desconocido";
       </div>
     </footer>
   </div>
+  
+  <!-- Ventana para los manuales -->
+  <div class="icon-faq" onclick="faq.showModal();">
+    <i class="fa-regular fa-circle-question"></i>
+  </div>
+  <dialog id="faq">
+    <h2>Vea los manuales</h2>
+    
+    <a href="resources/ManualUsuarioEsp.pdf" target="_blank"  class="secondary-button">Manual en Español</a>
+    <a href="resources/ManualUsuarioIng.pdf" target="_blank"  class="secondary-button">Manual en Ingles</a>
+    <br>
+    <button type="button" class="primary-button" onclick="faq.close()">Cerrar</button>
+  </dialog>
+
   <!-- Script para el menú móvil -->
   <script src="scripts/mobile.js"></script>
 </body>

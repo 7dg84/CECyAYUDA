@@ -77,21 +77,3 @@ img {
     box-shadow: 0 2px 8px var(--border);
 }
 
-/* Boton de eliminar */
-.delete-button {
-    border: 1px solid var(--border);
-    background-color: var(--destructive);
-    color: var(--background);
-    padding: 12px 24px;
-    border-radius: 6px;
-    font-weight: 500;
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-
-.delete-button:hover {
-    background-color: var(--destructive-dark);
-    color: var(--background);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px var(--border);
-}

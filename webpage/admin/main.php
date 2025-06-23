@@ -390,6 +390,7 @@ function renderDeleteButton($folio)
                 $order = htmlspecialchars($_GET['order']);
                 $row = $database->getDenunciasWithOrder($num_records, $order);
                 $_SESSION['last_search'] = [
+                    'field' => 'Default',
                     'num_records' => $num_records,
                     'order' => $order
                 ];

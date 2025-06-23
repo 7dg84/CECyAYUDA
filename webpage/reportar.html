@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/report.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <script src="scripts/form.js"></script>
 </head>
 
 <body>
@@ -215,6 +217,23 @@
       </div>
     </footer>
   </div>
+
+  <!-- Ventana para los manuales -->
+  <div class="icon-faq" onclick="faq.showModal();">
+    <i class="fa-regular fa-circle-question"></i>
+  </div>
+  <dialog id="faq">
+    <h2>Tutorial de Uso</h2>
+    <media>
+      <video src="media/ManualVideo.mov" controls></video>
+    </media>
+    <h2>Vea los manuales</h2>
+    <a href="resources/ManualUsuarioEsp.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Español</a>
+    <a href="resources/ManualUsuarioIng.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Ingles</a>
+    <br>
+    <button type="button" class="primary-button" onclick="faq.close()">Cerrar</button>
+  </dialog>
+
   <!-- Script para el menú móvil -->
   <script src="scripts/mobile.js"></script>
 </body>
