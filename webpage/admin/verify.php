@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 include_once 'config.php';
 
+$retoken = '';
+
 // Generar token en base a la información que expira en una hora
 function genToken($folio, $curp, $correo)
 {
@@ -181,7 +183,7 @@ function sendEmail($nombre, $folio, $curp, $correo)
     // Contenido del correo
     $token = genToken($folio, $curp, $correo);
 
-    $resend = Resend::client('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6');
+    $resend = Resend::client($retoken);
 
     $resend->emails->send([
         'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
@@ -276,7 +278,7 @@ function sendFolioEmail($nombre, $folio, $correo)
     }
 
     // Contenido del correo    
-    $resend = Resend::client('re_cvNywNbY_KqsPYLW24FhZuKfekw6YXWM3');
+    $resend = Resend::client($retoken);
     $resend->emails->send([
         'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
         'to' => [$correo],
