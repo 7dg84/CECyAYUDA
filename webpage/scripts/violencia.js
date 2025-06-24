@@ -41,19 +41,19 @@ document.getElementById('violenciaForm').addEventListener('submit', function (e)
     let text = document.getElementById('contenttext');
     switch (mayor) {
         case 'a':
-            title.innerHTML = ('No sufres Violencia');
+            title.innerHTML = ('No sufres Violencia 👌');
             text.innerHTML = ('No se detectan señales claras de violencia de género. Las personas a tu alrededor parecen respetar tu integridad y libertad.');
             break;
         case 'b':
-            title.innerHTML = ('Signos leves de violencia');
+            title.innerHTML = ('Signos leves de violencia ❗');
             text.innerHTML = ('Existen signos leves o disfrazados de violencia. Aunque parezcan inofensivos, pueden escalar con el tiempo. No los ignores.');
             break;
         case 'c':
-            title.innerHTML = ('Señales moderadas de Violencia');
+            title.innerHTML = ('Señales moderadas de Violencia ‼️');
             text.innerHTML = ('Hay señales evidentes de violencia. Tu libertad o dignidad están siendo afectadas. Habla con alguien y busca ayuda.');
             break;
         case 'd':
-            title.innerHTML = ('Situacion grave de Violencia');
+            title.innerHTML = ('Situacion grave de Violencia ⚠️');
             text.innerHTML = ('Situación grave de violencia de género. Tu bienestar está en riesgo. Es urgente que busques apoyo inmediato.');
             break;
     }

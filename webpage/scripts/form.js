@@ -203,3 +203,5 @@ function updateFileName(input) {
     // Actualizar el texto del elemento con el ID 'fileName'
     document.getElementById("fileName").innerText = fileName ? "Archivo seleccionado: " + fileName : "No se ha seleccionado ningún archivo.";
 }
+
+// Funcion para buscar en la API SEPOMEX los datos de 

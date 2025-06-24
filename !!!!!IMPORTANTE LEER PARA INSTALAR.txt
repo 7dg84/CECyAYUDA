@@ -1,0 +1,27 @@
+Primero que nada esta aplicacion desde un principio fue concebida para ser desplegada en un servidor web,
+porlo que utiliza docker como tecnologia para contenerizar todas las partes del mismo y facilitar su despliegue,
+por lo tanto recomendamos desplegarlo de esta manera el lugar de usar XAMPP,
+Para ello:
+Instale Docker si no lo ha instalado:
+
+https://www.docker.com/
+
+una vez instalado posicionese dentro de la carpeta de CECyAYUDA
+
+ejecute el comando en terminal
+
+docker compose build
+
+para levantar los servicios ejecute
+
+docker compose up -d 
+
+finalmente para parar los servios ejecute
+
+docker compose down
+
+Nota: Algunos servicios requieren de configuracion, para una configuracion rapida, ejecute
+
+python quickconfig.py
+
+Esto configurara claves propias de servicios, por favor uselas responsablemente

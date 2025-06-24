@@ -16,6 +16,10 @@
 }
 
 /* Formulario */
+input:active {
+    background-color: var(--primary);
+}
+
 .report-section {
     padding: 3rem 2rem;
 
@@ -62,6 +66,8 @@
     margin-bottom: 15px;
     border: 1px solid var(--border);
     border-radius: 6px;
+    background: var(--background);
+    color: var(--text-primary);
 }
 
 .report-content input[type="file"] {
@@ -94,6 +100,8 @@ input[type="time"] {
     border-radius: 5px;
     max-width: 800px;
     width: 100%;
+    background: var(--background);
+    color: var(--text-primary);
 }
 
 @media (min-width: 768px) {

@@ -35,10 +35,14 @@ include_once 'logic.php';
         <nav class="navbar-links">
           <a href="index.html"">Inicio</a>
           <a href=" info.html">Informacion</a>
-          <a href="reportar.html" class="active">Reportar</a>
-          <a href="consultar.php">Consultar Reportes</a>
+          <a href="reportar.html">Reportar</a>
+          <a href="consultar.php" class="active">Consultar Reportes</a>
           <a href="recursos.html">Recursos</a>
           <a href="sobre-nosotros.html">Sobre Nosotros</a>
+          <!-- Boton para modo oscuro -->
+          <div id="toggle-theme">
+            <i class="fa-solid fa-moon"></i>
+          </div>
         </nav>
         <!-- Boton para dispositivos Moviles -->
         <button class="mobile-menu-btn" title="Abrir menú de navegación">
@@ -110,8 +114,16 @@ include_once 'logic.php';
         </div>
         <div class="footer-section">
           <h3>Contacto</h3>
-          <p>contacto@cecyayuda.org</p>
-          <p>Línea de ayuda: 0800-999-1234</p>
+          <a href="mailto:dragonflycodes5@gmail.com">
+            <p>dragonflycodes5@gmail.com</p>
+          </a>
+          <a href="https://www.youtube.com/@DragonFlyCodes">
+            <p>Canal DragonFlyCodes</p>
+          </a>
+          <h3>Administracion</h3>
+          <a href="admin/login.php">
+            <p>Panel de Administracion</p>
+          </a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -119,6 +131,22 @@ include_once 'logic.php';
       </div>
     </footer>
   </div>
+
+  <!-- Ventana para los manuales -->
+  <div class="icon-faq" onclick="faq.showModal();">
+    <i class="fa-regular fa-circle-question"></i>
+  </div>
+  <dialog id="faq">
+    <h2>Tutorial de Uso</h2>
+    <media>
+      <video src="media/ManualVideo.mov" controls></video>
+    </media>
+    <h2>Vea los manuales</h2>
+    <a href="resources/ManualUsuarioEsp.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Español</a>
+    <a href="resources/ManualUsuarioIng.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Ingles</a>
+    <br>
+    <button type="button" class="primary-button" onclick="faq.close()">Cerrar</button>
+  </dialog>
 
   <script src="scripts/mobile.js"></script>
 </body>

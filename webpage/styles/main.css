@@ -13,6 +13,37 @@
   --muted: #8E9196;
 }
 
+/* Modo Oscuro */
+body.dark-mode {
+  --primary: #b6aaff;
+  --primary-dark: #6c5fa3;
+  --primary-light: #2a223a;
+  --destructive: #ff6b81;
+  --destructive-dark: #c0392b;
+  --text-primary: #f4f4f4;
+  --text-secondary: #cccccc;
+  --background: #181824;
+  --background-footer: #232336;
+  --border: #2a2a3a;
+  --muted: #8888aa;
+}
+
+/* Boton del modo oscuro */
+#toggle-dark {
+  background-color: var(--background);
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+#toggle-dark i {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
 /* Estilos generales */
 * {
   margin: 0;
@@ -322,6 +353,7 @@ a:hover {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   cursor: pointer;
+  color: var(--text-primary);
 }
 
 .mobile-menu a {
@@ -350,6 +382,7 @@ dialog {
   border: 1px solid var(--border);
   box-shadow: 0 4px 12px var(--border);
   border-radius: 12px;
+  color: var(--text-primary);
 }
 
 @media screen and (max-width: 768px) {

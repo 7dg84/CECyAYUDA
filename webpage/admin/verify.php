@@ -164,6 +164,7 @@ function sendEmaildep($nombre, $folio, $curp, $correo)
 
 function sendEmail($nombre, $folio, $curp, $correo)
 {
+    global $retoken;
     require __DIR__ . '/vendor/autoload.php';
     $config = new Config(); // Cargar la configuración
     // Verificar que la configuración de correo esté completa
@@ -261,6 +262,7 @@ function sendFolioEmaildep($nombre, $folio, $correo)
 
 function sendFolioEmail($nombre, $folio, $correo)
 {
+    global $retoken;
     require __DIR__ . '/vendor/autoload.php';
     $config = new Config();
     // Verificar que la configuración de correo esté completa

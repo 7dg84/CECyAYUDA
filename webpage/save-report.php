@@ -24,6 +24,36 @@ include_once 'logic.php';
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/report.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <script>
+    // Funcion para copiar el folio
+    function copy(event, folio) {
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(folio)
+          .then(() => event.textContent = '¡Copiado!')
+          .catch(err => console.error("Copy failed:", err));
+      } else {
+        // Fallback for unsupported or insecure contexts
+        const textarea = document.createElement("textarea");
+        textarea.value = folio;
+        textarea.style.position = "fixed"; // avoid scrolling to bottom
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          event.textContent = '¡Copiado!';
+        } catch (err) {
+          console.error("Fallback copy failed:", err);
+        }
+        document.body.removeChild(textarea);
+      }
+      setTimeout(function() {
+        event.textContent = 'Copiar';
+      }, 1500);
+    }
+  </script>
 </head>
 
 <body>
@@ -41,6 +71,10 @@ include_once 'logic.php';
           <a href="consultar.php">Consultar Reportes</a>
           <a href="recursos.html">Recursos</a>
           <a href="sobre-nosotros.html">Sobre Nosotros</a>
+          <!-- Boton para modo oscuro -->
+          <div id="toggle-theme">
+            <i class="fa-solid fa-moon"></i>
+          </div>
         </nav>
         <!-- Boton para dispositivos Moviles -->
         <button class="mobile-menu-btn" title="Abrir menú de navegación">
@@ -96,7 +130,7 @@ include_once 'logic.php';
                 <div class="report-details">
                   <p><strong>Folio:</strong>
                   <p id="folioParraph"><?php echo htmlspecialchars($folio); ?></p>
-                  <button type='button' class="secondary-button" onclick="copy(this, '<?php echo htmlspecialchars($row['Folio']); ?>')">Copiar</button>
+                  <button type='button' class="secondary-button" onclick="copy(this, '<?php echo htmlspecialchars($folio); ?>')">Copiar</button>
                   <p><strong>Fecha:</strong></p>
                   <p><?php echo htmlspecialchars($_POST['fecha']); ?></p>
                   <p><strong>Hora:</strong></p>
@@ -179,8 +213,16 @@ include_once 'logic.php';
         </div>
         <div class="footer-section">
           <h3>Contacto</h3>
-          <p>contacto@cecyayuda.org</p>
-          <p>Línea de ayuda: 0800-999-1234</p>
+          <a href="mailto:dragonflycodes5@gmail.com">
+            <p>dragonflycodes5@gmail.com</p>
+          </a>
+          <a href="https://www.youtube.com/@DragonFlyCodes">
+            <p>Canal DragonFlyCodes</p>
+          </a>
+          <h3>Administracion</h3>
+          <a href="admin/login.php">
+            <p>Panel de Administracion</p>
+          </a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -188,6 +230,22 @@ include_once 'logic.php';
       </div>
     </footer>
   </div>
+
+  <!-- Ventana para los manuales -->
+  <div class="icon-faq" onclick="faq.showModal();">
+    <i class="fa-regular fa-circle-question"></i>
+  </div>
+  <dialog id="faq">
+    <h2>Tutorial de Uso</h2>
+    <media>
+      <video src="media/ManualVideo.mov" controls></video>
+    </media>
+    <h2>Vea los manuales</h2>
+    <a href="resources/ManualUsuarioEsp.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Español</a>
+    <a href="resources/ManualUsuarioIng.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Ingles</a>
+    <br>
+    <button type="button" class="primary-button" onclick="faq.close()">Cerrar</button>
+  </dialog>
 
   <script src="scripts/mobile.js"></script>
 </body>

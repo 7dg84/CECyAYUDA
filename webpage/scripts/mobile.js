@@ -24,6 +24,28 @@ document.addEventListener('DOMContentLoaded', function () {
           body.style.overflow = '';
         });
 
+        // Boton para tema
+        const themeBtn = document.createElement('div');
+        themeBtn.id = "toggle-theme";
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        // Cargar el logo correcto del tema
+        if (document.body.classList.contains('dark-mode')) {
+          localStorage.setItem('theme', 'dark');
+          themeBtn.children[0].className = "fa-solid fa-sun";
+        } else {
+          localStorage.setItem('theme', 'light');
+          themeBtn.children[0].className = "fa-solid fa-moon";
+        }
+        themeBtn.addEventListener('click', function () {
+          if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+            themeBtn.children[0].className = "fa-solid fa-sun";
+          } else {
+            localStorage.setItem('theme', 'light');
+            themeBtn.children[0].className = "fa-solid fa-moon";
+          }
+        });
+
         // Agregar enlaces
         const links = [
           { href: 'index.html', text: 'Inicio', active: true },
@@ -35,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ];
 
         mobileMenu.appendChild(closeBtn);
-
+        
         links.forEach(link => {
           const a = document.createElement('a');
           a.href = link.href;
@@ -44,7 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
           if (link.className) a.classList.add(link.className);
           mobileMenu.appendChild(a);
         });
-
+        
+        mobileMenu.appendChild(themeBtn);
         document.body.appendChild(mobileMenu);
       }
 
@@ -95,10 +118,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Comprobar posición inicial y luego en scroll
   revealOnScroll();
   window.addEventListener('scroll', revealOnScroll);
-});
 
-// animacion de entrada de los elementos del formulario
-document.addEventListener('DOMContentLoaded', function () {
+  // animacion de entrada de los elementos del formulario
   const formElements = document.querySelectorAll('form');
 
   formElements.forEach((element, index) => {
@@ -111,6 +132,27 @@ document.addEventListener('DOMContentLoaded', function () {
       element.style.transform = 'translateY(0)';
     }, index * 200);
   });
+
+  // Animación de entrada para el footer
+  const footer = document.querySelector('footer');
+  footer.style.opacity = '0';
+  footer.style.transform = 'translateY(20px)';
+  footer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+  setTimeout(() => {
+    footer.style.opacity = '1';
+    footer.style.transform = 'translateY(0)';
+  }, 500);
+
+  // Cargar el logo correcto del tema
+  if (document.body.classList.contains('dark-mode')) {
+    localStorage.setItem('theme', 'dark');
+    document.getElementById('toggle-theme').children[0].className = "fa-solid fa-sun";
+  } else {
+    localStorage.setItem('theme', 'light');
+    document.getElementById('toggle-theme').children[0].className = "fa-solid fa-moon";
+  }
+
 });
 
 // Animacion para el logo de la navbar
@@ -123,15 +165,19 @@ setInterval(() => {
   text.style.transition = 'opacity 0.5s ease, color 0.5s ease';
 }, 5000);
 
-// Animación de entrada para el footer
-document.addEventListener('DOMContentLoaded', function () {
-  const footer = document.querySelector('footer');
-  footer.style.opacity = '0';
-  footer.style.transform = 'translateY(20px)';
-  footer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-
-  setTimeout(() => {
-    footer.style.opacity = '1';
-    footer.style.transform = 'translateY(0)';
-  }, 500);
-});
+// Funcion para Modo Oscuro
+document.getElementById('toggle-theme').onclick = function () {
+  document.body.classList.toggle('dark-mode');
+  // Opcional: guarda la preferencia en localStorage
+  if (document.body.classList.contains('dark-mode')) {
+    localStorage.setItem('theme', 'dark');
+    document.getElementById('toggle-theme').children[0].className = "fa-solid fa-sun";
+  } else {
+    localStorage.setItem('theme', 'light');
+    document.getElementById('toggle-theme').children[0].className = "fa-solid fa-moon";
+  }
+};
+// Al cargar la página, aplica la preferencia guardada
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-mode');
+}

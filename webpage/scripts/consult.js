@@ -261,12 +261,3 @@ function updateFileName(input) {
     document.getElementById("fileName").innerText = fileName ? "Archivo seleccionado: " + fileName : "No se ha seleccionado ningún archivo.";
 }
 
-function copy(event, folio) {
-    navigator.clipboard.writeText(folio).then(function () {
-        event.target.textContent = '¡Copiado!';
-        setTimeout(function () {
-            event.target.textContent = 'Copiar';
-        }, 1500);
-    });
-    ;
-}

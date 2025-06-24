@@ -37,9 +37,13 @@
           <a href="consultar.php">Consultar Reportes</a>
           <a href="recursos.html">Recursos</a>
           <a href="sobre-nosotros.html">Sobre Nosotros</a>
+          <!-- Boton para modo oscuro -->
+          <div id="toggle-theme">
+            <i class="fa-solid fa-moon"></i>
+          </div>
         </nav>
         <!-- Boton para dispositivos Moviles -->
-        <button class="mobile-menu-btn" title="Abrir menú de navegación">
+        <button type="button" class="mobile-menu-btn" title="Abrir menú de navegación">
           <i class="fas fa-bars"></i>
         </button>
       </div>
@@ -54,10 +58,10 @@
           <script>
             var typed = new Typed('#hero-text', {
               strings: ['Ofrecemos un espacio seguro para reportar, buscar ayuda y encontrar recursos contra la violencia de género.',
-               'Nuestra misión es empoderar a las víctimas y crear conciencia sobre la violencia de género.',
-              'Brindamos una plataforma para reportar incidentes de violencia de género de manera confidencial y segura.',
-              'Proporcionamos recursos y apoyo a las víctimas de violencia de género, ayudándolas a encontrar la ayuda que necesitan.',
-              'Sabes si estás sufriendo violencia de género? Responde nuestro cuestionario para recibir orientación.',],
+                'Nuestra misión es empoderar a las víctimas y crear conciencia sobre la violencia de género.',
+                'Brindamos una plataforma para reportar incidentes de violencia de género de manera confidencial y segura.',
+                'Proporcionamos recursos y apoyo a las víctimas de violencia de género, ayudándolas a encontrar la ayuda que necesitan.',
+                'Sabes si estás sufriendo violencia de género? Responde nuestro cuestionario para recibir orientación.',],
               typeSpeed: 50,
               backSpeed: 30,
               loop: true,
@@ -153,7 +157,16 @@
         </div>
         <div class="footer-section">
           <h3>Contacto</h3>
-          <p>dragonflycodes5@gmail.com</p>
+          <a href="mailto:dragonflycodes5@gmail.com">
+            <p>dragonflycodes5@gmail.com</p>
+          </a>
+          <a href="https://www.youtube.com/@DragonFlyCodes">
+            <p>Canal DragonFlyCodes</p>
+          </a>
+          <h3>Administracion</h3>
+          <a href="admin/login.php">
+            <p>Panel de Administracion</p>
+          </a>
         </div>
       </div>
       <div class="footer-bottom">
