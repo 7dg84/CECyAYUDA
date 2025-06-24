@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Boton para tema
         const themeBtn = document.createElement('div');
-        themeBtn.id = "toggle-theme";
+        themeBtn.className = "toggle-theme";
         themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         // Cargar el logo correcto del tema
         if (document.body.classList.contains('dark-mode')) {
@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
           themeBtn.children[0].className = "fa-solid fa-moon";
         }
         themeBtn.addEventListener('click', function () {
+          document.body.classList.toggle('dark-mode');
           if (document.body.classList.contains('dark-mode')) {
             localStorage.setItem('theme', 'dark');
             themeBtn.children[0].className = "fa-solid fa-sun";
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ];
 
         mobileMenu.appendChild(closeBtn);
-        
+
         links.forEach(link => {
           const a = document.createElement('a');
           a.href = link.href;
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (link.className) a.classList.add(link.className);
           mobileMenu.appendChild(a);
         });
-        
+
         mobileMenu.appendChild(themeBtn);
         document.body.appendChild(mobileMenu);
       }

@@ -29,7 +29,7 @@ body.dark-mode {
 }
 
 /* Boton del modo oscuro */
-#toggle-dark {
+#toggle-dark, .toggle-dark {
   background-color: var(--background);
   width: 1.3rem;
   height: 1.3rem;
@@ -39,7 +39,7 @@ body.dark-mode {
   border-radius: 50%;
 }
 
-#toggle-dark i {
+#toggle-dark i, .toggle-dark i{
   color: var(--primary);
   font-size: 1rem;
 }
