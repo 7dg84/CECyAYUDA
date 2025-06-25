@@ -27,132 +27,140 @@ document.addEventListener('DOMContentLoaded', function () {
         // Boton para tema
         const themeBtn = document.createElement('div');
         themeBtn.className = "toggle-theme";
-        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        // Cargar el logo correcto del tema
-        if (document.body.classList.contains('dark-mode')) {
-          localStorage.setItem('theme', 'dark');
-          themeBtn.children[0].className = "fa-solid fa-sun";
-        } else {
-          localStorage.setItem('theme', 'light');
-          themeBtn.children[0].className = "fa-solid fa-moon";
-        }
-        themeBtn.addEventListener('click', function () {
-          document.body.classList.toggle('dark-mode');
-          if (document.body.classList.contains('dark-mode')) {
-            localStorage.setItem('theme', 'dark');
-            themeBtn.children[0].className = "fa-solid fa-sun";
-          } else {
-            localStorage.setItem('theme', 'light');
-            themeBtn.children[0].className = "fa-solid fa-moon";
-          }
-        });
-
-        // Agregar enlaces
-        const links = [
-          { href: 'index.html', text: 'Inicio', active: true },
-          { href: 'info.html', text: 'Información' },
-          { href: 'reportar.html', text: 'Reportar' },
-          { href: 'consultar.php', text: 'Consultar reportes' },
-          { href: 'recursos.html', text: 'Recursos' },
-          { href: 'sobre-nosotros.html', text: 'Sobre Nosotros' },
-        ];
-
-        mobileMenu.appendChild(closeBtn);
-
-        links.forEach(link => {
-          const a = document.createElement('a');
-          a.href = link.href;
-          a.textContent = link.text;
-          if (link.active) a.classList.add('active');
-          if (link.className) a.classList.add(link.className);
-          mobileMenu.appendChild(a);
-        });
-
-        mobileMenu.appendChild(themeBtn);
-        document.body.appendChild(mobileMenu);
-      }
-
-      // Mostrar/ocultar el menú
-      mobileMenu.classList.toggle('active');
-
-      // Evitar scroll en el body cuando el menú está abierto
-      if (mobileMenu.classList.contains('active')) {
-        body.style.overflow = 'hidden';
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i><p>Tema</p>';
+        themeBtn.style.display = 'flex';
+        themeBtn.style.margin = '1rem';
+        themeBtn.style.alignItems = 'center';
+        themeBtn.children[0].style.marginRight = '2rem';
+    // Cargar el logo correcto del tema
+    if (document.body.classList.contains('dark-mode')) {
+      localStorage.setItem('theme', 'dark');
+      themeBtn.children[0].className = "fa-solid fa-sun";
+      themeBtn.children[1].textContent = "Tema Claro";
+    } else {
+      localStorage.setItem('theme', 'light');
+      themeBtn.children[0].className = "fa-solid fa-moon";
+      themeBtn.children[1].textContent = "Tema Oscuro";
+    }
+    themeBtn.addEventListener('click', function () {
+      document.body.classList.toggle('dark-mode');
+      if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+        themeBtn.children[0].className = "fa-solid fa-sun";
+        themeBtn.children[1].textContent = "Tema Claro";
       } else {
-        body.style.overflow = '';
+        localStorage.setItem('theme', 'light');
+        themeBtn.children[0].className = "fa-solid fa-moon";
+        themeBtn.children[1].textContent = "Tema Oscuro";
       }
     });
+
+    // Agregar enlaces
+    const links = [
+      { href: 'index.html', text: 'Inicio', active: true },
+      { href: 'info.html', text: 'Información' },
+      { href: 'reportar.html', text: 'Reportar' },
+      { href: 'consultar.php', text: 'Consultar reportes' },
+      { href: 'recursos.html', text: 'Recursos' },
+      { href: 'sobre-nosotros.html', text: 'Sobre Nosotros' },
+    ];
+
+    mobileMenu.appendChild(closeBtn);
+
+    links.forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.href;
+      a.textContent = link.text;
+      if (link.active) a.classList.add('active');
+      if (link.className) a.classList.add(link.className);
+      mobileMenu.appendChild(a);
+    });
+
+    mobileMenu.appendChild(themeBtn);
+    document.body.appendChild(mobileMenu);
   }
 
-  // Añadir animación de entrada a los elementos
-  const animateElements = document.querySelectorAll('.hero-title, .hero-text, .hero-buttons');
-  animateElements.forEach((element, index) => {
-    setTimeout(() => {
-      element.style.opacity = '1';
-      element.style.transform = 'translateY(0)';
-    }, index * 200);
+  // Mostrar/ocultar el menú
+  mobileMenu.classList.toggle('active');
+
+  // Evitar scroll en el body cuando el menú está abierto
+  if (mobileMenu.classList.contains('active')) {
+    body.style.overflow = 'hidden';
+  } else {
+    body.style.overflow = '';
+  }
+});
+  }
+
+// Añadir animación de entrada a los elementos
+const animateElements = document.querySelectorAll('.hero-title, .hero-text, .hero-buttons');
+animateElements.forEach((element, index) => {
+  setTimeout(() => {
+    element.style.opacity = '1';
+    element.style.transform = 'translateY(0)';
+  }, index * 200);
+});
+
+// Agregar efectos de scroll
+const revealOnScroll = function () {
+  const cardElements = document.querySelectorAll('.service-card');
+
+  cardElements.forEach(card => {
+    const cardTop = card.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if (cardTop < windowHeight - 100) {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }
   });
+};
 
-  // Agregar efectos de scroll
-  const revealOnScroll = function () {
-    const cardElements = document.querySelectorAll('.service-card');
+// Inicializar las cards con opacidad 0
+const cards = document.querySelectorAll('.service-card');
+cards.forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(20px)';
+  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+});
 
-    cardElements.forEach(card => {
-      const cardTop = card.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
+// Comprobar posición inicial y luego en scroll
+revealOnScroll();
+window.addEventListener('scroll', revealOnScroll);
 
-      if (cardTop < windowHeight - 100) {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }
-    });
-  };
+// animacion de entrada de los elementos del formulario
+const formElements = document.querySelectorAll('form');
 
-  // Inicializar las cards con opacidad 0
-  const cards = document.querySelectorAll('.service-card');
-  cards.forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  });
-
-  // Comprobar posición inicial y luego en scroll
-  revealOnScroll();
-  window.addEventListener('scroll', revealOnScroll);
-
-  // animacion de entrada de los elementos del formulario
-  const formElements = document.querySelectorAll('form');
-
-  formElements.forEach((element, index) => {
-    element.style.opacity = '0';
-    element.style.transform = 'translateY(20px)';
-    element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-
-    setTimeout(() => {
-      element.style.opacity = '1';
-      element.style.transform = 'translateY(0)';
-    }, index * 200);
-  });
-
-  // Animación de entrada para el footer
-  const footer = document.querySelector('footer');
-  footer.style.opacity = '0';
-  footer.style.transform = 'translateY(20px)';
-  footer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+formElements.forEach((element, index) => {
+  element.style.opacity = '0';
+  element.style.transform = 'translateY(20px)';
+  element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
 
   setTimeout(() => {
-    footer.style.opacity = '1';
-    footer.style.transform = 'translateY(0)';
-  }, 500);
+    element.style.opacity = '1';
+    element.style.transform = 'translateY(0)';
+  }, index * 200);
+});
 
-  // Cargar el logo correcto del tema
-  if (document.body.classList.contains('dark-mode')) {
-    localStorage.setItem('theme', 'dark');
-    document.getElementById('toggle-theme').children[0].className = "fa-solid fa-sun";
-  } else {
-    localStorage.setItem('theme', 'light');
-    document.getElementById('toggle-theme').children[0].className = "fa-solid fa-moon";
-  }
+// Animación de entrada para el footer
+const footer = document.querySelector('footer');
+footer.style.opacity = '0';
+footer.style.transform = 'translateY(20px)';
+footer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+setTimeout(() => {
+  footer.style.opacity = '1';
+  footer.style.transform = 'translateY(0)';
+}, 500);
+
+// Cargar el logo correcto del tema
+if (document.body.classList.contains('dark-mode')) {
+  localStorage.setItem('theme', 'dark');
+  document.getElementById('toggle-theme').children[0].className = "fa-solid fa-sun";
+} else {
+  localStorage.setItem('theme', 'light');
+  document.getElementById('toggle-theme').children[0].className = "fa-solid fa-moon";
+}
 
 });
 

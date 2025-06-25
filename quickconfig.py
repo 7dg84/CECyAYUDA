@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 
 CONFIG_PATH = r'webpage\admin\config.json'
 VERIFY_PATH = r'webpage\admin\verify.php'
@@ -24,32 +25,18 @@ def update_retoken_php(new_value):
     print("Actualizado $retoken en verify.php")
 
 if __name__ == "__main__":
-    update_config_json('''
-{
-    "db": {
-        "host": "cecyayuda-db-1",
-        "database": "cecyayuda",
-        "user": "denuncia",
-        "password": "123"
-    },
-    "admin": {
-        "user": "admin",
-        "passwordhash": "$2y$10$nUJHzwlR98IDhwt8T.QDtOkCYZxj6S5VoxyhKHbBWzy\/3dK67psLK",
-        "email": ""
-    },
-    "mail": {
-        "enckey": "6e4f3c0a-1b2d-4b8e-9c5f-7a0d1f3e2b8f",
-        "host": "smtp.gmail.com",
-        "port": 587,
-        "user": "dragonflycodes5@gmail.com",
-        "password": "gsdw cnqr tlta ksft",
-        "from": [
-            "denuncias@cecyayuda.lat",
-            "CECyAYUDA"
-        ],
-        "url": "cecyayuda.lat"
-    }
-}
-''')
-    update_retoken_php('re_GdTH1Hj9_CzjMScwYwiXaUjmKDPjssVN6')
+    
+    print(os.getcwd())
+    with open('webpage/admin/config.json', 'r') as config:
+        config_data = json.load(config)
+        for field, items in config_data.items():
+            print(field)
+            for key , value in items.items():
+                user_input = input(f"{key} (Default: {value}): ").strip()
+                if user_input:
+                    config_data[key] = user_input
+        with open('webpage/admin/config.json', 'w', encoding='utf-8') as config_out:
+            json.dump(config_data, config_out, indent=4, ensure_ascii=False)
+        print(config.read())
+        config.close()
     print('Hecho')

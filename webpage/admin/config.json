@@ -7,7 +7,7 @@
     },
     "admin": {
         "user": "admin",
-        "passwordhash": "$2y$10$nUJHzwlR98IDhwt8T.QDtOkCYZxj6S5VoxyhKHbBWzy\/3dK67psLK",
+        "passwordhash": "$2y$10$nUJHzwlR98IDhwt8T.QDtOkCYZxj6S5VoxyhKHbBWzy/3dK67psLK",
         "email": ""
     },
     "mail": {
