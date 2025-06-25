@@ -34,7 +34,8 @@ class Config implements ArrayAccess
                         "Denuncias",
                         "Denuncias"
                     ],
-                    "url" => "192.168.0.1"
+                    "url" => "192.168.0.1",
+                    "apikey" => ""
                 ]
             ];
             $this->save($file); // Save the default config
@@ -51,7 +52,8 @@ class Config implements ArrayAccess
         if (!isset($this->data['mail']['enckey']) || !isset($this->data['mail']['host']) ||
             !isset($this->data['mail']['port']) || !isset($this->data['mail']['user']) ||
             !isset($this->data['mail']['password']) || !isset($this->data['mail']['from']) ||
-            !isset($this->data['mail']['url']) || !is_array($this->data['mail']['from']) || count($this->data['mail']['from']) < 2) {
+            !isset($this->data['mail']['url']) || !is_array($this->data['mail']['from']) || 
+            count($this->data['mail']['from']) < 2 || !isset($this->data['mail']['apikey'])) {
             throw new Exception("Mail configuration is incomplete.");
         }
         

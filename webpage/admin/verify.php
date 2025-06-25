@@ -6,8 +6,6 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 include_once 'config.php';
 
-$retoken = '';
-
 // Generar token en base a la información que expira en una hora
 function genToken($folio, $curp, $correo)
 {
@@ -164,7 +162,6 @@ function sendEmaildep($nombre, $folio, $curp, $correo)
 
 function sendEmail($nombre, $folio, $curp, $correo)
 {
-    global $retoken;
     require __DIR__ . '/vendor/autoload.php';
     $config = new Config(); // Cargar la configuración
     // Verificar que la configuración de correo esté completa
@@ -176,7 +173,8 @@ function sendEmail($nombre, $folio, $curp, $correo)
         !is_array($config['mail']['from']) ||
         empty($config['mail']['from'][0]) ||
         empty($config['mail']['from'][1]) ||
-        empty($config['mail']['url'])
+        empty($config['mail']['url']) ||
+        empty($config['mail']['apikey'])
     ) {
         throw new Exception("La configuración de correo no está completa.");
     }
@@ -184,7 +182,7 @@ function sendEmail($nombre, $folio, $curp, $correo)
     // Contenido del correo
     $token = genToken($folio, $curp, $correo);
 
-    $resend = Resend::client($retoken);
+    $resend = Resend::client($config['mail']['apikey']);
 
     $resend->emails->send([
         'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
@@ -262,7 +260,6 @@ function sendFolioEmaildep($nombre, $folio, $correo)
 
 function sendFolioEmail($nombre, $folio, $correo)
 {
-    global $retoken;
     require __DIR__ . '/vendor/autoload.php';
     $config = new Config();
     // Verificar que la configuración de correo esté completa
@@ -274,13 +271,14 @@ function sendFolioEmail($nombre, $folio, $correo)
         !is_array($config['mail']['from']) ||
         empty($config['mail']['from'][0]) ||
         empty($config['mail']['from'][1]) ||
-        empty($config['mail']['url'])
+        empty($config['mail']['url']) ||
+        empty($config['mail']['apikey'])
     ) {
         throw new Exception("La configuración de correo no está completa.");
     }
 
     // Contenido del correo    
-    $resend = Resend::client($retoken);
+    $resend = Resend::client($config['mail']['apikey']);
     $resend->emails->send([
         'from' => $config['mail']['from'][1] . ' <' . $config['mail']['from'][0] . '>',
         'to' => [$correo],

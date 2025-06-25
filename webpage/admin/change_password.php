@@ -18,7 +18,7 @@ $config = new Config();
 $adminEmail = $config['admin']['email'] ?? '';
 
 // Helper: send verification code
-function send_verification_code($email, $code)
+function send_verification_code_dep($email, $code)
 {
     global $config;
     $mail = new PHPMailer(true);
@@ -66,97 +66,57 @@ function send_verification_code($email, $code)
     }
 }
 
-// Step 1: Request verification code
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code'])) {
-    $code = rand(100000, 999999);
-    $_SESSION['verification_code'] = $code;
-    $_SESSION['code_expiry'] = time() + 600; // 10 
-    if ($adminEmail === '') {
-        $_SESSION['verification_code'] = $code;
-        $msg = "Porfavor cambia el correo del administrador en la configuración.";
-        $_SESSION['is_auth'] = true;
-    } else {
-        if (send_verification_code($adminEmail, $code)) {
-            $msg = "Código enviado al correo del administrador.";
-        } else {
-            $msg = "Error al enviar el código. Contacta al administrador.";
+function send_verification_code($email, $code)
+{
+    global $msg;
+    require __DIR__ . '/vendor/autoload.php';
+    $config = new Config();
+    try {
+        // Verificar que la configuración de correo esté completa
+        if (
+            empty($config['mail']['host']) ||
+            empty($config['mail']['user']) ||
+            empty($config['mail']['password']) ||
+            empty($config['mail']['from']) ||
+            !is_array($config['mail']['from']) ||
+            empty($config['mail']['from'][0]) ||
+            empty($config['mail']['from'][1]) ||
+            empty($config['mail']['url']) ||
+            empty($config['mail']['apikey'])
+        ) {
+            throw new Exception("La configuración de correo no está completa.");
         }
+
+        // Contenido del correo    
+        $resend = Resend::client($config['mail']['apikey']);
+        $resend->emails->send([
+            'from' => 'Panel de Administracion <admin@cecyayuda.lat>',
+            'to' => [$email],
+            'subject' => 'Folio Recuperado',
+            'html' => '
+        <html>
+    <head>
+        <title>Codigo de Verificacion</title>
+    </head>
+    <body>
+        <h1>Hola, ' . $config['admin']['user'] . '!</h1>
+        <p>Este es tu codigo de verificacion para cambiar tus credenciales.</p>
+        <p>Codigo: ' . $code . '</p>
+        <p>Recuerda que expira en 10 minutos.</p>
+        <br>
+        <p>Si no lo solicitaste, porfavor cambia tus credenciales.</p>
+    </body>
+    </html>
+    ',
+            'text' => 'Hola, ' . $config['admin']['user'] . '! Este es tu codigo de verificacion para cambiar tus credenciales. Codigo: ' . $code . ' Recuerda que expira en 10 minutos. Si no lo solicitaste, porfavor cambia tus credenciales.'
+        ]);
+        return true;
+    } catch (Exception $e) {
+        $msg = "El mensaje no pudo ser enviado. Mailer Error: {$mail->ErrorInfo}";
     }
+    return false;
 }
 
-// Step 2: Change credentials
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_credentials'])) {
-    $host = $_POST['host'];
-    $database = $_POST['database'];
-    $dbuser = $_POST['dbuser'];
-    $dbpassword = $_POST['dbpassword'];
-    $aduser = $_POST['aduser'];
-    $adpassword = $_POST['adpassword'];
-    $ademail = $_POST['ademail'];
-    $mail_key = $_POST['mail_key'];
-    $mail_host = $_POST['mail_host'];
-    $mail_port = $_POST['mail_port'];
-    $mail_user = $_POST['mail_user'];
-    $mail_password = $_POST['mail_password'];
-    $mail_from = $_POST['mail_from'];
-    $mail_from_name = $_POST['mail_from_name'];
-    $mail_url = $_POST['mail_url'];
-
-    if (isset($_SESSION['verification_code']) && time() < ($_SESSION['code_expiry'] ?? 0)) {
-        if ($_SESSION['verification_code'] == $_POST['verification_code']) {
-            // Update config
-            $config['db'] = [
-                'host' => $host,
-                'database' => $database,
-                'user' => $dbuser,
-                'password' => $dbpassword
-            ];
-            $config['admin'] = [
-                'user' => $aduser,
-                'passwordhash' => password_hash($adpassword, PASSWORD_BCRYPT),
-                'email' => $ademail
-            ];
-            $config['mail'] = [
-                'enckey' => $mail_key,
-                'host' => $mail_host,
-                'port' => (int)$mail_port,
-                'user' => $mail_user,
-                'password' => $mail_password,
-                'from' => [$mail_from, $mail_from_name],
-                'url' => $mail_url
-            ];
-            // Save config
-            if ($config->save()) {
-                unset($_SESSION['verification_code']);
-                unset($_SESSION['code_expiry']);
-                unset($_SESSION['is_auth']);
-                echo "<div class='success'>Configuración guardada correctamente.</div>";
-                // Redirect to main page or another page
-                echo "<a href='main.php'>Volver al inicio</a>";
-                exit;
-            } else {
-                echo "<div class='error'>Error al guardar la configuración.</div>";
-            }
-        } else {
-            echo "<div class='error'>Código de verificación incorrecto.</div>";
-        }
-    } else {
-        echo "<div class='error'>Código de verificación expirado o no solicitado.</div>";
-    }
-}
-
-// Step 3: Verify code
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) && is_numeric($_POST['verification_code']) && $config['admin']['email'] !== '') {
-    if (isset($_SESSION['verification_code']) && time() < ($_SESSION['code_expiry'] ?? 0)) {
-        if ((int)$_SESSION['verification_code'] == (int)$_POST['verification_code']) {
-            $_SESSION['is_auth'] = true;
-        } else {
-            $msg = "Código de verificación incorrecto.";
-        }
-    } else {
-        $msg = "Código de verificación expirado o no solicitado.";
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -265,6 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -278,9 +239,149 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
                 <li><a href="logout.php">Cerrar Sesión</a></li>
             </ul>
     </header>
+    <?php
+
+    // Step 1: Request verification code
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_code'])) {
+        $code = rand(100000, 999999);
+        $_SESSION['verification_code'] = $code;
+        $_SESSION['code_expiry'] = time() + 600; // 10 minutos
+        if ($adminEmail === '') {
+            $_SESSION['verification_code'] = $code;
+            $msg = "Porfavor cambia el correo del administrador en la configuración.";
+            $_SESSION['is_auth'] = true;
+        } else {
+            if (send_verification_code($adminEmail, $code)) {
+                $msg = "Código enviado al correo del administrador.";
+            } else {
+                $msg = "Error al enviar el código. Contacta al administrador.";
+            }
+        }
+    }
+
+    // Step 2: Change credentials
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_credentials'])) {
+        $host = $_POST['host'];
+        $database = $_POST['database'];
+        $dbuser = $_POST['dbuser'];
+        $dbpassword = $_POST['dbpassword'];
+        $aduser = $_POST['aduser'];
+        $adpassword = $_POST['adpassword'];
+        $ademail = $_POST['ademail'];
+        $mail_key = $_POST['mail_key'];
+        $mail_host = $_POST['mail_host'];
+        $mail_port = $_POST['mail_port'];
+        $mail_user = $_POST['mail_user'];
+        $mail_password = $_POST['mail_password'];
+        $mail_from = $_POST['mail_from'];
+        $mail_from_name = $_POST['mail_from_name'];
+        $mail_url = $_POST['mail_url'];
+        $apikey = $_POST['apikey'];
+
+        if (isset($_SESSION['verification_code']) && time() < ($_SESSION['code_expiry'] ?? 0)) {
+            if ($_SESSION['verification_code'] == $_POST['verification_code']) {
+                // Update config
+                $config['db'] = [
+                    'host' => $host,
+                    'database' => $database,
+                    'user' => $dbuser,
+                    'password' => $dbpassword
+                ];
+                $config['admin'] = [
+                    'user' => $aduser,
+                    'passwordhash' => password_hash($adpassword, PASSWORD_BCRYPT),
+                    'email' => $ademail
+                ];
+                $config['mail'] = [
+                    'enckey' => $mail_key,
+                    'host' => $mail_host,
+                    'port' => (int)$mail_port,
+                    'user' => $mail_user,
+                    'password' => $mail_password,
+                    'from' => [$mail_from, $mail_from_name],
+                    'url' => $mail_url,
+                    'apikey' => $apikey
+                ];
+                // Save config
+                if ($config->save()) {
+                    unset($_SESSION['verification_code']);
+                    unset($_SESSION['code_expiry']);
+                    unset($_SESSION['is_auth']);
+                    echo "<div class='success'>Configuración guardada correctamente.</div>";
+                    // Redirect to main page or another page
+                    echo "<a href='main.php'>Volver al inicio</a>";
+                    echo '<script>
+                    Swal.fire({
+                    title: "Datos Guardados!",
+                    text: "La configuracion se guardo adecuadamente!",
+                    icon: "success",
+                    confirmButtonText: `<a href="main.php">Volver al inicio</a>`
+                    });
+                </script>';
+                    exit;
+                } else {
+                    echo '<div class="error">Error al guardar la configuración.</div>
+                <script>
+                    Swal.fire({
+                    title: "Error",
+                    text: "Error al guardar la configuración",
+                    icon: "error",
+                    });
+                </script>
+                ';
+                }
+            } else {
+                echo '<div class="error">Código de verificación incorrecto.</div>
+            <script>
+                    Swal.fire({
+                    title: "Error",
+                    text: "Código de verificación incorrecto.",
+                    icon: "error",
+                    });
+                </script>';
+            }
+        } else {
+            echo '<div class="error">Código de verificación expirado o no solicitado.</div>
+        <script>
+                    Swal.fire({
+                    title: "Error",
+                    text: "Código de verificación expirado o no solicitado.",
+                    icon: "error",
+                    });
+                </script>';
+        }
+    }
+
+    // Step 3: Verify code
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code'], $_POST['username'], $_POST['password']) && is_numeric($_POST['verification_code']) && $config['admin']['email'] !== '') {
+        if (isset($_SESSION['verification_code']) && time() < ($_SESSION['code_expiry'] ?? 0)) {
+            if ((int)$_SESSION['verification_code'] == (int)$_POST['verification_code']) {
+                if (
+                    $_POST['username'] == $config['admin']['user'] &&
+                    password_verify($_POST['password'], $config['admin']['passwordhash'])
+                ) {
+                    $_SESSION['is_auth'] = true;
+                } else {
+                    $msg = "Usuario y/o Contraseña incorrectos,";
+                }
+            } else {
+                $msg = "Código de verificación incorrecto.";
+            }
+        } else {
+            $msg = "Código de verificación expirado o no solicitado.";
+        }
+    }
+    ?>
+
     <h2>Cambiar Credenciales de Administrador</h2>
     <?php if (isset($msg)): ?>
         <div class="msg"><?= htmlspecialchars($msg) ?></div>
+        <script>
+            Swal.fire({
+                text: "<?= htmlspecialchars($msg)?>",
+                icon: "info",
+            });
+        </script>';
     <?php endif; ?>
 
     <?php if ((!isset($_SESSION['verification_code']) && !isset($_SESSION['is_auth'])) || time() > ($_SESSION['code_expiry'] ?? 0)): ?>
@@ -299,7 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             <input type="text" id="dbuser" name="dbuser" value="<?= htmlspecialchars($config['db']['user']) ?>" required>
             <label for="dbpassword">Contraseña:</label>
             <input type="password" id="dbpassword" name="dbpassword" value="<?= htmlspecialchars($config['db']['password']) ?>" required>
-            
+
 
             <h2>Credenciales de Administrador</h2>
             <label for="aduser">Usuario:</label>
@@ -327,6 +428,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
             <input type="text" id="mail_from_name" name="mail_from_name" value="<?= htmlspecialchars($config['mail']['from'][1]) ?>" required>
             <label for="mail_url">URL del servidor para los correos de verificacion:</label>
             <input type="text" id="mail_url" name="mail_url" value="<?= htmlspecialchars($config['mail']['url']) ?>" required>
+            <label for="apikey">API key para el envio de correos:</label>
+            <input type="password" id="apikey" name="apikey" value="<?= htmlspecialchars($config['mail']['apikey']) ?>" required>
+
 
             <label for="verification_code">Código de Verificación:</label>
             <?php if ($config['admin']['email'] === ''): ?>
@@ -342,7 +446,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verification_code']) 
         </form>
     <?php else: ?>
         <form method="post">
-            <p><?php echo $_SESSION['verification_code'] ?></p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
             <label for="verification_code">Código de Verificación:</label>
             <input type="text" id="verification_code" name="verification_code" required>
             <button type="submit">Verificar Código</button>
