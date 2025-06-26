@@ -66,6 +66,7 @@ function send_verification_code_dep($email, $code)
     }
 }
 
+// send verification code
 function send_verification_code($email, $code)
 {
     global $msg;

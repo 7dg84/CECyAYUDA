@@ -42,21 +42,24 @@ class Config implements ArrayAccess
             throw new Exception("Configuration file not found. Default configuration created. Please update the config file.");
         }
         // Ensure critical fields are set else trow an exception
-        if (!isset($this->data['db']['host']) || !isset($this->data['db']['database']) ||
-            !isset($this->data['db']['user']) || !isset($this->data['db']['password'])) {
+        if (
+            !isset($this->data['db']['host']) || !isset($this->data['db']['database']) ||
+            !isset($this->data['db']['user']) || !isset($this->data['db']['password'])
+        ) {
             throw new Exception("Database configuration is incomplete.");
         }
         if (!isset($this->data['admin']['user']) || !isset($this->data['admin']['passwordhash'])) {
             throw new Exception("Admin configuration is incomplete.");
         }
-        if (!isset($this->data['mail']['enckey']) || !isset($this->data['mail']['host']) ||
+        if (
+            !isset($this->data['mail']['enckey']) || !isset($this->data['mail']['host']) ||
             !isset($this->data['mail']['port']) || !isset($this->data['mail']['user']) ||
             !isset($this->data['mail']['password']) || !isset($this->data['mail']['from']) ||
-            !isset($this->data['mail']['url']) || !is_array($this->data['mail']['from']) || 
-            count($this->data['mail']['from']) < 2 || !isset($this->data['mail']['apikey'])) {
+            !isset($this->data['mail']['url']) || !is_array($this->data['mail']['from']) ||
+            count($this->data['mail']['from']) < 2
+        ) {
             throw new Exception("Mail configuration is incomplete.");
         }
-        
     }
 
     // Save changes to the config file
