@@ -18,6 +18,9 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Base de datos: `cecyayuda`
 --
 
+CREATE DATABASE IF NOT EXISTS `cecyayuda`;
+USE `cecyayuda`;
+
 -- --------------------------------------------------------
 
 --

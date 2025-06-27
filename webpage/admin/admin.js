@@ -56,7 +56,7 @@ const searchConfig = {
                 { value: "Coahuila", text: "Coahuila" },
                 { value: "Colima", text: "Colima" },
                 { value: "Durango", text: "Durango" },
-                { value: "Estado de México", text: "Estado de México" },
+                { value: "México", text: "Estado de México" },
                 { value: "Guanajuato", text: "Guanajuato" },
                 { value: "Guerrero", text: "Guerrero" },
                 { value: "Hidalgo", text: "Hidalgo" },

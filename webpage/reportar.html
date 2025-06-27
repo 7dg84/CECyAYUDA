@@ -85,109 +85,116 @@
             </div>
             <span id="ErrorFecha" class="error"></span><br>
             <span id="ErrorHora" class="error"></span>
+            <!-- Tipo de violencia -->
+            <label for="tipo">Tipo de violencia</label>
+            <select id="tipo" name="tipo">
+              <option value="" disabled selected>Selecciona un tipo de violencia</option>
+              <option value="Genero">Violencia de Genero</option>
+              <option value="Familiar">Violencia Familiar</option>
+              <option value="Psicologica">Violencia Psicologica</option>
+              <option value="Sexual">Violencia Sexual</option>
+              <option value="Economica">Violencia Economica</option>
+              <option value="Patrimonial">Violencia Patrimonial</option>
+              <option value="Cibernetica">Violencia Cibernetica</option>
+            </select>
+            <br>
+            <span id="ErrorTipo" class="error"></span>
+            <!-- Evidencia -->
+            <label for="evidencia">
+              Evidencia
+              <br>
+              <p class="secondary-button">Eligir Archivo</p>
+              <br>
+              <p class="file-info" id="fileName"></p>
+              <br>
+            </label>
+            <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png"
+              oninput="updateFileName(this);"><br>
+            <span id="ErrorEvidencia" class="error"></span>
             <!-- Ubicacion -->
             <label for="ubicacion">Ubicacion</label>
-            <div class="ubicacion-container">
-              <!-- <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);"><br> -->
-              <label for="estado">Estado</label>
-              <select id="estado" name="estado">
-                <option value="no">Seleccione uno...</option>
-                <option value="Aguascalientes">Aguascalientes</option>
-                <option value="Baja California">Baja California</option>
-                <option value="Baja California Sur">Baja California Sur</option>
-                <option value="Campeche">Campeche</option>
-                <option value="Chiapas">Chiapas</option>
-                <option value="Chihuahua">Chihuahua</option>
-                <option value="CDMX">Ciudad de México</option>
-                <option value="Coahuila">Coahuila</option>
-                <option value="Colima">Colima</option>
-                <option value="Durango">Durango</option>
-                <option value="Estado de México">Estado de México</option>
-                <option value="Guanajuato">Guanajuato</option>
-                <option value="Guerrero">Guerrero</option>
-                <option value="Hidalgo">Hidalgo</option>
-                <option value="Jalisco">Jalisco</option>
-                <option value="Michoacán">Michoacán</option>
-                <option value="Morelos">Morelos</option>
-                <option value="Nayarit">Nayarit</option>
-                <option value="Nuevo León">Nuevo León</option>
-                <option value="Oaxaca">Oaxaca</option>
-                <option value="Puebla">Puebla</option>
-                <option value="Querétaro">Querétaro</option>
-                <option value="Quintana Roo">Quintana Roo</option>
-                <option value="San Luis Potosí">San Luis Potosí</option>
-                <option value="Sinaloa">Sinaloa</option>
-                <option value="Sonora">Sonora</option>
-                <option value="Tabasco">Tabasco</option>
-                <option value="Tamaulipas">Tamaulipas</option>
-                <option value="Tlaxcala">Tlaxcala</option>
-                <option value="Veracruz">Veracruz</option>
-                <option value="Yucatán">Yucatán</option>
-                <option value="Zacatecas">Zacatecas</option>
-              </select>
-              <span id="ErrorEstado" class="error"></span>
-              <input type="text" name="municipio" id="municipio" placeholder="Municipio"
-                oninput="soloLetras(this);"><br>
-              <span id="ErrorMunicipio" class="error"></span>
-              <input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);"><br>
-              <span id="ErrorColonia" class="error"></span>
-              <input type="text" name="calle" id="calle" placeholder="Calle" oninput="soloLetras(this);"><br>
-              <span id="ErrorCalle" class="error"></span>
-              <!-- Datos del denunciante -->
-              <label for="nombre">Nombre del denunciante</label>
-              <input name="nombre" id="nombre" type="text" minlength="3" placeholder="Nombre completo del denunciante."
-                oninput="soloLetras(this);"><br>
-              <span id="ErrorNombre" class="error"></span>
-              <!-- Curp  -->
-              <label for="curp">CURP</label>
-              <input type="text" name="curp" id="curp" minlength="18" maxlength="18" placeholder="XXXX000000XXXXXX00"
-                onkeydown="mayusculas(this);"><br>
-              <span id="ErrorCurp" class="error"></span>
-              <!-- Correo -->
-              <label for="correo">Correo</label>
-              <input type="email" name="correo" placeholder="tu@ejemplo.com" id="correo">
-              <span id="ErrorCorreo" class="error"></span>
-              <!-- Telefono -->
-              <label for="telefono">Numero de telefono</label>
-              <input type="tel" name="telefono" id="telefono" minlength="10" maxlength="10"
-                placeholder="Numero telefonico." oninput="soloNumeros(this);"><br>
-              <span id="ErrorTelefono" class="error"></span>
-              <!-- Tipo de violencia -->
-              <label for="tipo">Tipo de violencia</label>
-              <select id="tipo" name="tipo">
-                <option value="" disabled selected>Selecciona un tipo de violencia</option>
-                <option value="Genero">Violencia de Genero</option>
-                <option value="Familiar">Violencia Familiar</option>
-                <option value="Psicologica">Violencia Psicologica</option>
-                <option value="Sexual">Violencia Sexual</option>
-                <option value="Economica">Violencia Economica</option>
-                <option value="Patrimonial">Violencia Patrimonial</option>
-                <option value="Cibernetica">Violencia Cibernetica</option>
-              </select>
-              <br>
-              <span id="ErrorTipo" class="error"></span>
-              <!-- Evidencia -->
-              <label for="evidencia">
-                Evidencia
-                <br>
-                <p class="secondary-button">Eligir Archivo</p>
-                <br>
-                <p class="file-info" id="fileName"></p>
-                <br>
-              </label>
-              <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png"
-                oninput="updateFileName(this);"><br>
-              <span id="ErrorEvidencia" class="error"></span>
-              <!-- Terminos de privacidad -->
-              <div class="radio-container">
-                <input type="checkbox" name="terminos" id="terminos"><br>
-                <label for="terminos">Acepto los términos y políticas de privacidad.</label><br>
-              </div>
-              <span id="ErrorTerminos" class="error"></span>
-              <!-- Enviar -->
-              <!-- <label for="enviar">Enviar</label><br>  -->
-              <button class="primary-button" type="submit" name="enviar" id="enviar">Enviar</button><br>
-              <span id="ErrorEnviar" class="error"></span>
+            <label for="cp">Codigo Postal</label>
+            <input type="text" name="cp" id="cp" onchange="soloNumeros(this); getColonias(this)" maxlength="5"
+              placeholder="55555">
+            <span id="ErrorCP" class="error"></span>
+            <!-- <div class="ubicacion-container"> -->
+            <!-- <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);"><br> -->
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado">
+              <option value="no">Seleccione uno...</option>
+              <option value="Aguascalientes">Aguascalientes</option>
+              <option value="Baja California">Baja California</option>
+              <option value="Baja California Sur">Baja California Sur</option>
+              <option value="Campeche">Campeche</option>
+              <option value="Chiapas">Chiapas</option>
+              <option value="Chihuahua">Chihuahua</option>
+              <option value="CDMX">Ciudad de México</option>
+              <option value="Coahuila">Coahuila</option>
+              <option value="Colima">Colima</option>
+              <option value="Durango">Durango</option>
+              <option value="México">Estado de México</option>
+              <option value="Guanajuato">Guanajuato</option>
+              <option value="Guerrero">Guerrero</option>
+              <option value="Hidalgo">Hidalgo</option>
+              <option value="Jalisco">Jalisco</option>
+              <option value="Michoacán">Michoacán</option>
+              <option value="Morelos">Morelos</option>
+              <option value="Nayarit">Nayarit</option>
+              <option value="Nuevo León">Nuevo León</option>
+              <option value="Oaxaca">Oaxaca</option>
+              <option value="Puebla">Puebla</option>
+              <option value="Querétaro">Querétaro</option>
+              <option value="Quintana Roo">Quintana Roo</option>
+              <option value="San Luis Potosí">San Luis Potosí</option>
+              <option value="Sinaloa">Sinaloa</option>
+              <option value="Sonora">Sonora</option>
+              <option value="Tabasco">Tabasco</option>
+              <option value="Tamaulipas">Tamaulipas</option>
+              <option value="Tlaxcala">Tlaxcala</option>
+              <option value="Veracruz">Veracruz</option>
+              <option value="Yucatán">Yucatán</option>
+              <option value="Zacatecas">Zacatecas</option>
+            </select>
+            <span id="ErrorEstado" class="error"></span>
+            <label for="municipio">Municipio</label>
+            <input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);"><br>
+            <span id="ErrorMunicipio" class="error"></span>
+            <label for="colonia">Colonia</label>
+            <input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);"><br>
+            <span id="ErrorColonia" class="error"></span>
+            <label for="calle">Calle</label>
+            <input type="text" name="calle" id="calle" placeholder="Calle" oninput="soloLetras(this);"><br>
+            <span id="ErrorCalle" class="error"></span>
+            <!-- Datos del denunciante -->
+            <label>Datos del Denunciante</label>
+            <label for="nombre">Nombre del denunciante</label>
+            <input name="nombre" id="nombre" type="text" minlength="3" placeholder="Nombre completo del denunciante."
+              oninput="soloLetras(this);"><br>
+            <span id="ErrorNombre" class="error"></span>
+            <!-- Curp  -->
+            <label for="curp">CURP</label>
+            <input type="text" name="curp" id="curp" minlength="18" maxlength="18" placeholder="XXXX000000XXXXXX00"
+              onkeydown="mayusculas(this);"><br>
+            <span id="ErrorCurp" class="error"></span>
+            <!-- Correo -->
+            <label for="correo">Correo</label>
+            <input type="email" name="correo" placeholder="tu@ejemplo.com" id="correo">
+            <span id="ErrorCorreo" class="error"></span>
+            <!-- Telefono -->
+            <label for="telefono">Numero de telefono</label>
+            <input type="tel" name="telefono" id="telefono" minlength="10" maxlength="10"
+              placeholder="Numero telefonico." oninput="soloNumeros(this);"><br>
+            <span id="ErrorTelefono" class="error"></span>
+            <!-- Terminos de privacidad -->
+            <div class="radio-container">
+              <input type="checkbox" name="terminos" id="terminos"><br>
+              <label for="terminos">Acepto los términos y políticas de privacidad.</label><br>
+            </div>
+            <span id="ErrorTerminos" class="error"></span>
+            <!-- Enviar -->
+            <!-- <label for="enviar">Enviar</label><br>  -->
+            <button class="primary-button" type="submit" name="enviar" id="enviar">Enviar</button><br>
+            <span id="ErrorEnviar" class="error"></span>
           </form>
         </div>
       </section>
@@ -241,8 +248,10 @@
       <video src="media/ManualVideo.mov" controls></video>
     </media>
     <h2>Vea los manuales</h2>
-    <a href="resources/ManualUsuarioEsp.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Español</a>
-    <a href="resources/ManualUsuarioIng.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en Ingles</a>
+    <a href="resources/ManualUsuarioEsp.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en
+      Español</a>
+    <a href="resources/ManualUsuarioIng.pdf" target="_blank" rel="noreferrer" class="secondary-button">Manual en
+      Ingles</a>
     <br>
     <button type="button" class="primary-button" onclick="faq.close()">Cerrar</button>
   </dialog>

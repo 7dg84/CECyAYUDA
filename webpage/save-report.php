@@ -28,7 +28,7 @@ include_once 'logic.php';
   <script>
     // Funcion para copiar el folio
     function copy(event, folio) {
-      
+
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(folio)
           .then(() => event.textContent = '¡Copiado!')
@@ -128,34 +128,51 @@ include_once 'logic.php';
                 <h2 class="section-title">Reporte Guardado</h2>
                 <p>Su reporte ha sido guardado exitosamente. A continuación se muestran los detalles de su reporte:</p>
                 <div class="report-details">
-                  <p><strong>Folio:</strong>
+                  <p><strong>Folio:</strong></p>
                   <p id="folioParraph"><?php echo htmlspecialchars($folio); ?></p>
                   <button type='button' class="secondary-button" onclick="copy(this, '<?php echo htmlspecialchars($folio); ?>')">Copiar</button>
+
+                  <p><strong>Hechos:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['hechos']); ?></p>
+
                   <p><strong>Fecha:</strong></p>
                   <p><?php echo htmlspecialchars($_POST['fecha']); ?></p>
+
                   <p><strong>Hora:</strong></p>
                   <p><?php echo htmlspecialchars($_POST['hora']); ?></p>
-                  <p><strong>Ubicación:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['estado']); ?></p>
-                  <p><strong>Municipio:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['municipio']); ?></p>
-                  <p><strong>Colonia:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['colonia']); ?></p>
-                  <p><strong>Calle:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['calle']); ?></p>
-                  <p><strong>Nombre:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['nombre']); ?></p>
-                  <p><strong>CURP:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['curp']); ?></p>
-                  <p><strong>Correo:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['correo']); ?></p>
-                  <p><strong>Teléfono:</strong></p>
-                  <p><?php echo htmlspecialchars($_POST['telefono']); ?></p>
+
                   <p><strong>Tipo de Violencia:</strong></p>
-                  <p> <?= htmlspecialchars($_POST['tipo']); ?></p>
+                  <p><?php echo htmlspecialchars($_POST['tipo']); ?></p>
+
                   <p><strong>Archivo de Evidencia:</strong></p>
                   <p><?php echo htmlspecialchars($_FILES['evidencia']['name']); ?></p>
-                  <!-- <img src="<?php echo htmlspecialchars($_FILES['evidencia']['tmp_name']); ?>" alt="Evidencia" class="evidence-image"> -->
+
+                  <p><strong>Código Postal:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['cp']); ?></p>
+
+                  <p><strong>Estado:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['estado']); ?></p>
+
+                  <p><strong>Municipio:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['municipio']); ?></p>
+
+                  <p><strong>Colonia:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['colonia']); ?></p>
+
+                  <p><strong>Calle:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['calle']); ?></p>
+
+                  <p><strong>Nombre del denunciante:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['nombre']); ?></p>
+
+                  <p><strong>CURP:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['curp']); ?></p>
+
+                  <p><strong>Correo:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['correo']); ?></p>
+
+                  <p><strong>Teléfono:</strong></p>
+                  <p><?php echo htmlspecialchars($_POST['telefono']); ?></p>
                 </div>
                 <!-- Enviar correo electronico -->
                 <?php if (sendVerificationEmail()): ?>

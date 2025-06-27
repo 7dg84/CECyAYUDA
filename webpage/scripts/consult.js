@@ -114,7 +114,7 @@ function validateForm() {
         'Coahuila',
         'Colima',
         'Durango',
-        'Estado de México',
+        'México',
         'Guanajuato',
         'Guerrero',
         'Hidalgo',

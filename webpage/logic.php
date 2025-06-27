@@ -63,7 +63,7 @@ function validateData($requiereFile = true)
     }
 
     // Validar los campos del formulario
-    if (!validate($_POST['hechos'], "/^[a-zA-Z0-9\s.,]+$/")) {
+    if (!validate($_POST['hechos'], "/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s.,]+$/")) {
         $errorMsg = ("Campo 'Hechos' inválido.");
         return false;
     }
@@ -79,6 +79,10 @@ function validateData($requiereFile = true)
         $errorMsg = ("Campo 'Hora' inválido.") . $_POST['hora'];
         return false;
     }
+    if(!validate($_POST['cp'], "/^\d{5}$/")) {
+        $errorMsg = "Campo 'CP' inválido.";
+        return false;
+    }
     $estados = [
         'Aguascalientes',
         'Baja California',
@@ -90,7 +94,7 @@ function validateData($requiereFile = true)
         'Coahuila',
         'Colima',
         'Durango',
-        'Estado de México',
+        'México',
         'Guanajuato',
         'Guerrero',
         'Hidalgo',
@@ -117,19 +121,19 @@ function validateData($requiereFile = true)
         $errorMsg = ("Campo 'Estado' inválido.");
         return false;
     }
-    if (!validate($_POST['municipio'], "/^[a-zA-Z0-9\s,.\-]+$/")) {
+    if (!validate($_POST['municipio'], "/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s,.\-]+$/")) {
         $errorMsg = ("Campo 'Municipio' inválido.");
         return false;
     }
-    if (!validate($_POST['colonia'], "/^[a-zA-Z0-9\s,.\-]+$/")) {
+    if (!validate($_POST['colonia'], "/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s,.\-]+$/")) {
         $errorMsg = ("Campo 'Colonia' inválido.");
         return false;
     }
-    if (!validate($_POST['calle'], "/^[a-zA-Z0-9\s,.\-]+$/")) {
+    if (!validate($_POST['calle'], "/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s,.\-]+$/")) {
         $errorMsg = ("Campo 'Calle' inválido.");
         return false;
     }
-    if (!validate($_POST['nombre'], "/^[a-zA-Z\s]+$/")) {
+    if (!validate($_POST['nombre'], "/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/")) {
         $errorMsg = ("Campo 'Nombre' inválido.");
         return false;
     }
