@@ -59,7 +59,7 @@ function validateForm() {
     }
 
     // Validar el campo `cp`
-    if (!/^\d{5}$/.test(Window.Report.cp.value)) {
+    if (!/^\d{5}$/.test(window.Report.cp.value)) {
         showError("ErrorCP", "Código postal no válido");
         valid = false;
     }

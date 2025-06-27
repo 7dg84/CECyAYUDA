@@ -280,6 +280,7 @@ function renderDeleteButton($folio)
             <option value="Descripcion">Hechos</option>
             <option value="Fecha">Fecha</option>
             <option value="Hora">Hora</option>
+            <option value="CP">Codigo Postal</option>
             <option value="Estado">Estado</option>
             <option value="Municipio">Municipio</option>
             <option value="Colonia">Colonia</option>
@@ -331,6 +332,7 @@ function renderDeleteButton($folio)
             <th>Hechos</th>
             <th>Fecha</th>
             <th>Hora</th>
+            <th>CP</th>
             <th>Estado</th>
             <th>Municipio</th>
             <th>Colonia</th>
@@ -440,6 +442,7 @@ function renderDeleteButton($folio)
                 echo "<td>" . htmlspecialchars($record['Descripcion']) . "</td>";
                 echo "<td>" . htmlspecialchars($record['Fecha']) . "</td>";
                 echo "<td>" . htmlspecialchars($record['Hora']) . "</td>";
+                echo "<td>" . htmlspecialchars($record['CP']) . "</td>";
                 echo "<td>" . htmlspecialchars($record['Estado']) . "</td>";
                 echo "<td>" . htmlspecialchars($record['Municipio']) . "</td>";
                 echo "<td>" . htmlspecialchars($record['Colonia']) . "</td>";

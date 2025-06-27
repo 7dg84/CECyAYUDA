@@ -102,6 +102,12 @@ function validateForm() {
         valid = false;
     }
 
+    // Validar el campo `cp`
+    if (!/^\d{5}$/.test(window.Report.cp.value)) {
+        showError("ErrorCP", "Código postal no válido");
+        valid = false;
+    }
+
     // Verificar si el campo estado esta en los estados de la republica mexicana
     let estados = [
         'Aguascalientes',
@@ -261,3 +267,123 @@ function updateFileName(input) {
     document.getElementById("fileName").innerText = fileName ? "Archivo seleccionado: " + fileName : "No se ha seleccionado ningún archivo.";
 }
 
+// Funcion para buscar en la API SEPOMEX los datos de el CP
+function getColonias(e) {
+    showError('ErrorCP', '');
+    let cp = e.value.trim();
+    // Validar: debe ser numérico y de 5 dígitos
+    if (!/^\d{5}$/.test(cp)) {
+        showError("ErrorCP", "Código postal no válido");
+        return false;
+    }
+    // Request a la API de SEPOMEX
+    fetch('https://sepomex.icalialabs.com/api/v1/zip_codes?per_page=200&zip_code=' + cp + '')
+        .then(response => response.json())
+        .then(data => {
+            // Si se devolvio informacion
+            if (data && data.zip_codes && data.zip_codes.length > 0) {
+                // Variables para almacenar los datos
+                const meta = data.meta;
+                var estados = [];
+                var municipios = [];
+                var colonias = []
+
+                // Guardar Datos
+                data.zip_codes.forEach(colonia => {
+                    // Guardar el estado de cada una de las colonias
+                    if (!estados.includes(colonia.d_estado)) {
+                        estados.push(colonia.d_estado)
+                    }
+                    // Guardar el municipio de cada una de las colonias
+                    if (!municipios.includes(colonia.d_ciudad)) {
+                        municipios.push(colonia.d_ciudad)
+                    }
+                    // Guardar cada colonia
+                    colonias.push(colonia.d_asenta)
+                });
+                // Agregar Estados
+                if (estados.length >= 1) {
+                    document.getElementById('estado').innerHTML = '';
+                    const optionEstado = document.getElementById('estado');
+                    estados.forEach(estado => {
+                        const option = document.createElement("option");
+                        option.value = estado;
+                        option.textContent = estado;
+                        optionEstado.appendChild(option);
+                    })
+                }
+                // Agregar Municipio
+                if (municipios.length >= 1) {
+                    document.getElementById('municipio').outerHTML = "<select id='municipio' name='municipio'>";
+                    const optionMun = document.getElementById('municipio');
+                    municipios.forEach(municipio => {
+                        const option = document.createElement("option");
+                        option.value = municipio;
+                        option.textContent = municipio;
+                        optionMun.appendChild(option);
+                    })
+                }
+                // Agregar colonias
+                if (colonias.length >= 1) {
+                    document.getElementById("colonia").outerHTML = "<select id='colonia' name='colonia'>"; // Cambiar el input por select
+                    // Select antes creado
+                    const select = document.getElementById("colonia");
+                    // Campo Seleccione una
+                    const optionColonia = document.createElement("option");
+                    optionColonia.value = "";
+                    optionColonia.textContent = "Seleccione Una";
+                    select.appendChild(optionColonia);
+                    // Agregar todas las colonias
+                    colonias.forEach(colonia => {
+                        const option = document.createElement("option");
+                        option.value = colonia;
+                        option.textContent = colonia;
+                        select.appendChild(option);
+                    })
+                }
+            } else {
+                showError("ErrorCP", "No se encontraron colonias para este código postal.");
+            }
+        })
+        .catch(() => {
+            showError("ErrorCP", "Error al consultar el código postal.");
+        });
+    document.getElementById('estado').innerHTML = `
+                    <option value="no">Seleccione uno...</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="CDMX">Ciudad de México</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Durango">Durango</option>
+                    <option value="México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>`;
+
+    document.getElementById('municipio').outerHTML = `<input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);">`;
+
+    document.getElementById("colonia").outerHTML = `<input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);">`;
+}

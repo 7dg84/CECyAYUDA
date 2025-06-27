@@ -46,6 +46,7 @@ $folio = isset($_POST['folio']) ? $_POST['folio'] : '';
                 $_POST['hechos'],
                 $_POST['fecha'],
                 $_POST['hora'],
+                $_POST['cp'],
                 $_POST['estado'],
                 $_POST['municipio'],
                 $_POST['colonia'],

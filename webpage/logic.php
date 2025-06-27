@@ -24,14 +24,14 @@ function sendVerificationEmail()
 
 
 // Guardar el reporte en la base de datos
-function saveReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file)
+function saveReport($folio, $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file)
 {
     global $errorMsg;
     try {
         // Crear una instancia de la clase Database
         $database = new Denuncia();
         // Insertar la denuncia en la base de datos
-        $database->insertDenuncia($folio, $hechos, $fecha, $hora, $estado, strtolower($municipio), strtolower($colonia), strtolower($calle), $nombre, $curp, $correo, $telefono, $tipo, $file);
+        $database->insertDenuncia($folio, $hechos, $fecha, $hora, $cp, $estado, strtolower($municipio), strtolower($colonia), strtolower($calle), $nombre, $curp, $correo, $telefono, $tipo, $file);
         // Cerrar la conexión a la base de datos
         $database->closeConnection();
         return true;
@@ -269,7 +269,7 @@ function deleteReport($folio)
 }
 
 // Funcion para actualizar el reporte
-function updateReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file)
+function updateReport($folio, $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file)
 {
     global $errorMsg;
     try {
@@ -284,10 +284,10 @@ function updateReport($folio, $hechos, $fecha, $hora, $estado, $municipio, $colo
         // Actualizar la denuncia en la base de datos
         if (!empty($file['name'])) {
             // Si se proporciona un archivo, actualizar la denuncia con el archivo
-            $database->updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, file_get_contents($file['tmp_name']));
+            $database->updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, file_get_contents($file['tmp_name']));
         } else {
             // Si no se proporciona un archivo, actualizar la denuncia sin el archivo
-            $database->updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo);
+            $database->updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo);
         }
         // Cerrar la conexión a la base de datos
         $database->closeConnection();

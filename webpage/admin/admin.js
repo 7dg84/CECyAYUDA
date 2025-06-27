@@ -163,6 +163,14 @@ const searchConfig = {
                 { value: "2", text: "No Resuelto" }
             ]
         }
+    },
+    "CP": {
+        operator: [
+            { value: "=", text: "Igual" },
+            { value: "<>", text: "Diferente" },
+            { value: "LIKE", text: "Contenga" }
+        ],
+        value: { type: "text", placeholder: "Código Postal", maxlength: 10 }
     }
 };
 

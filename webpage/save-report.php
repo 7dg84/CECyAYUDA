@@ -105,6 +105,7 @@ include_once 'logic.php';
                 $_POST['hechos'],
                 $_POST['fecha'],
                 $_POST['hora'],
+                $_POST['cp'],
                 $_POST['estado'],
                 $_POST['municipio'],
                 $_POST['colonia'],

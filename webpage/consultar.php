@@ -27,6 +27,35 @@ $errorMsg = "Error desconocido";
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
   <script src="scripts/consult.js"></script>
+  <script>
+    // Funcion para copiar el folio
+    function copy(event, folio) {
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(folio)
+          .then(() => event.textContent = '¡Copiado!')
+          .catch(err => console.error("Copy failed:", err));
+      } else {
+        // Fallback for unsupported or insecure contexts
+        const textarea = document.createElement("textarea");
+        textarea.value = folio;
+        textarea.style.position = "fixed"; // avoid scrolling to bottom
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+          document.execCommand("copy");
+          event.textContent = '¡Copiado!';
+        } catch (err) {
+          console.error("Fallback copy failed:", err);
+        }
+        document.body.removeChild(textarea);
+      }
+      setTimeout(function() {
+        event.textContent = 'Copiar';
+      }, 1500);
+    }
+  </script>
 </head>
 
 <body>
@@ -80,7 +109,6 @@ $errorMsg = "Error desconocido";
             <section class="report-section">
               <div class="report-content">
                 <form id="Report" method=POST enctype=multipart/form-data action="" onsubmit="return validateForm(this);">
-                  <!-- Formulario de denuncia de violencia de género -->
                   <h1 class="section-title">Formulario de denuncia de violencia de Genero </h1>
                   <!-- Folio -->
                   <label for="folio">Folio</label>
@@ -105,10 +133,49 @@ $errorMsg = "Error desconocido";
                   </div>
                   <span id="ErrorFecha" class="error"></span><br>
                   <span id="ErrorHora" class="error"></span>
+                  <!-- Tipo de violencia -->
+                  <?php $selected = [
+                    "Genero" => "",
+                    "Familiar" => "",
+                    "Psicologica" => "",
+                    "Sexual" => "",
+                    "Economica" => "",
+                    "Patrimonial" => "",
+                    "Cibernetica" => ""
+                  ];
+                  $selected[$row['Tipo']] = "selected";
+                  ?>
+                  <label for="tipo">Tipo de violencia</label>
+                  <select id="tipo" name="tipo">
+                    <option value="Genero" <?= $selected['Genero'] ?>>Violencia de Genero</option>
+                    <option value="Familiar" <?= $selected['Familiar'] ?>>Violencia Familiar</option>
+                    <option value="Psicologica" <?= $selected['Psicologica'] ?>>Violencia Psicologica</option>
+                    <option value="Sexual" <?= $selected['Sexual'] ?>>Violencia Sexual</option>
+                    <option value="Economica" <?= $selected['Economica'] ?>>Violencia Economica</option>
+                    <option value="Patrimonial" <?= $selected['Patrimonial'] ?>>Violencia Patrimonial</option>
+                    <option value="Cibernetica" <?= $selected['Cibernetica'] ?>>Violencia Cibernetica</option>
+                  </select>
+                  <br>
+                  <span id="ErrorTipo" class="error"></span>
+                  <!-- Evidencia -->
+                  <label for="evidencia">
+                    Evidencia
+                    <br>
+                    <p class="secondary-button">Eligir Archivo</p>
+                    <br>
+                    <p class="file-info" id="fileName"></p>
+                    <br>
+                  </label>
+                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png" oninput="updateFileName(this);"><br>
+                  <span id="ErrorEvidencia" class="error"></span>
+                  <label for="evidencia">Evidencia actual</label>
+                  <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia">
+                  <span id="ErrorEvidencia" class="error"></span>
                   <!-- Ubicacion -->
-                  <label for="ubicacion">Ubicacion</label>
+                  <label for="cp">Código Postal</label>
+                  <input type="text" name="cp" id="cp" value="<?= $row['CP'] ?>" maxlength="5" placeholder="55555" onchange="soloNumeros(this); getColonias(this)">
+                  <span id="ErrorCP" class="error"></span>
                   <div class="ubicacion-container">
-                    <!-- <input type="text" name="estado" id="estado" placeholder="Estado" oninput="soloLetras(this);" value="<?= $row['Estado'] ?>"><br> -->
                     <?php
                     $estados = [
                       'Aguascalientes' => '',
@@ -121,7 +188,7 @@ $errorMsg = "Error desconocido";
                       'Coahuila' => '',
                       'Colima' => '',
                       'Durango' => '',
-                      'Estado de México' => '',
+                      'México' => '',
                       'Guanajuato' => '',
                       'Guerrero' => '',
                       'Hidalgo' => '',
@@ -182,10 +249,13 @@ $errorMsg = "Error desconocido";
                       <option value="Zacatecas" <?= $estados['Zacatecas'] ?>>Zacatecas</option>
                     </select>
                     <span id="ErrorEstado" class="error"></span>
+                    <label for="municipio">Municipio</label>
                     <input type="text" name="municipio" id="municipio" placeholder="Municipio" oninput="soloLetras(this);" value="<?= $row['Municipio'] ?>"><br>
                     <span id="ErrorMunicipio" class="error"></span>
+                    <label for="colonia">Colonia</label>
                     <input type="text" name="colonia" id="colonia" placeholder="Colonia" oninput="soloLetras(this);" value="<?= $row['Colonia'] ?>"><br>
                     <span id="ErrorColonia" class="error"></span>
+                    <label for="calle">Calle</label>
                     <input type="text" name="calle" id="calle" placeholder="Calle" oninput="soloLetras(this);" value="<?= $row['Calle'] ?>"><br>
                     <span id="ErrorCalle" class="error"></span>
                   </div>
@@ -205,44 +275,6 @@ $errorMsg = "Error desconocido";
                   <label for="telefono">Numero de telefono</label>
                   <input type="tel" name="telefono" id="telefono" minlength="10" maxlength="10" oninput="soloNumeros(this);" value="<?= $row['Numtelefono'] ?>"><br>
                   <span id="ErrorTelefono" class="error"></span>
-                  <!-- Tipo de violencia -->
-                  <?php $selected = [
-                    "Genero" => "",
-                    "Familiar" => "",
-                    "Psicologica" => "",
-                    "Sexual" => "",
-                    "Economica" => "",
-                    "Patrimonial" => "",
-                    "Cibernetica" => ""
-                  ];
-                  $selected[$row['Tipo']] = "selected";
-                  ?>
-                  <label for="tipo">Tipo de violencia</label>
-                  <select id="tipo" name="tipo">
-                    <option value="Genero" <?= $selected['Genero'] ?>>Violencia de Genero</option>
-                    <option value="Familiar" <?= $selected['Familiar'] ?>>Violencia Familiar</option>
-                    <option value="Psicologica" <?= $selected['Psicologica'] ?>>Violencia Psicologica</option>
-                    <option value="Sexual" <?= $selected['Sexual'] ?>>Violencia Sexual</option>
-                    <option value="Economica" <?= $selected['Economica'] ?>>Violencia Economica</option>
-                    <option value="Patrimonial" <?= $selected['Patrimonial'] ?>>Violencia Patrimonial</option>
-                    <option value="Cibernetica" <?= $selected['Cibernetica'] ?>>Violencia Cibernetica</option>
-                  </select>
-                  <br>
-                  <span id="ErrorTipo" class="error"></span>
-                  <!-- Evidencia -->
-                  <label for="evidencia">
-                    Evidencia
-                    <br>
-                    <p class="secondary-button">Eligir Archivo</p>
-                    <br>
-                    <p class="file-info" id="fileName"></p>
-                    <br>
-                  </label>
-                  <input type="file" name="evidencia" id="evidencia" accept=".jpg, .jpeg, .png" oninput="updateFileName(this);"><br>
-                  <span id="ErrorEvidencia" class="error"></span>
-                  <label for="evidencia">Evidencia actual</label>
-                  <img src="data:image/png;base64,<?php echo base64_encode($row['Evidencia']); ?>" alt="Evidencia" class="evidencia"">
-                  <span id=" ErrorEvidencia" class="error"></span>
                   <!-- Enviar -->
                   <div class="buttons">
                     <!-- delete -->
@@ -253,7 +285,6 @@ $errorMsg = "Error desconocido";
                     <?php endif; ?>
                   </div>
                   <span id="ErrorEnviar" class="error"></span>
-
                 </form>
               </div>
             </section>
@@ -376,7 +407,7 @@ $errorMsg = "Error desconocido";
     <br>
     <button type="button" class="primary-button" onclick="faq.close()">Cerrar</button>
   </dialog>
-  
+
   <!-- Script para el menú móvil -->
   <script src="scripts/mobile.js"></script>
 </body>

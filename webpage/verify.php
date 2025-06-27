@@ -131,8 +131,16 @@ function error($message)
         </div>
         <div class="footer-section">
           <h3>Contacto</h3>
-          <p>contacto@cecyayuda.org</p>
-          <p>Línea de ayuda: 0800-999-1234</p>
+          <a href="mailto:dragonflycodes5@gmail.com">
+            <p>dragonflycodes5@gmail.com</p>
+          </a>
+          <a href="https://www.youtube.com/@DragonFlyCodes">
+            <p>Canal DragonFlyCodes</p>
+          </a>
+          <h3>Administracion</h3>
+          <a href="admin/login.php">
+            <p>Panel de Administracion</p>
+          </a>
         </div>
       </div>
       <div class="footer-bottom">

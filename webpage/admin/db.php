@@ -51,13 +51,13 @@ class Denuncia {
     }
 
     // Metodo para insertar una denuncia
-    public function insertDenuncia($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
+    public function insertDenuncia($folio, $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
         // Preparar y bind
-        $stmt = $this->conn->prepare("INSERT INTO denuncias (Folio, Descripcion, Fecha, Hora, Estado, Municipio, Colonia, Calle, Nombre, CURP, Correo, Numtelefono, Tipo, Evidencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO denuncias (Folio, Descripcion, Fecha, Hora, CP, Estado, Municipio, Colonia, Calle, Nombre, CURP, Correo, Numtelefono, Tipo, Evidencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
-        $stmt->bind_param("ssssssssssssss", $folio, $hechos, $fecha, $hora, $estado , $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file);
+        $stmt->bind_param("sssssssssssssss", $folio, $hechos, $fecha, $hora, $cp, $estado , $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file);
         // Verificar si se ejecutó correctamente
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
@@ -153,13 +153,13 @@ class Denuncia {
     }
 
     // Metodo para actualizar una denuncia
-    public function updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo) {
+    public function updateDenunciaWithoutFile($folio, $hechos, $fecha, $hora,$cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo) {
         // Preparar y bind
-        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ? WHERE Folio = ?");
+        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, CP = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ? WHERE Folio = ?");
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
-        $stmt->bind_param("sssssssssssss", $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $folio);
+        $stmt->bind_param("ssssssssssssss", $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $folio);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }
@@ -167,13 +167,13 @@ class Denuncia {
     }
 
     // Metodo para actualizar una denuncia con archivo
-    public function updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
+    public function updateDenunciaWithFile($folio, $hechos, $fecha, $hora, $cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file) {
         // Preparar y bind
-        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ?, Evidencia = ? WHERE Folio = ?");
+        $stmt = $this->conn->prepare("UPDATE denuncias SET Descripcion = ?, Fecha = ?, Hora = ?, CP = ?, Estado = ?, Municipio = ?, Colonia = ?, Calle = ?, Nombre = ?, CURP = ?, Correo = ?, Numtelefono = ?, Tipo = ?, Evidencia = ? WHERE Folio = ?");
         if ($stmt === false) {
             die("Error en la preparación de la declaración: " . htmlspecialchars($this->conn->error));
         }
-        $stmt->bind_param("ssssssssssssss", $hechos, $fecha, $hora, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file, $folio);
+        $stmt->bind_param("sssssssssssssss", $hechos, $fecha, $hora,$cp, $estado, $municipio, $colonia, $calle, $nombre, $curp, $correo, $telefono, $tipo, $file, $folio);
         if (!$stmt->execute()) {
             die("Error al ejecutar la declaración: " . htmlspecialchars($stmt->error));
         }

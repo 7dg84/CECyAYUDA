@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `denuncias` (
   `Descripcion` varchar(2000) NOT NULL,
   `Fecha` date NOT NULL,
   `Hora` time NOT NULL,
+  `CP` varchar(5) NOT NULL,
   `Estado` varchar(20) NOT NULL,
   `Municipio` varchar(20) NOT NULL,
   `Colonia` varchar(20) NOT NULL,
